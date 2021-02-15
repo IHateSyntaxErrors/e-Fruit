@@ -11,7 +11,7 @@ android {
     def versionMinor = 0
     def versionPatch = 0
     defaultConfig {
-        applicationId "com.unipi.p17172.nikolaspateras.sms13033"
+        applicationId "com.unipi.p17172p17168p17164.efruit"
         minSdkVersion 26
         targetSdkVersion 30
         versionCode versionMajor * 10000
@@ -45,7 +45,7 @@ android {
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
     // Import the BoM for the Firebase platform
@@ -58,7 +58,7 @@ dependencies {
     implementation 'com.permissionx.guolindev:permissionx:1.4.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.github.bumptech.glide:glide:3.8.0'
-    implementation 'com.google.firebase:firebase-database:19.2.1'
+    implementation 'com.google.firebase:firebase-database:19.6.0'
 
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

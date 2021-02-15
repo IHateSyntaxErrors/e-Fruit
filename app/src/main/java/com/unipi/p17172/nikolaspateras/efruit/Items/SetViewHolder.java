@@ -1,4 +1,4 @@
-package com.unipi.p17172.nikolaspateras.sms13033.Items;
+package com.unipi.p17172.nikolaspateras.efruit.Items;
 
 import android.view.View;
 import android.widget.RadioButton;
@@ -7,7 +7,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.unipi.p17172.nikolaspateras.sms13033.R;
+import com.unipi.p17172.nikolaspateras.efruit.R;
 
 public class SetViewHolder extends RecyclerView.ViewHolder {
     public TextView viewTextViewNumber;

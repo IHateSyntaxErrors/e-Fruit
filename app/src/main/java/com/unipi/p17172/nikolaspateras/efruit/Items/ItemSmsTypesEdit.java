@@ -1,19 +1,9 @@
-package com.unipi.p17172.nikolaspateras.sms13033.Items;
+package com.unipi.p17172.nikolaspateras.efruit.Items;
 
-public class Item {
+public class ItemSmsTypesEdit {
     int id;
     String smsNumber;
     String smsReason;
-
-    public boolean isChecked() {
-        return isChecked;
-    }
-
-    public void setChecked(boolean checked) {
-        isChecked = checked;
-    }
-
-    boolean isChecked = false;
 
     public int getId() {
         return id;

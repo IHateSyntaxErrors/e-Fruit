@@ -1,4 +1,4 @@
-package com.unipi.p17172.nikolaspateras.sms13033;
+package com.unipi.p17172.nikolaspateras.efruit;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -22,9 +22,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.unipi.p17172.nikolaspateras.sms13033.Adapters.ViewPagerAdapter;
-import com.unipi.p17172.nikolaspateras.sms13033.Fragments.FragmentHome;
-import com.unipi.p17172.nikolaspateras.sms13033.Fragments.FragmentSettings;
+import com.unipi.p17172.nikolaspateras.efruit.Adapters.ViewPagerAdapter;
+import com.unipi.p17172.nikolaspateras.efruit.Fragments.FragmentHome;
+import com.unipi.p17172.nikolaspateras.efruit.Fragments.FragmentSettings;
 
 import java.util.ArrayList;
 import java.util.Locale;

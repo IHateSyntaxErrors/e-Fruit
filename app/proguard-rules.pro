@@ -28,6 +28,6 @@
 # This rule will properly ProGuard all the model classes in
 # the package com.yourcompany.models. Modify to fit the structure
 # of your app.
--keepclassmembers class com.unipi.p17172.nikolaspateras.sms13033.* {
+-keepclassmembers class com.unipi.p17172.nikolaspateras.efruit.* {
   *;
 }

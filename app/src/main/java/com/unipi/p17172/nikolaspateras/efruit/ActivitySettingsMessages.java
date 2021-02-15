@@ -1,4 +1,4 @@
-package com.unipi.p17172.nikolaspateras.sms13033;
+package com.unipi.p17172.nikolaspateras.efruit;
 
 import android.app.Activity;
 import android.database.Cursor;
@@ -9,10 +9,10 @@ import android.widget.ViewFlipper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.unipi.p17172.nikolaspateras.sms13033.Adapters.DataAdapterSmsTypesEdit;
-import com.unipi.p17172.nikolaspateras.sms13033.Items.ItemSmsTypesEdit;
-import com.unipi.p17172.nikolaspateras.sms13033.Utils.DBHelper;
-import com.unipi.p17172.nikolaspateras.sms13033.Utils.Toolbox;
+import com.unipi.p17172.nikolaspateras.efruit.Adapters.DataAdapterSmsTypesEdit;
+import com.unipi.p17172.nikolaspateras.efruit.Items.ItemSmsTypesEdit;
+import com.unipi.p17172.nikolaspateras.efruit.Utils.DBHelper;
+import com.unipi.p17172.nikolaspateras.efruit.Utils.Toolbox;
 
 import java.util.ArrayList;
 

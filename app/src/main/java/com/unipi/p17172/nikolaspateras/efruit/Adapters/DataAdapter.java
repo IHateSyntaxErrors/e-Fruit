@@ -1,4 +1,4 @@
-package com.unipi.p17172.nikolaspateras.sms13033.Adapters;
+package com.unipi.p17172.nikolaspateras.efruit.Adapters;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -12,8 +12,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
-import com.unipi.p17172.nikolaspateras.sms13033.Items.Item;
-import com.unipi.p17172.nikolaspateras.sms13033.R;
+import com.unipi.p17172.nikolaspateras.efruit.Items.Item;
+import com.unipi.p17172.nikolaspateras.efruit.R;
 
 import java.util.ArrayList;
 import java.util.List;

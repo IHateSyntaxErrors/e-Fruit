@@ -1,4 +1,4 @@
-package com.unipi.p17172.nikolaspateras.sms13033.Fragments;
+package com.unipi.p17172.nikolaspateras.efruit.Fragments;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.unipi.p17172.nikolaspateras.sms13033.ActivitySettingsMessages;
-import com.unipi.p17172.nikolaspateras.sms13033.R;
+import com.unipi.p17172.nikolaspateras.efruit.ActivitySettingsMessages;
+import com.unipi.p17172.nikolaspateras.efruit.R;
 
 public class FragmentSettings extends Fragment {
     private View view;

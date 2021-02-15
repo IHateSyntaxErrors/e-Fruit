@@ -1,4 +1,4 @@
-package com.unipi.p17172.nikolaspateras.sms13033.Adapters;
+package com.unipi.p17172.nikolaspateras.efruit.Adapters;
 
 
 import androidx.annotation.NonNull;

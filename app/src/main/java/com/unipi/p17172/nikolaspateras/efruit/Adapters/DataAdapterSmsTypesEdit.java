@@ -1,4 +1,4 @@
-package com.unipi.p17172.nikolaspateras.sms13033.Adapters;
+package com.unipi.p17172.nikolaspateras.efruit.Adapters;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.unipi.p17172.nikolaspateras.sms13033.Items.ItemSmsTypesEdit;
-import com.unipi.p17172.nikolaspateras.sms13033.Items.SetViewHolderSmsTypesEdit;
-import com.unipi.p17172.nikolaspateras.sms13033.R;
+import com.unipi.p17172.nikolaspateras.efruit.Items.ItemSmsTypesEdit;
+import com.unipi.p17172.nikolaspateras.efruit.Items.SetViewHolderSmsTypesEdit;
+import com.unipi.p17172.nikolaspateras.efruit.R;
 
 import java.util.Collections;
 import java.util.List;

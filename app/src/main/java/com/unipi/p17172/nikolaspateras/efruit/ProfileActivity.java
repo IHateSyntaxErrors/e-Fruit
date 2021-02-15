@@ -1,4 +1,4 @@
-package com.unipi.p17172.nikolaspateras.sms13033;
+package com.unipi.p17172.nikolaspateras.efruit;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
-import com.unipi.p17172.nikolaspateras.sms13033.Utils.Toolbox;
+import com.unipi.p17172.nikolaspateras.efruit.Utils.Toolbox;
 
 public class ProfileActivity extends AppCompatActivity {
 

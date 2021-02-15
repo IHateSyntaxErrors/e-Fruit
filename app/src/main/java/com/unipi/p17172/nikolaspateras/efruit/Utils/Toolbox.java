@@ -1,4 +1,4 @@
-package com.unipi.p17172.nikolaspateras.sms13033.Utils;
+package com.unipi.p17172.nikolaspateras.efruit.Utils;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -11,7 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.unipi.p17172.nikolaspateras.sms13033.R;
+import com.unipi.p17172.nikolaspateras.efruit.R;
 
 public class Toolbox {
     public void hideKeyboard(View view, Context context) {

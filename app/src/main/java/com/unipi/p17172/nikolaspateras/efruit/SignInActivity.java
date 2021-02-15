@@ -1,4 +1,4 @@
-package com.unipi.p17172.nikolaspateras.sms13033;
+package com.unipi.p17172.nikolaspateras.efruit;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.unipi.p17172p17168p17164.efruit.R;
 
 public class SignInActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;

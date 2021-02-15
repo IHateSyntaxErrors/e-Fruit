@@ -1,4 +1,4 @@
-package com.unipi.p17172.nikolaspateras.sms13033.Utils;
+package com.unipi.p17172.nikolaspateras.efruit.Utils;
 
 import android.content.ContentValues;
 import android.content.Context;
