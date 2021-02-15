@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/colorBackground"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    tools:context=".Fragments.FragmentSettings">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="30dp">
+
+        <TextView
+            style="@style/viewParent.headerText"
+            android:text="@string/page_settings_header1_title" />
+
+        <TextView
+            style="@style/viewParent.headerText.settingsMiniTitle"
+            android:text="@string/page_settings_title_general"
+            android:paddingTop="35dp"/>
+        <!-- Speed Limit -->
+        <TextView
+            android:id="@+id/textViewGeneralMessages"
+            style="@style/viewParent.headerText.settingsTextIcon"
+            android:text="@string/settings_messages"
+            android:clickable="true"
+            app:drawableLeftCompat="@drawable/ic_settings_messages"
+            android:drawableTint="@color/colorText" />
+
+        <!-- Dark Mode -->
+        <TextView
+            style="@style/viewParent.headerText.settingsMiniTitle"
+            android:text="@string/page_settings_title_appearance"
+            android:paddingTop="25dp"/>
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchBtnDarkMode"
+            style="@style/settingsText"
+            android:text="@string/page_settings_dark_mode"
+            android:drawableStart="@drawable/ic_settings_night_mode"
+            android:drawableTint="@color/colorText"
+            android:theme="@style/settingsActivateSwitch"/>
+
+        <TextView
+            android:id="@+id/textViewAppVersion"
+            style="@style/viewParent.headerText.settingsMiniTitle"
+            android:text="@string/app_versionCode"
+            android:textAlignment="center"/>
+
+    </LinearLayout>
+</ScrollView>

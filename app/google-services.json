@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "102818909066",
+    "project_id": "sms13033-assignment",
+    "storage_bucket": "sms13033-assignment.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:102818909066:android:f88b9b45eaad7affd79673",
+        "android_client_info": {
+          "package_name": "com.unipi.p17172.nikolaspateras.sms13033"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "102818909066-1m3qnu4jdp13ufemegfsq2mc3ekq2stt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unipi.p17172.nikolaspateras.sms13033",
+            "certificate_hash": "27dd843442093570a907a1f6c615a6a183b6fd9d"
+          }
+        },
+        {
+          "client_id": "102818909066-bbfq5pnkhf0odpkjtidn0j8s60kvsmup.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXY1aDCbKD4tCLPxcV5JiOThL4E3qXy60"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "102818909066-bbfq5pnkhf0odpkjtidn0j8s60kvsmup.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

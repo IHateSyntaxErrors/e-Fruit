@@ -1,0 +1,80 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="backgroundColor">@color/colorBackground</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/colorActionBar</item> <!-- Status bar color. -->
+<!--        <item name="android:windowAnimationStyle">@null</item> &lt;!&ndash; Animation when changing activities &ndash;&gt;-->
+    </style>
+
+    <style name="BaseTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">false</item>
+    </style>
+
+    <!--styles for app-->
+    <style name="viewParent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="viewParent.headerText">
+        <item name="android:textColor">@color/contentTextTitleColor</item>
+        <item name="android:textSize">@dimen/header1TextSize</item>
+        <item name="android:fontFamily">@font/helvetica_bold</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="viewParent.headerText2">
+        <item name="android:textColor">@color/miniTitle</item>
+        <item name="android:textSize">@dimen/header2TextSize</item>
+        <item name="android:fontFamily">@font/helvetica_bold</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="viewParent.headerText.settingsMiniTitle">
+        <item name="android:textColor">#5D5C5C</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">@font/helvetica</item>
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
+
+    <style name="settingsText" parent="viewParent.headerText.settingsMiniTitle">
+        <item name="android:textColor">@color/miniTitle</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:fontFamily">@font/helvetica_bold</item>
+        <item name="android:drawablePadding">20dp</item>
+    </style>
+
+    <style name="viewParent.headerText.settingsTextIcon" parent="viewParent.headerText.settingsMiniTitle">
+        <item name="android:drawableRight">@drawable/ic_more</item>
+        <item name="android:textColor">@color/miniTitle</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:fontFamily">@font/helvetica_bold</item>
+        <item name="android:drawablePadding">20dp</item>
+    </style>
+
+    <style name="viewParent.paragraphText">
+        <item name="android:textColor">@color/contentTextTitleColor</item>
+        <item name="android:textSize">@dimen/paragraphTextSize</item>
+        <item name="android:fontFamily">@font/helvetica</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="settingsActivateSwitch" parent="ThemeOverlay.MaterialComponents.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">@color/colorPrimary</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">#AD1457</item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">#FF0070</item>
+    </style>
+</resources>

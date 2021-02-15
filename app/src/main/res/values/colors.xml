@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#016AFB</color>
+    <color name="colorPrimaryDark">#213B7A</color>
+    <color name="colorText">@color/lightDarkGrey</color>
+    <color name="colorButtonText">@color/white</color>
+    <color name="colorButtonDisabled">#404040</color>
+    <color name="colorIcon">@color/lightDarkGrey</color>
+    <color name="colorMenuIcon">@color/lightGrey</color>
+    <color name="colorContainer">@color/white</color>
+    <color name="colorBackground">@color/lightWhite</color>
+    <color name="colorActionBar">@color/lightDarkGrey</color>
+    <color name="colorAccent">@color/colorPrimary</color>
+    <color name="colorPrimarySelected">#74016AFB</color>
+
+    <color name="lightDarkGrey">#222222</color>
+    <color name="black">#000000</color>
+    <color name="darkerDarkGrey">#070707</color>
+    <color name="lightGrey">#7C7C7C</color>
+    <color name="white">#FFFFFF</color>
+    <color name="lightWhite">#F3F4F6</color>
+
+    <!-- Gauge meter colors -->
+    <color name="colorTransparent">#00ffffff</color>
+    <color name="colorCircularProgressBarBackground">@color/lightDarkGrey</color>
+    <color name="colorActiveGaugeText">@color/lightDarkGrey</color>
+    <color name="colorNotActiveGaugeText">@color/lightGrey</color>
+
+    <color name="contentTextTitleColor">#020000</color>
+    <color name="miniTitle">#2A2E43</color>
+
+    <!--  Floating Button - Cautious  -->
+    <color name="colorFloatingButton">#AA0D22</color>
+    <color name="colorPositiveAction">#3BB54A</color>
+    <color name="colorPositiveActionDark">#1F732A</color>
+    <color name="colorNegativeAction">#FF3E5F</color>
+    <color name="colorNegativeActionDark">#83192B</color>
+</resources>
