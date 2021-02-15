@@ -1,4 +1,4 @@
-package com.unipi.p17172.nikolaspateras.efruit;
+package com.unipi.p17172p17168p17164.efruit.efruit;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.unipi.p17172.nikolaspateras.efruit.Fragments;
+package com.unipi.p17172p17168p17164.efruit.efruit.Fragments;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -19,11 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.unipi.p17172.nikolaspateras.efruit.Adapters.DataAdapter;
-import com.unipi.p17172.nikolaspateras.efruit.Items.Item;
-import com.unipi.p17172.nikolaspateras.efruit.R;
-import com.unipi.p17172.nikolaspateras.efruit.Utils.DBHelper;
-import com.unipi.p17172.nikolaspateras.efruit.Utils.Toolbox;
+import com.unipi.p17172p17168p17164.efruit.efruit.Adapters.DataAdapter;
+import com.unipi.p17172p17168p17164.efruit.efruit.Items.Item;
+import com.unipi.p17172p17168p17164.efruit.efruit.R;
+import com.unipi.p17172p17168p17164.efruit.efruit.Utils.DBHelper;
+import com.unipi.p17172p17168p17164.efruit.efruit.Utils.Toolbox;
 
 import java.util.ArrayList;
 

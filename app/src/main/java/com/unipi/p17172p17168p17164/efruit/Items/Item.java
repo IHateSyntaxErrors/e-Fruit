@@ -1,4 +1,4 @@
-package com.unipi.p17172.nikolaspateras.efruit.Items;
+package com.unipi.p17172p17168p17164.efruit.efruit.Items;
 
 public class Item {
     int id;
