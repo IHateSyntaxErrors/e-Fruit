@@ -8,7 +8,7 @@
     <!-- Menu -->
     <string name="menu_title_home">Αρχική</string>
     <string name="menu_title_history">Ιστορικό</string>
-    <string name="menu_title_settings">Ρυθμίσεις</string>
+    <string name="menu_title_settings">Settings</string>
     <string name="nav_top_title_speech_recognition">Γεία σας! Πείτε μου τι να κάνω.</string>
 
     <!--  Permissions  -->
