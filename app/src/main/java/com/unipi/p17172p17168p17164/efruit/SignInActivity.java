@@ -86,7 +86,7 @@ public class SignInActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             firebaseUser = firebaseAuth.getCurrentUser();
 
-                            Intent i = new Intent(SignInActivity.this, com.unipi.p17172p17168p17164.efruit.efruit.MainActivity.class);
+                            Intent i = new Intent(SignInActivity.this, MainActivity.class);
                             startActivity(i);
                             finish();
                         }
