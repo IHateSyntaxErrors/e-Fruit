@@ -1,4 +1,4 @@
-package com.unipi.p17172p17168p17164.efruit.efruit;
+package com.unipi.p17172p17168p17164.efruit;
 
 import android.app.Activity;
 import android.database.Cursor;
@@ -9,10 +9,10 @@ import android.widget.ViewFlipper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.unipi.p17172p17168p17164.efruit.efruit.Adapters.DataAdapterSmsTypesEdit;
-import com.unipi.p17172p17168p17164.efruit.efruit.Items.ItemSmsTypesEdit;
-import com.unipi.p17172p17168p17164.efruit.efruit.Utils.DBHelper;
-import com.unipi.p17172p17168p17164.efruit.efruit.Utils.Toolbox;
+import com.unipi.p17172p17168p17164.efruit.Adapters.DataAdapterSmsTypesEdit;
+import com.unipi.p17172p17168p17164.efruit.Items.ItemSmsTypesEdit;
+import com.unipi.p17172p17168p17164.efruit.Utils.DBHelper;
+import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
 
 import java.util.ArrayList;
 

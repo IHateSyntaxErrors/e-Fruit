@@ -1,4 +1,4 @@
-package com.unipi.p17172p17168p17164.efruit.efruit;
+package com.unipi.p17172p17168p17164.efruit;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;

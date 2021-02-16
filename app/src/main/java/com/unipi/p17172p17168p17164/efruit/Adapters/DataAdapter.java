@@ -1,4 +1,4 @@
-package com.unipi.p17172p17168p17164.efruit.efruit.Adapters;
+package com.unipi.p17172p17168p17164.efruit.Adapters;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -12,8 +12,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
-import com.unipi.p17172p17168p17164.efruit.efruit.Items.Item;
-import com.unipi.p17172p17168p17164.efruit.efruit.R;
+import com.unipi.p17172p17168p17164.efruit.Items.Item;
+import com.unipi.p17172p17168p17164.efruit.R;
 
 import java.util.ArrayList;
 import java.util.List;
