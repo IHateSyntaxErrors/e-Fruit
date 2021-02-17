@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".SignInActivity">
+
+    <ImageView
+        android:id="@+id/imageViewLogo"
+        android:layout_width="512px"
+        android:layout_height="512px"
+        android:layout_marginTop="80dp"
+        android:contentDescription="Application Logo"
+        android:src="@drawable/efruit_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText,PxUsage" />
+
+    <TextView
+        android:id="@+id/textViewSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/helvetica_bold"
+        android:text="@string/header_sign_in"
+        android:textColor="@color/colorText"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewLogo" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/materialButtonSignUpGoogle"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/selector_login_large_button"
+        android:fontFamily="@font/helvetica_bold"
+        android:gravity="center"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:text="@string/button_sign_in_with_google"
+        android:textAllCaps="false"
+        android:textColor="@color/colorButtonText"
+        android:textSize="18sp"
+        app:backgroundTint="@null"
+        app:icon="@drawable/ic_login_google_logo"
+        app:iconGravity="textStart"
+        app:iconPadding="10dp"
+        app:iconTint="@color/colorButtonText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSignUp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutSocialMedia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/materialButtonSignUpGoogle"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:id="@+id/imgFacebook"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:clickable="true"
+            android:src="@drawable/ic_social_media_facebook"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgInstagram"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:clickable="true"
+            android:src="@drawable/ic_social_media_instagram"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgTwitter"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:clickable="true"
+            android:src="@drawable/ic_social_media_twitter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imgPlantPotLeft"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+
+        android:src="@drawable/ic_plant"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgPlantPotRight"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+
+        android:src="@drawable/ic_plant"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

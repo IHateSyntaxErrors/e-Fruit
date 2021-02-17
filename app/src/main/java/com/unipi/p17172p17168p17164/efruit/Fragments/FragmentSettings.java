@@ -1,4 +1,4 @@
-package com.unipi.p17172p17168p17164.efruit.efruit.Fragments;
+package com.unipi.p17172p17168p17164.efruit.Fragments;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.unipi.p17172p17168p17164.efruit.efruit.ActivitySettingsMessages;
-import com.unipi.p17172p17168p17164.efruit.efruit.R;
+import com.unipi.p17172p17168p17164.efruit.ActivitySettingsMessages;
+import com.unipi.p17172p17168p17164.efruit.R;
 
 public class FragmentSettings extends Fragment {
     private View view;

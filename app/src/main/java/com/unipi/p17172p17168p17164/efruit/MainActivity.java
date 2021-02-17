@@ -1,4 +1,4 @@
-package com.unipi.p17172p17168p17164.efruit.efruit;
+package com.unipi.p17172p17168p17164.efruit;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -22,9 +22,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.unipi.p17172p17168p17164.efruit.efruit.Adapters.ViewPagerAdapter;
-import com.unipi.p17172p17168p17164.efruit.efruit.Fragments.FragmentHome;
-import com.unipi.p17172p17168p17164.efruit.efruit.Fragments.FragmentSettings;
+import com.unipi.p17172p17168p17164.efruit.Adapters.ViewPagerAdapter;
+import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentHome;
+import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentSettings;
 
 import java.util.ArrayList;
 import java.util.Locale;

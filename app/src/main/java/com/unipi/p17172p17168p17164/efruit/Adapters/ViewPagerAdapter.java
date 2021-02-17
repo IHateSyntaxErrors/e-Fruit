@@ -1,4 +1,4 @@
-package com.unipi.p17172p17168p17164.efruit.efruit.Adapters;
+package com.unipi.p17172p17168p17164.efruit.Adapters;
 
 
 import androidx.annotation.NonNull;

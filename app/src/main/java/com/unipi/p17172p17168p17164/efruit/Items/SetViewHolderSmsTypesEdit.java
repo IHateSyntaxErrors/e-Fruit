@@ -1,4 +1,4 @@
-package com.unipi.p17172p17168p17164.efruit.efruit.Items;
+package com.unipi.p17172p17168p17164.efruit.Items;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -10,8 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
-import com.unipi.p17172p17168p17164.efruit.efruit.R;
-import com.unipi.p17172p17168p17164.efruit.efruit.Utils.Toolbox;
+import com.unipi.p17172p17168p17164.efruit.R;
+import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
 
 public class SetViewHolderSmsTypesEdit extends RecyclerView.ViewHolder {
     public TextView viewTextViewNumberEdit;

@@ -2,21 +2,21 @@
 <resources>
     <string name="app_name" translatable="false">e-Fruit</string>
 
-    <string name="toast_speech_recognition_not_supported">Η συσκευή σας δεν υποστηρίζει αναγνώριση φωνής.</string>
-    <string name="toast_speech_recognition_invalid_action">Μη έγκυρη ενέργεια! Δοκιμάστε ξανά.</string>
+    <string name="toast_speech_recognition_not_supported">Speech recognition is not supported in your device.</string>
+    <string name="toast_speech_recognition_invalid_action">Invalid action. Try again!</string>
 
     <!-- Menu -->
-    <string name="menu_title_home">Αρχική</string>
-    <string name="menu_title_history">Ιστορικό</string>
+    <string name="menu_title_home">Home</string>
+    <string name="menu_title_history"></string>
     <string name="menu_title_settings">Settings</string>
-    <string name="nav_top_title_speech_recognition">Γεία σας! Πείτε μου τι να κάνω.</string>
+    <string name="nav_top_title_speech_recognition">Hi! Tell me what to do.</string>
 
     <!--  Permissions  -->
-    <string name="permission_denied">Η άδεια απενεργοποιήθηκε.</string>
+    <string name="permission_denied">Permission denied.</string>
 
     <!-- Login Page -->
-    <string name="login_already_have_an_acc_login_link"><u>Συνδεθείτε</u></string>
-
+    <string name="header_sign_in">Sing In</string>
+    <string name="button_sign_in_with_google">Continue with a Google account</string>
 
     <!-- Home Page -->
     <string name="page_home_header1_title">Στείλτε μήνυμα στο 13033</string>

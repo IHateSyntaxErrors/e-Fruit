@@ -2,16 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.unipi.p17172p17168p17164.efruit">
 
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <uses-feature android:name="android.hardware.type.watch" />
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
         android:allowBackup="true"
@@ -20,11 +15,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/BaseTheme">
-
-
-        <meta-data
-            android:name="com.google.android.wearable.standalone"
-            android:value="true" />
 
         <activity android:name=".SignInActivity">
             <intent-filter>
