@@ -1,7 +1,10 @@
 package com.unipi.p17172p17168p17164.efruit;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,7 +21,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.unipi.p17172p17168p17164.efruit.R;
 
 public class SignInActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
@@ -28,13 +30,16 @@ public class SignInActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
 
     private MaterialButton materialButtonGoogleSignIn;
+    private ImageView imgFacebook;
+    private ImageView imgInstagram;
+    private ImageView imgTwitter;
 
     private static final int RC_SIGN_IN = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_sign_in);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
@@ -53,11 +58,48 @@ public class SignInActivity extends AppCompatActivity {
         materialButtonGoogleSignIn.setOnClickListener(v -> {
             signIn();
         });
+
+        /* Social Media buttons -- Real pages haven't been specified, this is just an example of
+        how we would do it*/
+        imgFacebook = findViewById(R.id.imgFacebook);
+        imgFacebook.setOnClickListener(v -> {
+            openFacebookPage();
+        });
+        imgInstagram = findViewById(R.id.imgInstagram);
+        imgInstagram.setOnClickListener(v -> {
+            openInstagramPage();
+        });
+        imgTwitter = findViewById(R.id.imgTwitter);
+        imgTwitter.setOnClickListener(v -> {
+            openTwitterPage();
+        });
     }
 
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void openFacebookPage() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+        intent.setData(Uri.parse("https://www.facebook.com"));
+        startActivity(intent);
+    }
+    private void openTwitterPage() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+        intent.setData(Uri.parse("https://www.twitter.com"));
+        startActivity(intent);
+    }
+    private void openInstagramPage() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+        intent.setData(Uri.parse("https://www.instagram.com"));
+        startActivity(intent);
     }
 
     @Override

@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
-import com.unipi.p17172p17168p17164.efruit.efruit.Utils.Toolbox;
+import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
 
 public class ProfileActivity extends AppCompatActivity {
 

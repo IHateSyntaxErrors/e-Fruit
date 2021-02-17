@@ -15,8 +15,8 @@
     <string name="permission_denied">Permission denied.</string>
 
     <!-- Login Page -->
-    <string name="login_already_have_an_acc_login_link"><u>Login</u></string>
-
+    <string name="header_sign_in">Sing In</string>
+    <string name="button_sign_in_with_google">Continue with a Google account</string>
 
     <!-- Home Page -->
     <string name="page_home_header1_title">Στείλτε μήνυμα στο 13033</string>

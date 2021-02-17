@@ -13,7 +13,8 @@
     <string name="permission_denied">Η άδεια απενεργοποιήθηκε.</string>
 
     <!-- Login Page -->
-    <string name="login_already_have_an_acc_login_link"><u>Συνδεθείτε</u></string>
+    <string name="header_sign_in">Συνδεθείτε</string>
+    <string name="button_sign_in_with_google">Συνεχίστε με λογαριασμό Google</string>
 
 
     <!-- Home Page -->
