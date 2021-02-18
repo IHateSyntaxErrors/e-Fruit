@@ -1,8 +1,6 @@
 package com.unipi.p17172p17168p17164.efruit;
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -31,20 +29,15 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.unipi.p17172p17168p17164.efruit.Adapters.ViewPagerAdapter;
 import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentHome;
 import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentSettings;
 
 import java.util.ArrayList;
 import java.util.Locale;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
         implements FragmentHome.OnFragmentItemSelectedListener,
@@ -252,12 +245,12 @@ public class MainActivity extends AppCompatActivity
 
             TextView textViewName = headerView.findViewById(R.id.textViewNavBar_Name);
             textViewName.setText(firebaseUser.getDisplayName());
-            TextView textViewAddress = headerView.findViewById(R.id.textViewNavBar_Address);
-            textViewAddress.setText(firebaseUser.getDisplayName());
+            TextView textViewPhone = headerView.findViewById(R.id.textViewNavBar_Phone);
+            textViewPhone.setText(firebaseUser.getDisplayName());
 
-
-            /*ImageView userImage = findViewById(R.id.imgViewNavBarLogo);
-            Glide.with(this).load(firebaseUser.getPhotoUrl()).into(userImage);*/
+            // Load user img from google account if they haven't upload one.
+            ImageView userImage = findViewById(R.id.action_bar_circleimgview_profile);
+            Glide.with(this).load(firebaseUser.getPhotoUrl()).into(userImage);
         }
         // Else the user is not logged in - do actions
     }

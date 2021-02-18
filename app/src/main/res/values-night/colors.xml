@@ -9,12 +9,6 @@
 
     <color name="lightGrey">#99A1B4</color>
 
-    <!-- Gauge meter colors -->
-    <color name="colorTransparent">#00ffffff</color>
-    <color name="colorCircularProgressBarBackground">#F3F4F6</color>
-    <color name="colorActiveGaugeText">#FFFFFF</color>
-    <color name="colorNotActiveGaugeText">#99A1B4</color>
-
     <color name="contentTextTitleColor">#FFFFFF</color>
     <color name="miniTitle">#99A1B4</color>
 </resources>

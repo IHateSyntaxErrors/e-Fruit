@@ -20,12 +20,6 @@
     <color name="white">#FFFFFF</color>
     <color name="lightWhite">#F3F4F6</color>
 
-    <!-- Gauge meter colors -->
-    <color name="colorTransparent">#00ffffff</color>
-    <color name="colorCircularProgressBarBackground">@color/lightDarkGrey</color>
-    <color name="colorActiveGaugeText">@color/lightDarkGrey</color>
-    <color name="colorNotActiveGaugeText">@color/lightGrey</color>
-
     <color name="contentTextTitleColor">#020000</color>
     <color name="miniTitle">#2A2E43</color>
 

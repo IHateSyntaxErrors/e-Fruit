@@ -32,7 +32,6 @@ public class SignInActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
 
-    private FirebaseAuth.AuthStateListener authStateListener;
     private static final int RC_SIGN_IN = 101;
 
     @Override
@@ -48,13 +47,11 @@ public class SignInActivity extends AppCompatActivity {
         if (GoogleSignIn.getLastSignedInAccount(this) != null)
             isSignedIn(firebaseAuth);
 
-
         // Configure Google Sign In
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
 
@@ -159,11 +156,6 @@ public class SignInActivity extends AppCompatActivity {
         if (GoogleSignIn.getLastSignedInAccount(this) != null) {
             isSignedIn(firebaseAuth);
         }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
     }
 
     @Override
