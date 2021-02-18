@@ -44,7 +44,7 @@ public class SignInActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         // Listener to check if user is logged in, on activity create.
-        if (GoogleSignIn.getLastSignedInAccount(this) != null)
+        if (GoogleSignIn.getLastSignedInAccount(this) != null && firebaseUser != null)
             isSignedIn(firebaseAuth);
 
         // Configure Google Sign In
@@ -153,7 +153,7 @@ public class SignInActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is already logged in.
-        if (GoogleSignIn.getLastSignedInAccount(this) != null) {
+        if (GoogleSignIn.getLastSignedInAccount(this) != null && firebaseUser != null) {
             isSignedIn(firebaseAuth);
         }
     }
