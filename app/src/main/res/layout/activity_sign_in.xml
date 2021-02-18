@@ -9,12 +9,28 @@
     tools:context=".SignInActivity">
 
     <ImageView
+        android:id="@+id/imageViewBanner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="108dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="108dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="Application Logo"
+        android:src="@drawable/efruit_banner"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewLogo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText,PxUsage" />
+
+    <ImageView
         android:id="@+id/imageViewLogo"
         android:layout_width="512px"
         android:layout_height="512px"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="90dp"
         android:contentDescription="Application Logo"
-        android:src="@drawable/efruit_logo"
+        android:src="@drawable/ic_fruits"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -111,7 +127,8 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
 
-        android:src="@drawable/ic_plant"
+        android:layout_marginStart="4dp"
+        android:src="@drawable/fruit_bawl"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -120,7 +137,8 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
 
-        android:src="@drawable/ic_plant"
+        android:layout_marginEnd="4dp"
+        android:src="@drawable/fruit_bawl"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

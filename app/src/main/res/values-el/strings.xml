@@ -3,7 +3,9 @@
     <string name="toast_speech_recognition_not_supported">Η συσκευή σας δεν υποστηρίζει αναγνώριση φωνής.</string>
     <string name="toast_speech_recognition_invalid_action">Μη έγκυρη ενέργεια! Δοκιμάστε ξανά.</string>
 
-    <!-- Menu -->
+    <!-- Main Activity -->
+    <string name="nav_drawer_open">Άνοιγμα</string>
+    <string name="nav_drawer_close">Κλείσιμο</string>
     <string name="menu_title_home">Αρχική</string>
     <string name="menu_title_history">Ιστορικό</string>
     <string name="menu_title_settings">Ρυθμίσεις</string>

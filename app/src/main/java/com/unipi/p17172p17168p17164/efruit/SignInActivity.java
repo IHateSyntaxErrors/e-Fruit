@@ -3,9 +3,12 @@ package com.unipi.p17172p17168p17164.efruit;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -29,11 +32,7 @@ public class SignInActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
 
-    private MaterialButton materialButtonGoogleSignIn;
-    private ImageView imgFacebook;
-    private ImageView imgInstagram;
-    private ImageView imgTwitter;
-
+    private FirebaseAuth.AuthStateListener authStateListener;
     private static final int RC_SIGN_IN = 101;
 
     @Override
@@ -45,6 +44,11 @@ public class SignInActivity extends AppCompatActivity {
         databaseReference = firebaseDatabase.getReference();
         firebaseAuth = FirebaseAuth.getInstance();
 
+        // Listener to check if user is logged in, on activity create.
+        if (GoogleSignIn.getLastSignedInAccount(this) != null)
+            isSignedIn(firebaseAuth);
+
+
         // Configure Google Sign In
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -54,22 +58,22 @@ public class SignInActivity extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
 
-        materialButtonGoogleSignIn = findViewById(R.id.materialButtonSignUpGoogle);
+        MaterialButton materialButtonGoogleSignIn = findViewById(R.id.materialButtonSignUpGoogle);
         materialButtonGoogleSignIn.setOnClickListener(v -> {
             signIn();
         });
 
         /* Social Media buttons -- Real pages haven't been specified, this is just an example of
         how we would do it*/
-        imgFacebook = findViewById(R.id.imgFacebook);
+        ImageView imgFacebook = findViewById(R.id.imgFacebook);
         imgFacebook.setOnClickListener(v -> {
             openFacebookPage();
         });
-        imgInstagram = findViewById(R.id.imgInstagram);
+        ImageView imgInstagram = findViewById(R.id.imgInstagram);
         imgInstagram.setOnClickListener(v -> {
             openInstagramPage();
         });
-        imgTwitter = findViewById(R.id.imgTwitter);
+        ImageView imgTwitter = findViewById(R.id.imgTwitter);
         imgTwitter.setOnClickListener(v -> {
             openTwitterPage();
         });
@@ -78,6 +82,15 @@ public class SignInActivity extends AppCompatActivity {
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void isSignedIn(FirebaseAuth auth) {
+        FirebaseUser user = auth.getCurrentUser();
+        if (user != null) {
+            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private void openFacebookPage() {
@@ -113,9 +126,9 @@ public class SignInActivity extends AppCompatActivity {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
-            } catch (ApiException e) {
+            }
+            catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-
             }
         }
     }
@@ -134,7 +147,7 @@ public class SignInActivity extends AppCompatActivity {
                         }
                         else {
                             // If sign in fails, display a message to the user.
-
+                            Toast.makeText(this, "Sign In Failed", Toast.LENGTH_LONG).show();
                         }
                     });
     }
@@ -142,10 +155,17 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-//        updateUI(currentUser);
+        // Check if user is already logged in.
+        if (GoogleSignIn.getLastSignedInAccount(this) != null) {
+            isSignedIn(firebaseAuth);
+        }
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();

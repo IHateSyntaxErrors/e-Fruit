@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item android:title="General">
+        <menu>
+            <group android:checkableBehavior="single">
+            <item
+                android:id="@+id/nav_item_home"
+                android:icon="@drawable/ic_menu_home"
+                android:title="@string/menu_title_home" />
+            <item
+                android:id="@+id/nav_item_products"
+                android:icon="@drawable/ic_apple_black"
+                android:title="Products" />
+            <item
+                android:id="@+id/nav_item_sales"
+                android:icon="@drawable/ic_sale_tag"
+                android:title="Sales" />
+            <item
+                android:id="@+id/nav_item_cart"
+                android:icon="@drawable/ic_shopping_cart"
+                android:title="Cart" />
+            </group>
+        </menu>
+    </item>
+    <item android:title="Account">
+        <menu>
+            <group android:checkableBehavior="single">
+            <item
+                android:id="@+id/nav_item_profile"
+                android:icon="@drawable/ic_account"
+                android:title="My Account" />
+            <item
+                android:id="@+id/nav_item_previous_orders"
+                android:icon="@drawable/ic_orders"
+                android:title="Previous Orders" />
+            </group>
+        </menu>
+    </item>
+    <item android:title="Other">
+        <menu>
+            <group android:checkableBehavior="single">
+            <item
+                android:id="@+id/nav_item_settings"
+                android:icon="@drawable/ic_menu_settings"
+                android:title="Settings" />
+            <item
+                android:id="@+id/nav_item_exit"
+                android:icon="@drawable/ic_profile_logout"
+                android:title="Exit" />
+            </group>
+        </menu>
+    </item>
+</menu>

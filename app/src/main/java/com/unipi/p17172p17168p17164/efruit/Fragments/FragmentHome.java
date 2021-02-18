@@ -41,6 +41,7 @@ public class FragmentHome extends Fragment {
     private Toolbox toolbox;
     private DBHelper dbHelper;
     LocationManager locationManager;
+    private OnFragmentItemSelectedListener listener;
 
     private final String SMS_RECEIVER_PHONE_NUMBER = "+3013033";
 
@@ -65,6 +66,10 @@ public class FragmentHome extends Fragment {
     public void onStart() {
         super.onStart();
         initializeRecyclerView();
+    }
+
+    public interface  OnFragmentItemSelectedListener{
+        public void onButtonSelected();
     }
 
     @Override

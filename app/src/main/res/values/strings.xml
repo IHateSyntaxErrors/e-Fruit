@@ -5,7 +5,9 @@
     <string name="toast_speech_recognition_not_supported">Speech recognition is not supported in your device.</string>
     <string name="toast_speech_recognition_invalid_action">Invalid action. Try again!</string>
 
-    <!-- Menu -->
+    <!-- Main Activity -->
+    <string name="nav_drawer_open">Open</string>
+    <string name="nav_drawer_close">Close</string>
     <string name="menu_title_home">Home</string>
     <string name="menu_title_history"></string>
     <string name="menu_title_settings">Settings</string>

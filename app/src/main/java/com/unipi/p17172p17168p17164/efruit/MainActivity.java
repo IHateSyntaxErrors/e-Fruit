@@ -1,24 +1,39 @@
 package com.unipi.p17172p17168p17164.efruit;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,7 +46,9 @@ import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements FragmentHome.OnFragmentItemSelectedListener,
+        NavigationView.OnNavigationItemSelectedListener {
     private ViewPager viewPagerFragments;
     private BottomNavigationView bottomNavigationView;
     private FirebaseAuth firebaseAuth;
@@ -40,10 +57,13 @@ public class MainActivity extends AppCompatActivity {
 
     MenuItem prevMenuItem;
 
+    private DrawerLayout drawerLayout;
     private static final int REQUEST_CODE_SPEECH_INPUT = 10;
+
     // fragments
-    final Fragment fragmentHome = new FragmentHome();
-    final Fragment fragmentSettings = new FragmentSettings();
+    Fragment fragmentHome = new FragmentHome();
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,61 +75,123 @@ public class MainActivity extends AppCompatActivity {
         googleSignInClient = GoogleSignIn.getClient(this, GoogleSignInOptions.DEFAULT_SIGN_IN);
         updateUI();
 
-        viewPagerFragments = findViewById(R.id.viewPagerFragments);
-        bottomNavigationView = findViewById(R.id.bottom_navigation_bar);
-        ImageView imageViewMicrophone = findViewById(R.id.imageViewMicrophone);
-        CircleImageView circleImageViewProfileImage = findViewById(R.id.circleImageViewProfileImage);
+        Toolbar toolbar = findViewById(R.id.toolbar);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.nav_home:
-                    viewPagerFragments.setCurrentItem(0);
-                    break;
-                case R.id.nav_settings:
-                    viewPagerFragments.setCurrentItem(1);
-                    break;
-            }
-            return true;
-        });
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.toolbar_top);
 
-        viewPagerFragments.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
-            @Override
-            public void onPageSelected(int position) {
-                if (prevMenuItem != null)
-                    prevMenuItem.setChecked(false);
-                else
-                    bottomNavigationView.getMenu().getItem(0).setChecked(false);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                                                                 R.string.nav_drawer_close, R.string.nav_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        // Change drawer arrow icon
+        toggle.getDrawerArrowDrawable().setColor(ContextCompat.getColor(this, R.color.colorIcon));
+        toggle.syncState();
 
-                bottomNavigationView.getMenu().getItem(position).setChecked(true);
-                prevMenuItem = bottomNavigationView.getMenu().getItem(position);
-            }
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_item_home);
 
-            @Override
-            public void onPageScrollStateChanged(int state) { }
-        });
+        // Add the home fragment to show it in the frame layout of main activity.
+        fragmentHome = new FragmentHome();
 
-        setupViewPager(viewPagerFragments);
-
-        imageViewMicrophone.setOnClickListener(v -> speechToText());
-        circleImageViewProfileImage.setOnClickListener(v -> {
-            Intent intentProfile = new Intent(MainActivity.this, ProfileActivity.class);
-            startActivity(intentProfile);
-        });
+        setFragment(fragmentHome);
     }
 
-    private void setupViewPager(ViewPager viewPager)
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_item_home)
+        {
+            // Home Fragment
+            FragmentHome fragmentHome = new FragmentHome();
+            setFragment(fragmentHome);
+        }
+        else if (id == R.id.nav_item_products)
+        {
+            // Products Fragment
+            FragmentHome homeFragment = new FragmentHome();
+            setFragment(homeFragment);
+        }
+        else if (id == R.id.nav_item_sales)
+        {
+            // Home Fragment
+            FragmentHome homeFragment = new FragmentHome();
+            setFragment(homeFragment);
+        }
+        else if (id == R.id.nav_item_cart)
+        {
+            // Home Fragment
+            FragmentHome homeFragment = new FragmentHome();
+            setFragment(homeFragment);
+        }
+        else if (id == R.id.nav_item_profile)
+        {
+            // Home Fragment
+            FragmentHome homeFragment = new FragmentHome();
+            setFragment(homeFragment);
+        }
+        else if (id == R.id.nav_item_previous_orders)
+        {
+            // Home Fragment
+            FragmentHome homeFragment = new FragmentHome();
+            setFragment(homeFragment);
+        }
+        else if (id == R.id.nav_item_settings)
+        {
+            // Home Fragment
+            FragmentSettings fragmentSettings = new FragmentSettings();
+            setFragment(fragmentSettings);
+        }
+        else if (id == R.id.nav_item_exit)
+        {
+            this.finish();
+            System.exit(0);
+        }
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
     {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(fragmentHome);
-        adapter.addFragment(fragmentSettings);
-        viewPager.setAdapter(adapter);
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.nav_item_settings)
+        {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void setFragment(Fragment fragment)
+    {
+        //get current fragment manager
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        //get fragment transaction
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        //set new fragment in fragment_container (FrameLayout)
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
     }
 
     public void speechToText() {
-//        SpeechRecognizer speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+        // SpeechRecognizer speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         Intent speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
@@ -165,13 +247,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateUI() {
         if (firebaseUser != null) {
-            TextInputEditText txtInputFullName = findViewById(R.id.textInputEditTextFullName);
-            TextInputEditText txtInputAddress = findViewById(R.id.textInputEditTextAddress);
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            View headerView = navigationView.getHeaderView(0);
 
-            txtInputFullName.setText(firebaseUser.getDisplayName());
-            ImageView userImage = findViewById(R.id.circleImageViewProfileImage);
-            Glide.with(this).load(firebaseUser.getPhotoUrl()).into(userImage);
+            TextView textViewName = headerView.findViewById(R.id.textViewNavBar_Name);
+            textViewName.setText(firebaseUser.getDisplayName());
+            TextView textViewAddress = headerView.findViewById(R.id.textViewNavBar_Address);
+            textViewAddress.setText(firebaseUser.getDisplayName());
 
+
+            /*ImageView userImage = findViewById(R.id.imgViewNavBarLogo);
+            Glide.with(this).load(firebaseUser.getPhotoUrl()).into(userImage);*/
         }
         // Else the user is not logged in - do actions
     }
@@ -186,5 +272,20 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return(false);
+    }
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+    }
+
+    @Override
+    public void onButtonSelected() {
+        Toast.makeText(this, "Start New Activity. (Static Fragment are used)", Toast.LENGTH_SHORT).show();
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, new FragmentSettings());
+        fragmentTransaction.commit();
     }
 }
