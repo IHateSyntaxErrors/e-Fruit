@@ -126,6 +126,8 @@ public class SignInActivity extends AppCompatActivity {
             }
             catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
+                Toast.makeText(this,"1",
+                        Toast.LENGTH_SHORT).show();
             }
         }
     }
