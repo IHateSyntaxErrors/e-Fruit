@@ -6,9 +6,18 @@
     <!-- Main Activity -->
     <string name="nav_drawer_open">Άνοιγμα</string>
     <string name="nav_drawer_close">Κλείσιμο</string>
-    <string name="menu_title_home">Αρχική</string>
-    <string name="menu_title_history">Ιστορικό</string>
-    <string name="menu_title_settings">Ρυθμίσεις</string>
+    <!-- ~~~~~~~NAV BAR~~~~~~~ -->
+    <string name="drawer_nav_bar_category_general">Γενικά</string>
+    <string name="drawer_nav_bar_item_home">Αρχική</string>
+    <string name="drawer_nav_bar_item_products">Προϊόντα</string>
+    <string name="drawer_nav_bar_item_sales">Προσφορές</string>
+    <string name="drawer_nav_bar_item_cart">Καλάθι</string>
+    <string name="drawer_nav_bar_category_account">Λογαρισμός</string>
+    <string name="drawer_nav_bar_item_my_account">Ο Λογαρισμός Μου</string>
+    <string name="drawer_nav_bar_item_previous_orders">Προηγούμενες Παραγγελίες</string>
+    <string name="drawer_nav_bar_category_other">Άλλα</string>
+    <string name="drawer_nav_bar_item_settings">Ρυθμίσεις</string>
+    <string name="drawer_nav_bar_item_exit">Έξοδος Εφαρμογής</string>
     <string name="nav_top_title_speech_recognition">Γεία σας! Πείτε μου τι να κάνω.</string>
 
     <!--  Permissions  -->
@@ -17,7 +26,6 @@
     <!-- Login Page -->
     <string name="header_sign_in">Συνδεθείτε</string>
     <string name="button_sign_in_with_google">Συνεχίστε με λογαριασμό Google</string>
-
 
     <!-- Home Page -->
     <string name="page_home_header1_title">Στείλτε μήνυμα στο 13033</string>
@@ -51,15 +59,6 @@
     <!-- Version -->
     <string name="app_versionCode">@string/versionName</string>
     <string name="app_versionText">Έκδοση Εφαρμογής </string>
-
-    <!--  Default SMS Format Messages  -->
-    <string name="sms_format_1">Μετάβαση σε φαρμακείο ή σε γιατρό.</string>
-    <string name="sms_format_2">Προμήθειες αγαθών πρώτης ανάγκης.</string>
-    <string name="sms_format_3">Μετάβαση στην τράπεζα.</string>
-    <string name="sms_format_4">Παροχή βοήθειας σε ανθρώπους που βρίσκονται σε ανάγκη.</string>
-    <string name="sms_format_5">Μετάβαση σε τελετή ή εν διαστάσει γονέων σε τέκνα.</string>
-    <string name="sms_format_6">Σωματική άσκηση σε εξωτερικό χώρο ή κίνηση με κατοικίδιο.</string>
-
 
     <string name="page_home_text_input_hint_address">Διεύθυνση</string>
     <string name="page_home_text_input_hint_full_name">Ονοματεπώνυμο</string>

@@ -8,174 +8,45 @@
         android:background="@color/colorBackground"
         android:clickable="true"
         android:focusableInTouchMode="true"
-        tools:context=".MainActivity">
+        tools:context=".Fragments.FragmentHome">
 
-        <TextView
-            android:id="@+id/textViewSignInLink"
-            style="@style/viewParent.headerText"
-            android:layout_height="0dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="25dp"
-            android:paddingBottom="10dp"
-            android:text="@string/page_home_header1_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutAddress"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="32dp"
-            app:endIconMode="clear_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutFullName">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textInputEditTextAddress"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:drawableStart="@drawable/ic_profile_home_location"
-                android:drawablePadding="10dp"
-                android:drawableTint="@color/colorText"
-                android:hint="@string/page_home_text_input_hint_address" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutFullName"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            app:endIconMode="clear_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewSignInLink">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textInputEditTextFullName"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:drawableStart="@drawable/ic_profile_full_name"
-                android:drawablePadding="10dp"
-                android:drawableTint="@color/colorText"
-                android:hint="@string/page_home_text_input_hint_full_name" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-    <ViewFlipper
-        android:id="@+id/viewFlipperSmsType"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutAddress">
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="4dp">
 
-        <!-- VIEW FOUND -->
-
-        <!-- VIEW - NONE-->
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutAddress">
-
-                <TextView
-                    android:id="@+id/textViewSelectSmsTypeHeader"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginEnd="32dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:text="@string/page_home_header2_reason"
-                    android:textColor="@color/colorText"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/helvetica"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewSmsType"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginEnd="32dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textViewSelectSmsTypeHeader" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:enabled="false"
-                    android:id="@+id/materialButtonSendSms"
-                    style="@style/Widget.AppCompat.Button"
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="32dp"
-                    android:layout_marginBottom="16dp"
-                    android:background="@drawable/selector_login_large_button_disabled"
-                    app:backgroundTint="@null"
-                    android:fontFamily="@font/helvetica_bold"
-                    android:text="@string/page_home_button_send_sms"
-                    android:textAllCaps="true"
-                    android:textColor="@color/colorButtonText"
-                    android:textSize="18sp"
-
-                    android:gravity="center"
-                    app:icon="@drawable/ic_home_button_send_sms"
-                    app:iconGravity="textStart"
-                    app:iconPadding="10dp"
-                    app:iconTint="@color/colorButtonText"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/recyclerViewSmsType"
-                    app:layout_constraintStart_toStartOf="@+id/recyclerViewSmsType"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewSmsType"
-                    tools:ignore="RtlHardcoded" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="192dp"
-                android:layout_height="207dp"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/ic_home_empty_box"
-                app:layout_constraintBottom_toTopOf="@+id/textViewNoRowsFound"
-                app:layout_constraintEnd_toEndOf="@+id/textViewNoRowsFound"
-                app:layout_constraintStart_toStartOf="@+id/textViewNoRowsFound"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textViewNoRowsFound"
-                style="@style/viewParent.headerText"
-                android:layout_height="0dp"
-                android:layout_marginBottom="70dp"
-                android:paddingBottom="10dp"
-                android:text="Δεν έχετε αποθηκεύσει\nτύπους μηνυμάτων."
-                android:textAlignment="center"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ViewFlipper>
-
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewSmsTypeEdit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewSelectSmsTypeHeader" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

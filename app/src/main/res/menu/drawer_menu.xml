@@ -1,54 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item android:title="General">
+    <itemProduct android:title="@string/drawer_nav_bar_category_general">
         <menu>
             <group android:checkableBehavior="single">
-            <item
+            <itemProduct
                 android:id="@+id/nav_item_home"
                 android:icon="@drawable/ic_menu_home"
-                android:title="@string/menu_title_home" />
-            <item
+                android:title="@string/drawer_nav_bar_item_home" />
+            <itemProduct
                 android:id="@+id/nav_item_products"
                 android:icon="@drawable/ic_apple_black"
-                android:title="Products" />
-            <item
+                android:title="@string/drawer_nav_bar_item_products" />
+            <itemProduct
                 android:id="@+id/nav_item_sales"
                 android:icon="@drawable/ic_sale_tag"
-                android:title="Sales" />
-            <item
+                android:title="@string/drawer_nav_bar_item_sales" />
+            <itemProduct
                 android:id="@+id/nav_item_cart"
                 android:icon="@drawable/ic_shopping_cart"
-                android:title="Cart" />
+                android:title="@string/drawer_nav_bar_item_cart" />
             </group>
         </menu>
-    </item>
-    <item android:title="Account">
+    </itemProduct>
+    <itemProduct android:title="@string/drawer_nav_bar_category_account">
         <menu>
             <group android:checkableBehavior="single">
-            <item
+            <itemProduct
                 android:id="@+id/nav_item_profile"
                 android:icon="@drawable/ic_account"
-                android:title="My Account" />
-            <item
+                android:title="@string/drawer_nav_bar_item_my_account" />
+            <itemProduct
                 android:id="@+id/nav_item_previous_orders"
                 android:icon="@drawable/ic_orders"
-                android:title="Previous Orders" />
+                android:title="@string/drawer_nav_bar_item_previous_orders" />
             </group>
         </menu>
-    </item>
-    <item android:title="Other">
+    </itemProduct>
+    <itemProduct android:title="@string/drawer_nav_bar_category_other">
         <menu>
             <group android:checkableBehavior="single">
-            <item
+            <itemProduct
                 android:id="@+id/nav_item_settings"
                 android:icon="@drawable/ic_menu_settings"
-                android:title="Settings" />
-            <item
+                android:title="@string/drawer_nav_bar_item_settings" />
+            <itemProduct
                 android:id="@+id/nav_item_exit"
                 android:icon="@drawable/ic_profile_logout"
-                android:title="Exit" />
+                android:title="@string/drawer_nav_bar_item_exit" />
             </group>
         </menu>
-    </item>
+    </itemProduct>
 </menu>
