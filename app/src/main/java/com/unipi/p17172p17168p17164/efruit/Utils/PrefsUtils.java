@@ -8,7 +8,7 @@ import com.orhanobut.hawk.Hawk;
 import java.util.Locale;
 
 public class PrefsUtils {
-    private Context context;
+    private final Context context;
 
     public PrefsUtils(Context context){
         this.context = context;

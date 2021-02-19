@@ -9,6 +9,8 @@
 
     <color name="lightGrey">#99A1B4</color>
 
+    <color name="thumbForebgColor">@color/lightWhite</color>
+
     <color name="contentTextTitleColor">#FFFFFF</color>
     <color name="miniTitle">#99A1B4</color>
 </resources>

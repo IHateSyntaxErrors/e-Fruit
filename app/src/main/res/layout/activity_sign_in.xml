@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -16,8 +15,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="108dp"
         android:layout_marginBottom="16dp"
-        android:contentDescription="Application Logo"
         android:src="@drawable/efruit_banner"
+        android:contentDescription="@string/img_content_desc_efruit_banner"
         app:layout_constraintBottom_toTopOf="@+id/imageViewLogo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,8 +28,8 @@
         android:layout_width="512px"
         android:layout_height="512px"
         android:layout_marginTop="90dp"
-        android:contentDescription="Application Logo"
         android:src="@drawable/ic_fruits"
+        android:contentDescription="@string/img_content_desc_fruits"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -52,20 +51,21 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/materialButtonSignUpGoogle"
         style="@style/Widget.AppCompat.Button"
-        android:layout_width="wrap_content"
+        android:layout_width="320dp"
         android:layout_height="70dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/selector_login_large_button"
         android:fontFamily="@font/helvetica_bold"
         android:gravity="center"
-        android:paddingStart="30dp"
-        android:paddingEnd="30dp"
         android:text="@string/button_sign_in_with_google"
         android:textAllCaps="false"
         android:textColor="@color/colorButtonText"
         android:textSize="18sp"
+        android:textAlignment="center"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
         app:backgroundTint="@null"
         app:icon="@drawable/ic_login_google_logo"
         app:iconGravity="textStart"
@@ -95,6 +95,7 @@
             android:layout_height="35dp"
             android:clickable="true"
             android:src="@drawable/ic_social_media_facebook"
+            android:contentDescription="@string/img_content_desc_fb_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -107,6 +108,7 @@
             android:layout_marginEnd="25dp"
             android:clickable="true"
             android:src="@drawable/ic_social_media_instagram"
+            android:contentDescription="@string/img_content_desc_insta_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -117,6 +119,7 @@
             android:layout_height="35dp"
             android:clickable="true"
             android:src="@drawable/ic_social_media_twitter"
+            android:contentDescription="@string/img_content_desc_twitter_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -126,9 +129,9 @@
         android:id="@+id/imgPlantPotLeft"
         android:layout_width="80dp"
         android:layout_height="80dp"
-
         android:layout_marginStart="4dp"
         android:src="@drawable/fruit_bawl"
+        android:contentDescription="@string/img_content_desc_fruit_basket"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -136,9 +139,9 @@
         android:id="@+id/imgPlantPotRight"
         android:layout_width="80dp"
         android:layout_height="80dp"
-
         android:layout_marginEnd="4dp"
         android:src="@drawable/fruit_bawl"
+        android:contentDescription="@string/img_content_desc_fruit_basket"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

@@ -41,11 +41,11 @@
     <string name="page_profile_header2_personal_information">Προσωπικές Πληροφορίες</string>
 
     <!-- Settings -->
-    <string name="page_settings_header1_title">Ρυθμίσεις</string>
-    <string name="page_settings_title_general">Γενικές Ρυθμίσεις</string>
-    <string name="settings_messages">Μηνύματα</string>
-    <string name="page_settings_title_appearance">Εμφάνιση</string>
-    <string name="page_settings_dark_mode">Σκούρο Θέμα</string>
+    <string name="page_settings_header1_title">Settings</string>
+    <string name="page_settings_title_general">General</string>
+    <string name="page_settings_languages">Language</string>
+    <string name="page_settings_title_appearance">Appearance</string>
+    <string name="page_settings_dark_mode">Night Mode</string>
 
     <!-- Settings/Edit Sms -->
     <string name="alert_edit_sms_save_button">Αποθήκευση</string>
@@ -54,17 +54,24 @@
 
     <!-- Version -->
     <string name="app_versionCode">@string/versionName</string>
-    <string name="app_versionText">Έκδοση Εφαρμογής </string>
+    <string name="app_versionText">App Version </string>
 
-    <string name="page_home_text_input_hint_address">Διεύθυνση</string>
-    <string name="page_home_text_input_hint_full_name">Ονοματεπώνυμο</string>
-    <string name="alert_success_button_text">Εντάξει</string>
+    <string name="page_home_text_input_hint_address">Address</string>
+    <string name="page_home_text_input_hint_full_name">Full Name</string>
+    <string name="alert_success_button_text">Okay</string>
     <string name="title_activity_settings_messages">ActivitySettingsMessages</string>
 
-    <string name="page_profile_text_view_sign_out">Αποσύνδεση</string>
+    <string name="page_profile_text_view_sign_out">Sign out</string>
 
     <!-- Dialogs -->
     <string name="dialog_sms_sent_title">Στάλθηκε!</string>
     <string name="dialog_sms_sent_description">Το μήνυμα σας με αρ. %1$s έχει\nαποσταλεί.</string>
 
+    <!-- Content Descriptions -->
+    <string name="img_content_desc_fb_btn">Facebook Link</string>
+    <string name="img_content_desc_insta_btn">Instagram Link</string>
+    <string name="img_content_desc_twitter_btn">Twitter Link</string>
+    <string name="img_content_desc_fruits">Fruits Image</string>
+    <string name="img_content_desc_efruit_banner">eFruit Banner</string>
+    <string name="img_content_desc_fruit_basket">Fruits Basket</string>
 </resources>

@@ -25,9 +25,9 @@
         <TextView
             android:id="@+id/textViewGeneralMessages"
             style="@style/viewParent.headerText.settingsTextIcon"
-            android:text="@string/settings_messages"
+            android:text="@string/page_settings_languages"
             android:clickable="true"
-            app:drawableLeftCompat="@drawable/ic_settings_messages"
+            app:drawableLeftCompat="@drawable/ic_language"
             android:drawableTint="@color/colorText" />
 
         <!-- Dark Mode -->
@@ -39,7 +39,7 @@
             android:id="@+id/switchBtnDarkMode"
             style="@style/settingsText"
             android:text="@string/page_settings_dark_mode"
-            android:drawableStart="@drawable/ic_settings_night_mode"
+            android:drawableStart="@drawable/ic_night_mode"
             android:drawableTint="@color/colorText"
             android:theme="@style/settingsActivateSwitch"/>
 

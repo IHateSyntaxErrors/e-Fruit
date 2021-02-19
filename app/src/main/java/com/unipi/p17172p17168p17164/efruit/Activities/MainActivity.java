@@ -7,6 +7,7 @@ import android.speech.RecognizerIntent;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -234,7 +235,7 @@ public class MainActivity extends AppCompatActivity
 
     public void updateUI() {
         if (firebaseUser != null) {
-            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            NavigationView navigationView = findViewById(R.id.nav_view);
             View headerView = navigationView.getHeaderView(0);
 
             TextView textViewName = headerView.findViewById(R.id.textViewNavBar_Name);
@@ -242,6 +243,15 @@ public class MainActivity extends AppCompatActivity
             // Todo make it so the user phone is updated correctly.
             TextView textViewPhone = headerView.findViewById(R.id.textViewNavBar_Phone);
             textViewPhone.setText(firebaseUser.getDisplayName());
+
+            ImageButton imgBtnMic = findViewById(R.id.action_bar_mic);
+            imgBtnMic.setOnClickListener(v -> {
+                speechToText();
+            });
+            ImageButton imgBtnCart = findViewById(R.id.action_bar_cart);
+            imgBtnCart.setOnClickListener(v -> {
+                // Todo add on cart icon press actions.
+            });
 
             // Load user img from google account if they haven't upload one.
             CircleImageView circleImgViewUserAccount = findViewById(R.id.action_bar_circleimgview_profile);

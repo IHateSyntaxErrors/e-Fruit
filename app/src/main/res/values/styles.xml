@@ -2,79 +2,79 @@
     <!-- Base application theme. -->
     <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
-        <itemProduct name="colorPrimary">@color/colorPrimary</itemProduct>
-        <itemProduct name="colorPrimaryDark">@color/colorPrimaryDark</itemProduct>
-        <itemProduct name="backgroundColor">@color/colorBackground</itemProduct>
-        <itemProduct name="colorAccent">@color/colorAccent</itemProduct>
-        <itemProduct name="android:statusBarColor" tools:targetApi="l">@color/colorActionBar</itemProduct> <!-- Status bar color. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="backgroundColor">@color/colorBackground</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/colorActionBar</item> <!-- Status bar color. -->
 <!--        <itemProduct name="android:windowAnimationStyle">@null</itemProduct> &lt;!&ndash; Animation when changing activities &ndash;&gt;-->
     </style>
 
     <style name="BaseTheme.NoActionBar">
-        <itemProduct name="windowActionBar">false</itemProduct>
-        <itemProduct name="windowNoTitle">false</itemProduct>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">false</item>
     </style>
 
     <!--styles for app-->
     <style name="viewParent">
-        <itemProduct name="android:layout_width">wrap_content</itemProduct>
-        <itemProduct name="android:layout_height">wrap_content</itemProduct>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="viewParent.headerText">
-        <itemProduct name="android:textColor">@color/contentTextTitleColor</itemProduct>
-        <itemProduct name="android:textSize">@dimen/header1TextSize</itemProduct>
-        <itemProduct name="android:fontFamily">@font/helvetica_bold</itemProduct>
-        <itemProduct name="android:textStyle">bold</itemProduct>
+        <item name="android:textColor">@color/contentTextTitleColor</item>
+        <item name="android:textSize">@dimen/header1TextSize</item>
+        <item name="android:fontFamily">@font/helvetica_bold</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="viewParent.headerText2">
-        <itemProduct name="android:textColor">@color/miniTitle</itemProduct>
-        <itemProduct name="android:textSize">@dimen/header2TextSize</itemProduct>
-        <itemProduct name="android:fontFamily">@font/helvetica_bold</itemProduct>
-        <itemProduct name="android:textStyle">bold</itemProduct>
+        <item name="android:textColor">@color/miniTitle</item>
+        <item name="android:textSize">@dimen/header2TextSize</item>
+        <item name="android:fontFamily">@font/helvetica_bold</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="viewParent.headerText.settingsMiniTitle">
-        <itemProduct name="android:textColor">#5D5C5C</itemProduct>
-        <itemProduct name="android:layout_width">match_parent</itemProduct>
-        <itemProduct name="android:textSize">15sp</itemProduct>
-        <itemProduct name="android:fontFamily">@font/helvetica</itemProduct>
-        <itemProduct name="android:layout_marginTop">20dp</itemProduct>
+        <item name="android:textColor">#5D5C5C</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">@font/helvetica</item>
+        <item name="android:layout_marginTop">20dp</item>
     </style>
 
     <style name="settingsText" parent="viewParent.headerText.settingsMiniTitle">
-        <itemProduct name="android:textColor">@color/miniTitle</itemProduct>
-        <itemProduct name="android:layout_gravity">center_vertical</itemProduct>
-        <itemProduct name="android:gravity">center_vertical</itemProduct>
-        <itemProduct name="android:fontFamily">@font/helvetica_bold</itemProduct>
-        <itemProduct name="android:drawablePadding">20dp</itemProduct>
+        <item name="android:textColor">@color/miniTitle</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:fontFamily">@font/helvetica_bold</item>
+        <item name="android:drawablePadding">20dp</item>
     </style>
 
     <style name="viewParent.headerText.settingsTextIcon" parent="viewParent.headerText.settingsMiniTitle">
-        <itemProduct name="android:drawableRight">@drawable/ic_more</itemProduct>
-        <itemProduct name="android:textColor">@color/miniTitle</itemProduct>
-        <itemProduct name="android:layout_gravity">center_vertical</itemProduct>
-        <itemProduct name="android:gravity">center_vertical</itemProduct>
-        <itemProduct name="android:fontFamily">@font/helvetica_bold</itemProduct>
-        <itemProduct name="android:drawablePadding">20dp</itemProduct>
+        <item name="android:drawableRight">@drawable/ic_more</item>
+        <item name="android:textColor">@color/miniTitle</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:fontFamily">@font/helvetica_bold</item>
+        <item name="android:drawablePadding">20dp</item>
     </style>
 
     <style name="viewParent.paragraphText">
-        <itemProduct name="android:textColor">@color/contentTextTitleColor</itemProduct>
-        <itemProduct name="android:textSize">@dimen/paragraphTextSize</itemProduct>
-        <itemProduct name="android:fontFamily">@font/helvetica</itemProduct>
-        <itemProduct name="android:textStyle">normal</itemProduct>
+        <item name="android:textColor">@color/contentTextTitleColor</item>
+        <item name="android:textSize">@dimen/paragraphTextSize</item>
+        <item name="android:fontFamily">@font/helvetica</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
     <style name="settingsActivateSwitch" parent="ThemeOverlay.MaterialComponents.Light">
         <!-- active thumb & track color (30% transparency) -->
-        <itemProduct name="colorControlActivated">@color/colorPrimary</itemProduct>
+        <item name="colorControlActivated">@color/colorPrimary</item>
 
         <!-- inactive thumb color -->
-        <itemProduct name="colorSwitchThumbNormal">#AD1457</itemProduct>
+        <item name="colorSwitchThumbNormal">@color/colorIcon</item>
 
         <!-- inactive track color (30% transparency) -->
-        <itemProduct name="android:colorForeground">#FF0070</itemProduct>
+        <item name="android:colorForeground">@color/thumbForebgColor</item>
     </style>
 </resources>

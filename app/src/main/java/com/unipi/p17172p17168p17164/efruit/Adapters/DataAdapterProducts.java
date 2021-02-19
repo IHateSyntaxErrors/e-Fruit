@@ -8,16 +8,13 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.button.MaterialButton;
 import com.unipi.p17172p17168p17164.efruit.Items.ItemProduct;
 import com.unipi.p17172p17168p17164.efruit.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class DataAdapterProducts extends RecyclerView.Adapter<DataAdapterProducts.SetViewHolder> {
     private final Activity activity;
@@ -32,7 +29,7 @@ public class DataAdapterProducts extends RecyclerView.Adapter<DataAdapterProduct
     @NonNull
     @Override
     public SetViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_single_item_sms_types, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_single_item_products, parent, false);
         return new SetViewHolder(v);
     }
 

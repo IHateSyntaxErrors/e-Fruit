@@ -32,17 +32,10 @@
     <string name="page_home_header2_reason">Σκοπός μετακίνησης:</string>
     <string name="page_home_button_send_sms">ΑΠΟΣΤΟΛΗ</string>
 
-    <!-- History Page -->
-    <string name="page_history_header1_title">Ιστορικό Αποστολών</string>
-    <string name="page_history_no_history_record">Δεν έχουν βρεθεί αποστολές μέσω της εφαρμογής.</string>
-    <string name="recyclerview_sms_number_text">%1$s.</string>
-    <string name="delete_all_rows_message">All recorded violations will be deleted permanently.</string>
-    <string name="delete_all_rows_title">Delete all violations?</string>
-
     <!-- Settings -->
     <string name="page_settings_header1_title">Ρυθμίσεις</string>
-    <string name="page_settings_title_general">Γενικές Ρυθμίσεις</string>
-    <string name="settings_messages">Μηνύματα</string>
+    <string name="page_settings_title_general">Γενικά</string>
+    <string name="page_settings_languages">Γλώσσα</string>
     <string name="page_settings_title_appearance">Εμφάνιση</string>
     <string name="page_settings_dark_mode">Σκούρο Θέμα</string>
 
@@ -71,4 +64,11 @@
     <string name="dialog_sms_sent_title">Στάλθηκε!</string>
     <string name="dialog_sms_sent_description">Το μήνυμα σας με αρ. %1$s έχει\nαποσταλεί.</string>
 
+    <!-- Content Descriptions -->
+    <string name="img_content_desc_fb_btn">Σύνδεσμος Facebook</string>
+    <string name="img_content_desc_insta_btn">Σύνδεσμος  Instagram</string>
+    <string name="img_content_desc_twitter_btn">Σύνδεσμος  Twitter</string>
+    <string name="img_content_desc_fruits">Εικόνα με φρούτα</string>
+    <string name="img_content_desc_efruit_banner">Λάβαρο eFruit</string>
+    <string name="img_content_desc_fruit_basket">Κούπα με φρούτα</string>
 </resources>

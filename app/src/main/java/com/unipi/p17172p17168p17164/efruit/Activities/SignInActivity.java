@@ -34,9 +34,6 @@ public class SignInActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
 
     private static final int RC_SIGN_IN = 101;
-
-    private PrefsUtils prefsUtils;
-    public final static String SWITCH_DARK_MODE_KEY = "SWITCH_DARK_MODE";
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     @Override
@@ -48,10 +45,9 @@ public class SignInActivity extends AppCompatActivity {
         databaseReference = firebaseDatabase.getReference();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
-        prefsUtils = new PrefsUtils(this);
 
         Hawk.init(this).build(); // Initializing Hawk API.
-        prefsUtils.initKeys(); // Add keys to the prefs if they don't exists.
+        new PrefsUtils(this).initKeys(); // Add keys to the prefs if they don't exists.
 
         // Listener to check if user is logged in, on activity create.
         if (GoogleSignIn.getLastSignedInAccount(this) != null && firebaseUser != null)
@@ -59,9 +55,9 @@ public class SignInActivity extends AppCompatActivity {
 
         // Configure Google Sign In
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
 
@@ -94,6 +90,8 @@ public class SignInActivity extends AppCompatActivity {
     private void isSignedIn(FirebaseAuth auth) {
         FirebaseUser user = auth.getCurrentUser();
         if (user != null) {
+            // if the user is not null which means they logged in before, redirect them to main
+            // activity automatically.
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -130,12 +128,12 @@ public class SignInActivity extends AppCompatActivity {
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-                // Google Sign In was successful, authenticate with Firebase
+                // Google Sign In was successful, authenticate with Firebase.
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
             }
             catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
+                // Google Sign In failed.
             }
         }
     }
@@ -145,16 +143,16 @@ public class SignInActivity extends AppCompatActivity {
         firebaseAuth.signInWithCredential(credential)
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
+                            // Sign in successful.
                             firebaseUser = firebaseAuth.getCurrentUser();
-
+                            // Create the intent for the new activity and redirect the user to main activity.
                             Intent i = new Intent(SignInActivity.this, MainActivity.class);
                             startActivity(i);
                             finish();
                         }
                         else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(this, "Sign In Failed", Toast.LENGTH_LONG).show();
+                            Toast.makeText(this, "Sign in failed!", Toast.LENGTH_LONG).show();
                         }
                     });
     }
@@ -171,6 +169,7 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        // if back button pressed, just close the app.
         finish();
     }
 }
