@@ -23,12 +23,11 @@
             android:paddingTop="35dp"/>
         <!-- Speed Limit -->
         <TextView
-            android:id="@+id/textViewGeneralMessages"
+            android:id="@+id/textViewLanguages"
             style="@style/viewParent.headerText.settingsTextIcon"
             android:text="@string/page_settings_languages"
             android:clickable="true"
-            app:drawableLeftCompat="@drawable/ic_language"
-            android:drawableTint="@color/colorText" />
+            app:drawableLeftCompat="@drawable/ic_language" />
 
         <!-- Dark Mode -->
         <TextView
@@ -36,7 +35,7 @@
             android:text="@string/page_settings_title_appearance"
             android:paddingTop="25dp"/>
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switchBtnDarkMode"
+            android:id="@+id/switchBtnNightMode"
             style="@style/settingsText"
             android:text="@string/page_settings_dark_mode"
             android:drawableStart="@drawable/ic_night_mode"

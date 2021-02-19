@@ -14,7 +14,7 @@
     <string name="drawer_nav_bar_item_cart">Καλάθι</string>
     <string name="drawer_nav_bar_category_account">Λογαρισμός</string>
     <string name="drawer_nav_bar_item_my_account">Ο Λογαρισμός Μου</string>
-    <string name="drawer_nav_bar_item_previous_orders">Προηγούμενες Παραγγελίες</string>
+    <string name="drawer_nav_bar_item_orders">Παραγγελίες</string>
     <string name="drawer_nav_bar_category_other">Άλλα</string>
     <string name="drawer_nav_bar_item_settings">Ρυθμίσεις</string>
     <string name="drawer_nav_bar_item_exit">Έξοδος Εφαρμογής</string>
@@ -28,9 +28,7 @@
     <string name="button_sign_in_with_google">Συνεχίστε με λογαριασμό Google</string>
 
     <!-- Home Page -->
-    <string name="page_home_header1_title">Στείλτε μήνυμα στο 13033</string>
-    <string name="page_home_header2_reason">Σκοπός μετακίνησης:</string>
-    <string name="page_home_button_send_sms">ΑΠΟΣΤΟΛΗ</string>
+
 
     <!-- Settings -->
     <string name="page_settings_header1_title">Ρυθμίσεις</string>
@@ -39,30 +37,22 @@
     <string name="page_settings_title_appearance">Εμφάνιση</string>
     <string name="page_settings_dark_mode">Σκούρο Θέμα</string>
 
-    <!-- Settings/Edit Sms -->
-    <string name="alert_edit_sms_save_button">Αποθήκευση</string>
-    <string name="alert_edit_sms_input_sms_number">Αρ. Μηνύματος</string>
-    <string name="alert_edit_sms_input_sms_reason">Σκοπός Μετακίνησης</string>
-
     <!-- Profile -->
     <string name="page_profile_header1_title">Προφιλ</string>
-    <string name="page_profile_header1_full_name">Ονοματεπώνυμο</string>
+    <string name="page_profile_input_hint_full_name">Ονοματεπώνυμο</string>
+    <string name="page_profile_input_hint_phone">Αρ. Τηλεφώνου</string>
     <string name="page_profile_header2_personal_information">Προσωπικές Πληροφορίες</string>
+    <string name="page_profile_text_view_sign_out">Αποσύνδεση</string>
 
     <!-- Version -->
     <string name="app_versionCode">@string/versionName</string>
     <string name="app_versionText">Έκδοση Εφαρμογής </string>
 
-    <string name="page_home_text_input_hint_address">Διεύθυνση</string>
-    <string name="page_home_text_input_hint_full_name">Ονοματεπώνυμο</string>
-    <string name="alert_success_button_text">Εντάξει</string>
-    <string name="title_activity_settings_messages">ActivitySettingsMessages</string>
-
-    <string name="page_profile_text_view_sign_out">Αποσύνδεση</string>
-
     <!-- Dialogs -->
-    <string name="dialog_sms_sent_title">Στάλθηκε!</string>
-    <string name="dialog_sms_sent_description">Το μήνυμα σας με αρ. %1$s έχει\nαποσταλεί.</string>
+    <string name="alert_btn_txt_ok">Εντάξει</string>
+    <string name="alert_lang_txt_title">Επιλέξτε γλώσσα:</string>
+    <string name="alert_lang_txt_view_eng">Αγγλικά</string>
+    <string name="alert_lang_txt_view_ell">Ελληνικά</string>
 
     <!-- Content Descriptions -->
     <string name="img_content_desc_fb_btn">Σύνδεσμος Facebook</string>

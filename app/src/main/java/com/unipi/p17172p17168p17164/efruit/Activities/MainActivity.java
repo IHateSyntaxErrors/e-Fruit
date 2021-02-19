@@ -32,11 +32,13 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentHome;
+import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentProducts;
 import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentSettings;
 import com.unipi.p17172p17168p17164.efruit.R;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -59,13 +61,12 @@ public class MainActivity extends AppCompatActivity
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
-        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, GoogleSignInOptions.DEFAULT_SIGN_IN);
         updateUI();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.toolbar_top);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -103,8 +104,8 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.nav_item_products)
         {
             // Products Fragment
-            FragmentHome homeFragment = new FragmentHome();
-            setFragment(homeFragment);
+            FragmentProducts fragmentProducts = new FragmentProducts();
+            setFragment(fragmentProducts);
         }
         else if (id == R.id.nav_item_sales)
         {

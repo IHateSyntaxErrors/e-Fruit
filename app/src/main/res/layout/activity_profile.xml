@@ -2,9 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:background="@color/colorBackground">
+    android:background="@color/colorBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode ="true"
+    tools:context=".Activities.ProfileActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
 
@@ -59,15 +64,15 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/textViewProfileHeaderFullName"
+                    android:id="@+id/txtViewProfile_FullName"
                     style="@style/viewParent.headerText2"
-                    android:text="@string/page_profile_header1_full_name"
+                    android:text="@string/page_profile_input_hint_full_name"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/circleImageViewProfileImage"
+                    android:id="@+id/circleImgProfile_Profile_Photo"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:clickable="true"
@@ -84,7 +89,7 @@
                 android:text="@string/page_profile_header2_personal_information" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutProfileAddress"
+                android:id="@+id/txtInputLayoutProfile_FullName"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -92,38 +97,39 @@
                 app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputEditTextProfileAddress"
+                    android:id="@+id/txtInputProfile_FullName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:drawableStart="@drawable/ic_profile_home_location"
+                    android:drawableStart="@drawable/ic_profile_full_name"
                     android:drawablePadding="10dp"
                     android:drawableTint="@color/colorText"
-                    android:hint="@string/page_home_text_input_hint_address" />
+                    android:hint="@string/page_profile_input_hint_full_name"
+                    android:inputType="textPersonName"/>
+
             </com.google.android.material.textfield.TextInputLayout>
 
-
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutProfileFullName"
+                android:id="@+id/txtInputLayoutProfile_Phone"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputEditTextProfileFullName"
+                    android:id="@+id/txtInputProfile_Phone"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:drawableStart="@drawable/ic_profile_full_name"
+                    android:drawableStart="@drawable/ic_phone"
                     android:drawablePadding="10dp"
                     android:drawableTint="@color/colorText"
-                    android:hint="@string/page_home_text_input_hint_full_name"
-                    android:inputType="textPersonName" />
+                    android:hint="@string/page_profile_input_hint_phone"
+                    android:inputType="phone" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingTop="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
                 android:clickable="true"
                 android:id="@+id/textViewProfileSignOut"
                 style="@style/Widget.AppCompat.Button"

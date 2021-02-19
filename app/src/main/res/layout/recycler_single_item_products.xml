@@ -15,7 +15,7 @@
         android:layout_height="70dp">
 
         <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/radioButtonSmsType"
+            android:id="@+id/radioButtonEll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -34,11 +34,11 @@
             android:textColor="@color/colorPrimary"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/radioButtonSmsType"
+            app:layout_constraintStart_toEndOf="@+id/radioButtonEll"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textViewSmsExplanation"
+            android:id="@+id/textViewAlertLangEn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"

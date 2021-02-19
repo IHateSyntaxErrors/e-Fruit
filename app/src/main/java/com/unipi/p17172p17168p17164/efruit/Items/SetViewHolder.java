@@ -17,7 +17,7 @@ public class SetViewHolder extends RecyclerView.ViewHolder {
     public SetViewHolder(@NonNull View itemView) {
         super(itemView);
         viewTextViewNumber = itemView.findViewById(R.id.textViewNumber);
-        viewTextViewSmsExplanation = itemView.findViewById(R.id.textViewSmsExplanation);
-        radioButtonTypeSelection = itemView.findViewById(R.id.radioButtonSmsType);
+        viewTextViewSmsExplanation = itemView.findViewById(R.id.textViewAlertLangEn);
+        radioButtonTypeSelection = itemView.findViewById(R.id.radioButtonEll);
     }
 }

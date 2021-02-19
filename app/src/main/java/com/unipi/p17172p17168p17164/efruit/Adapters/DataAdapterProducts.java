@@ -36,8 +36,8 @@ public class DataAdapterProducts extends RecyclerView.Adapter<DataAdapterProduct
     @Override
     public void onBindViewHolder(@NonNull SetViewHolder holder, int position) {
         holder.bind(itemProducts.get(position));
-        holder.viewTextViewNumber.setText(String.format(activity.getResources().getString(R.string.recyclerview_sms_number_text), itemProducts.get(position).getSmsNumber()));
-        holder.viewTextViewSmsExplanation.setText(itemProducts.get(position).getSmsReason());
+     /*   holder.viewTextViewNumber.setText(String.format(activity.getResources().getString(R.string.recyclerview_sms_number_text), itemProducts.get(position).getSmsNumber()));
+        holder.viewTextViewSmsExplanation.setText(itemProducts.get(position).getSmsReason());*/
         View.OnClickListener rbClick = v -> {
             RadioButton checked_rb = (RadioButton) v;
             /*if (lastCheckedRB != null
@@ -75,8 +75,8 @@ public class DataAdapterProducts extends RecyclerView.Adapter<DataAdapterProduct
         public SetViewHolder(@NonNull View itemView) {
             super(itemView);
             viewTextViewNumber = itemView.findViewById(R.id.textViewNumber);
-            viewTextViewSmsExplanation = itemView.findViewById(R.id.textViewSmsExplanation);
-            radioButtonTypeSelection = itemView.findViewById(R.id.radioButtonSmsType);
+            viewTextViewSmsExplanation = itemView.findViewById(R.id.textViewAlertLangEn);
+            radioButtonTypeSelection = itemView.findViewById(R.id.radioButtonEll);
         }
         void bind(final ItemProduct items) {
             /*if (checkedPosition == -1) {

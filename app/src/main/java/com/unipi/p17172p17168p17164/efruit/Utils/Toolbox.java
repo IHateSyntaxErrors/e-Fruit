@@ -3,15 +3,21 @@ package com.unipi.p17172p17168p17164.efruit.Utils;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.database.Cursor;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.button.MaterialButton;
+import com.orhanobut.hawk.Hawk;
 import com.unipi.p17172p17168p17164.efruit.R;
+
+import java.util.Locale;
 
 public class Toolbox {
     public void hideKeyboard(View view, Context context) {
@@ -27,7 +33,7 @@ public class Toolbox {
         dialog.setContentView(R.layout.alert_sms_confirmation);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        TextView textViewAlertSuccessTitle = dialog.findViewById(R.id.textViewAlertSuccessTitle);
+        TextView textViewAlertSuccessTitle = dialog.findViewById(R.id.textViewAlertLangChangeTitle);
         TextView textViewAlertSuccessTextParagraph = dialog.findViewById(R.id.textViewAlertSuccessTextParagraph);;
 
         textViewAlertSuccessTitle.setText(alertTitle);
@@ -36,35 +42,46 @@ public class Toolbox {
         return dialog;
     }
 
-    public Dialog showDialogActionEditSms(Context context, int smsNumber) {
+    public Dialog showDialogLangChange(Context context) {
         final Dialog dialog = new Dialog(context);
+        final String ENG ="Eng";
+        final String ELL = "Ell";
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
-        dialog.setContentView(R.layout.alert_sms_edit_sms);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.alert_lang_change);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        DBHelper dbHelper = new DBHelper(context);
+        RadioButton radioBtnAlertLangEn = dialog.findViewById(R.id.radioButtonEn);
+        RadioButton radioBtnAlertLangEll = dialog.findViewById(R.id.radioButtonEll);
+        System.out.println((String) Hawk.get(context.getString(R.string.switch_lang)));
+        if (((String) Hawk.get(context.getString(R.string.switch_lang))).equalsIgnoreCase(ENG))
+            radioBtnAlertLangEn.setChecked(true);
+        else if (((String) Hawk.get(context.getString(R.string.switch_lang))).equalsIgnoreCase(ELL))
+            radioBtnAlertLangEll.setChecked(true);
 
-        TextInputEditText textInputSmsNumber = dialog.findViewById(R.id.textInputEditTextEditPageSmsNumber);
-        TextInputEditText textInputSmsReason = dialog.findViewById(R.id.textInputEditTextEditPageSmsReason);
-
-        Cursor cursor = dbHelper.readSmsReason(smsNumber);
-        if (cursor != null && cursor.getCount() > 0) {
-            cursor.moveToFirst();
-            textInputSmsNumber.setText(String.valueOf(smsNumber));
-            textInputSmsReason.setText(cursor.getString(0));
-        }
+        radioBtnAlertLangEn.setOnClickListener(v -> {
+            Hawk.put(context.getString(R.string.switch_lang), ENG);
+            radioBtnAlertLangEll.setChecked(false);
+        });
+        radioBtnAlertLangEll.setOnClickListener(v -> {
+            Hawk.put(context.getString(R.string.switch_lang), ELL);
+            radioBtnAlertLangEn.setChecked(false);
+        });
+        MaterialButton btnAlertLangOk = dialog.findViewById(R.id.buttonAlertLangOK);
+        btnAlertLangOk.setOnClickListener(v -> dialog.dismiss());
 
         return dialog;
     }
 
-    public void insertDefaultRows(DBHelper dbHelper, Context context) {
-        dbHelper.insertRow(1,  context.getString(R.string.sms_format_1));
-        dbHelper.insertRow(2,  context.getString(R.string.sms_format_2));
-        dbHelper.insertRow(3,  context.getString(R.string.sms_format_3));
-        dbHelper.insertRow(4,  context.getString(R.string.sms_format_4));
-        dbHelper.insertRow(5,  context.getString(R.string.sms_format_5));
-        dbHelper.insertRow(6,  context.getString(R.string.sms_format_6));
-    }
+/*    public void updateLanguage(String language, Context context)
+    {
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.setLocale(locale);
+        context.createConfigurationContext(config);
+        context.getResources().getDisplayMetrics().setTo(new DisplayMetrics());
+    }*/
+
 }

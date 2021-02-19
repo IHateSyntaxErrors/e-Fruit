@@ -33,7 +33,7 @@
             <item
                 android:id="@+id/nav_item_previous_orders"
                 android:icon="@drawable/ic_orders"
-                android:title="@string/drawer_nav_bar_item_previous_orders" />
+                android:title="@string/drawer_nav_bar_item_orders" />
             </group>
         </menu>
     </item>
