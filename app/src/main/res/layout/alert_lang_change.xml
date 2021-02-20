@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="320dp"
             android:layout_gravity="center"
-            android:background="@drawable/alert_layout_bg"
+            android:background="@drawable/shape_alert_layout_bg"
             android:elevation="15dp"
             android:padding="5dp">
 

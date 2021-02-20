@@ -28,6 +28,7 @@
     <string name="permission_denied">Η άδεια απενεργοποιήθηκε.</string>
     <string name="permission_allow_ask_reason">Πρέπει να επιτρέψετε τις απαραίτητες άδειες για να λειτουργήσει η εφαρμογή.</string>
     <string name="permissions_allow_manually">Πρέπει να επιτρέψετε τις απαραίτητες άδειες της εφαρμογής στις ρυθμίσεις της συσκευής σας.</string>
+    <string name="permissions_some_denied">Κάποιες από τις άδειες είναι απενεργοποιημένες.</string>
 
     <!-- Login Page -->
     <string name="header_sign_in">Συνδεθείτε</string>

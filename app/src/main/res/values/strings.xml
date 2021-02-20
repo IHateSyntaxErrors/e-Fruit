@@ -30,6 +30,7 @@
     <string name="permission_denied">Permission denied.</string>
     <string name="permission_allow_ask_reason">You need to allow necessary permissions for the application to work.</string>
     <string name="permissions_allow_manually">You need to allow necessary permissions in system settings manually.</string>
+    <string name="permissions_some_denied">Some permissions are denied.</string>
 
     <!-- Login Page -->
     <string name="header_sign_in">Sing In</string>

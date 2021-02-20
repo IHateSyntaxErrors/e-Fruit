@@ -25,23 +25,6 @@ public class Toolbox {
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public Dialog showDialogActionSuccessful(Context context, String alertTitle, String textParagraph) {
-        final Dialog dialog = new Dialog(context);
-
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
-        dialog.setContentView(R.layout.alert_sms_confirmation);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
-        TextView textViewAlertSuccessTitle = dialog.findViewById(R.id.textViewAlertLangChangeTitle);
-        TextView textViewAlertSuccessTextParagraph = dialog.findViewById(R.id.textViewAlertSuccessTextParagraph);;
-
-        textViewAlertSuccessTitle.setText(alertTitle);
-        textViewAlertSuccessTextParagraph.setText(textParagraph);
-
-        return dialog;
-    }
-
     public Dialog showDialogLangChange(Context context) {
         final Dialog dialog = new Dialog(context);
         final String ENG ="Eng";

@@ -52,7 +52,7 @@
     </style>
 
     <style name="viewParent.headerText.settingsTextIcon" parent="viewParent.headerText.settingsMiniTitle">
-        <item name="android:drawableRight">@drawable/ic_more</item>
+        <item name="android:drawableRight">@drawable/ic_more_right_sign</item>
         <item name="android:textColor">@color/miniTitle</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:gravity">center_vertical</item>

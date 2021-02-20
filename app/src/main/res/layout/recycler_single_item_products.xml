@@ -8,7 +8,7 @@
     android:layout_marginTop="1dp"
     android:layout_marginBottom="1dp"
     app:cardCornerRadius="6dp"
-    android:background="@drawable/shape_card_view_sms_types"
+    android:background="@drawable/shape_card_view_recycler_items"
     android:clickable="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -20,9 +20,6 @@ import com.unipi.p17172p17168p17164.efruit.R;
 import com.unipi.p17172p17168p17164.efruit.Utils.PrefsUtils;
 import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
 
-import java.util.Locale;
-import java.util.Objects;
-
 public class FragmentSettings extends Fragment {
     // ~~~~~~~VARIABLES~~~~~~~
     private Context context;
@@ -51,10 +48,10 @@ public class FragmentSettings extends Fragment {
         TextView textView_Lang = view.findViewById(R.id.textViewLanguages);
         String langIsoCode = Hawk.get(context.getString(R.string.switch_lang));
         if (langIsoCode.equalsIgnoreCase("Eng")) {
-            textView_Lang.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_united_kingdom, 0, R.drawable.ic_more, 0);
+            textView_Lang.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_united_kingdom, 0, R.drawable.ic_more_right_sign, 0);
         }
         else if (langIsoCode.equalsIgnoreCase("Ell")) {
-            textView_Lang.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_greece, 0, R.drawable.ic_more, 0);
+            textView_Lang.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_greece, 0, R.drawable.ic_more_right_sign, 0);
         }
 
         textView_Lang.setOnClickListener(v -> {

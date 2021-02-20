@@ -100,7 +100,7 @@
                     android:id="@+id/txtInputProfile_FullName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:drawableStart="@drawable/ic_profile_full_name"
+                    android:drawableStart="@drawable/ic_identity_card"
                     android:drawablePadding="10dp"
                     android:drawableTint="@color/colorText"
                     android:hint="@string/page_profile_input_hint_full_name"
@@ -139,7 +139,7 @@
                 android:textAllCaps="false"
                 android:textColor="@color/colorNegativeAction"
                 android:textSize="16sp"
-                android:drawableStart="@drawable/ic_profile_logout"
+                android:drawableStart="@drawable/ic_exit"
                 android:drawableTint="@color/colorNegativeAction"
                 android:drawablePadding="12dp"
                 android:gravity="center_vertical"/>

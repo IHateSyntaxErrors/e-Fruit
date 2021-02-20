@@ -2,9 +2,7 @@ package com.unipi.p17172p17168p17164.efruit.Activities;
 
 import android.Manifest;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.Gravity;
@@ -28,9 +26,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,6 +34,7 @@ import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentHome;
 import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentProducts;
 import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentSettings;
 import com.unipi.p17172p17168p17164.efruit.R;
+import com.unipi.p17172p17168p17164.efruit.Utils.PermissionsUtils;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -51,10 +47,10 @@ public class MainActivity extends AppCompatActivity
 
     // ~~~~~~~VARIABLES~~~~~~~
     private DrawerLayout drawerLayout;
-    private MenuItem prevMenuItem;
-
     private FirebaseUser firebaseUser;
-
+    private static final String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION,
+                                                 Manifest.permission.ACCESS_FINE_LOCATION,
+                                                 Manifest.permission.RECORD_AUDIO};
     private static final int REQUEST_CODE_SPEECH_INPUT = 10;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -63,11 +59,14 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
-        updateUI();
+        updateUI(); // Update UI with user's info.
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        if (!PermissionsUtils.hasPermissions(this, permissions))
+            requestPermissions(); // Check if permissions are allowed.
 
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -90,7 +89,6 @@ public class MainActivity extends AppCompatActivity
 
         // Add the home fragment to show it in the frame layout of main activity.
         FragmentHome fragmentHome = new FragmentHome();
-
         setFragment(fragmentHome);
     }
 
@@ -111,12 +109,6 @@ public class MainActivity extends AppCompatActivity
             FragmentProducts fragmentProducts = new FragmentProducts();
             setFragment(fragmentProducts);
         }
-        else if (id == R.id.nav_item_sales)
-        {
-            // Home Fragment
-            FragmentHome homeFragment = new FragmentHome();
-            setFragment(homeFragment);
-        }
         else if (id == R.id.nav_item_cart)
         {
             // Home Fragment
@@ -129,7 +121,7 @@ public class MainActivity extends AppCompatActivity
             FragmentHome homeFragment = new FragmentHome();
             setFragment(homeFragment);
         }
-        else if (id == R.id.nav_item_previous_orders)
+        else if (id == R.id.nav_item_orders)
         {
             // Home Fragment
             FragmentHome homeFragment = new FragmentHome();
@@ -161,14 +153,15 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.nav_item_settings)
+        /*if (id == R.id.nav_item_settings)
         {
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
 
+    // Method that will change fragments when a item is selected from the navigation drawer.
     private void setFragment(Fragment fragment)
     {
         //get current fragment manager
@@ -272,30 +265,26 @@ public class MainActivity extends AppCompatActivity
         // else {}
     }
 
-    public boolean checkPermissions() {
-        String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION,
-                                Manifest.permission.ACCESS_FINE_LOCATION,
-                                Manifest.permission.RECORD_AUDIO};
-
+    public void requestPermissions() {
         PermissionX.init(this)
                 .permissions(permissions)
                 .onExplainRequestReason((scope, deniedList) ->
                         scope.showRequestReasonDialog(deniedList, getString(R.string.permission_allow_ask_reason),
-                                                      "OK", "Cancel"))
+                                                      getString(R.string.general_ok), getString(R.string.general_cancel)))
                 .onForwardToSettings((scope, deniedList) ->
                         scope.showForwardToSettingsDialog(deniedList, getString(R.string.permissions_allow_manually),
-                                                          "OK", "Cancel"))
+                                                          getString(R.string.general_ok), getString(R.string.general_cancel)))
                 .request((allGranted, grantedList, deniedList) -> {
                     if (!allGranted) {
-                        Toast toast = Toast.makeText(this, "Some permissions are denied", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(this, getString(R.string.permissions_some_denied), Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 400);
                         toast.show();
                     }
-                    else if (allGranted && startService) {
+                    /*else if (allGranted && startService) {
                         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
                         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
                         this.onLocationChanged(null);
-                    }
+                    }*/
                 });
     }
 
