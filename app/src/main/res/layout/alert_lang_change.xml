@@ -83,7 +83,7 @@
                 android:textColor="@color/colorButtonText"
                 android:textSize="16sp"
                 app:backgroundTint="@null"
-                app:icon="@drawable/ic_button_success"
+                app:icon="@drawable/ic_checkmark_success"
                 app:iconGravity="textStart"
                 app:iconPadding="10dp"
                 app:iconTint="@color/colorButtonText"

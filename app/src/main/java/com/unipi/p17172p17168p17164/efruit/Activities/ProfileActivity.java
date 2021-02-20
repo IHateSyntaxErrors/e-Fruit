@@ -42,21 +42,6 @@ public class ProfileActivity extends AppCompatActivity {
         Toolbox toolbox = new Toolbox();
         TextView textViewProfileSignOut = findViewById(R.id.textViewProfileSignOut);
 
-
-        /*TextInputEditText textInputEditTextProfileFullName = findViewById(R.id.textInputEditTextProfileFullName);
-        textInputEditTextProfileFullName.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                toolbox.hideKeyboard(v, ProfileActivity.this);
-            }
-        });
-
-        TextInputEditText textInputEditTextProfileAddress = findViewById(R.id.textInputEditTextProfileAddress);
-        textInputEditTextProfileAddress.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                toolbox.hideKeyboard(v, ProfileActivity.this);
-            }
-        });*/
-
         textViewProfileSignOut.setOnClickListener(v -> { signOut(); });
 
         ImageView imageViewBackButton = findViewById(R.id.imageViewProfileBackButton);
@@ -77,7 +62,7 @@ public class ProfileActivity extends AppCompatActivity {
             TextView txtViewProfile_FullName = findViewById(R.id.txtViewProfile_FullName);
             txtViewProfile_FullName.setText(firebaseUser.getDisplayName());
 
-            TextView txtInputProfile_FullName = findViewById(R.id.txtInputProfile_FullName);
+            TextInputEditText txtInputProfile_FullName = findViewById(R.id.txtInputProfile_FullName);
             txtInputProfile_FullName.setText(firebaseUser.getDisplayName());
             txtInputProfile_FullName.setOnFocusChangeListener((v, hasFocus) -> {
                 if (!hasFocus) {
@@ -85,7 +70,7 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             });
 
-            TextView txtInputProfile_Phone = findViewById(R.id.txtInputProfile_Phone);
+            TextInputEditText txtInputProfile_Phone = findViewById(R.id.txtInputProfile_Phone);
             // Todo make it so the user phone is updated correctly.
 //            txtInputProfile_Phone.setText(firebaseUser.getDisplayName());
             txtInputProfile_Phone.setOnFocusChangeListener((v, hasFocus) -> {

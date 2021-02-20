@@ -20,7 +20,7 @@ import com.unipi.p17172p17168p17164.efruit.R;
 import java.util.Locale;
 
 public class Toolbox {
-    public void hideKeyboard(View view, Context context) {
+    public static void hideKeyboard(View view, Context context) {
         InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
