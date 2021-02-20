@@ -78,7 +78,7 @@
                 android:background="@drawable/selector_alert_neutral_btn"
                 android:fontFamily="@font/helvetica_bold"
                 android:src="@android:color/transparent"
-                android:text="@string/alert_btn_txt_ok"
+                android:text="@string/general_ok"
                 android:textAllCaps="false"
                 android:textColor="@color/colorButtonText"
                 android:textSize="16sp"

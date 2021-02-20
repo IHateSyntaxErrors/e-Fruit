@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Neutral/General -->
+    <string name="general_ok">Εντάξει</string>
+    <string name="general_cancel">Άκυρο</string>
     <string name="toast_speech_recognition_not_supported">Η συσκευή σας δεν υποστηρίζει αναγνώριση φωνής.</string>
     <string name="toast_speech_recognition_invalid_action">Μη έγκυρη ενέργεια! Δοκιμάστε ξανά.</string>
 
@@ -22,6 +26,8 @@
 
     <!--  Permissions  -->
     <string name="permission_denied">Η άδεια απενεργοποιήθηκε.</string>
+    <string name="permission_allow_ask_reason">Πρέπει να επιτρέψετε τις απαραίτητες άδειες για να λειτουργήσει η εφαρμογή.</string>
+    <string name="permissions_allow_manually">Πρέπει να επιτρέψετε τις απαραίτητες άδειες της εφαρμογής στις ρυθμίσεις της συσκευής σας.</string>
 
     <!-- Login Page -->
     <string name="header_sign_in">Συνδεθείτε</string>
@@ -29,6 +35,10 @@
 
     <!-- Home Page -->
 
+
+    <!-- Products Fragment Page -->
+    <string name="page_products_search_bar_hint">Αναζήτηση</string>
+    <string name="page_products_recycler_add_to_cart">Προσθήκη</string>
 
     <!-- Settings -->
     <string name="page_settings_header1_title">Ρυθμίσεις</string>
@@ -49,7 +59,6 @@
     <string name="app_versionText">Έκδοση Εφαρμογής </string>
 
     <!-- Dialogs -->
-    <string name="alert_btn_txt_ok">Εντάξει</string>
     <string name="alert_lang_txt_title">Επιλέξτε γλώσσα:</string>
     <string name="alert_lang_txt_view_eng">Αγγλικά</string>
     <string name="alert_lang_txt_view_ell">Ελληνικά</string>

@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.unipi.p17172p17168p17164.efruit.Items.ItemProduct;
 import com.unipi.p17172p17168p17164.efruit.R;
 
@@ -36,10 +38,13 @@ public class DataAdapterProducts extends RecyclerView.Adapter<DataAdapterProduct
     @Override
     public void onBindViewHolder(@NonNull SetViewHolder holder, int position) {
         holder.bind(itemProducts.get(position));
-     /*   holder.viewTextViewNumber.setText(String.format(activity.getResources().getString(R.string.recyclerview_sms_number_text), itemProducts.get(position).getSmsNumber()));
-        holder.viewTextViewSmsExplanation.setText(itemProducts.get(position).getSmsReason());*/
+//        holder.imgViewRecycler_ProductIcon.setImageDrawable(ContextCompat.getDrawable(activity, itemProducts.get(position).getProductIcon()));
+        holder.txtViewRecycler_ProductName.setText(itemProducts.get(position).getProductName());
+        holder.txtViewRecycler_ProductPrice.setText(String.format(activity.getResources().getString(R.string.recycler_var_product_price), itemProducts.get(position).getProductPrice()));
+        holder.txtViewRecycler_ProductPricePerKg.setText(String.format(activity.getResources().getString(R.string.recycler_var_product_price_per_kg), itemProducts.get(position).getProductPrice()));
+        holder.txtViewProducts_ProductQuantityNum.setText(itemProducts.get(position).getProductQuantity());
         View.OnClickListener rbClick = v -> {
-            RadioButton checked_rb = (RadioButton) v;
+            MaterialButton checked_rb = (MaterialButton) v;
             /*if (lastCheckedRB != null
                     && checked_rb != lastCheckedRB) {
                 lastCheckedRB.setChecked(false);
@@ -47,7 +52,7 @@ public class DataAdapterProducts extends RecyclerView.Adapter<DataAdapterProduct
             lastCheckedRB = checked_rb;
             checkedPosition = position;*/
         };
-        holder.radioButtonTypeSelection.setOnClickListener(rbClick);
+        holder.btnRecycler_AddToCart.setOnClickListener(rbClick);
     }
 
     public void setItemProducts(ArrayList<ItemProduct> itemProducts){
@@ -68,15 +73,21 @@ public class DataAdapterProducts extends RecyclerView.Adapter<DataAdapterProduct
     }
 
     public class SetViewHolder extends RecyclerView.ViewHolder {
-        public TextView viewTextViewNumber;
-        public TextView viewTextViewSmsExplanation;
-        public RadioButton radioButtonTypeSelection;
+        public ImageView imgViewRecycler_ProductIcon;
+        public TextView txtViewRecycler_ProductName;
+        public TextView txtViewRecycler_ProductPrice;
+        public TextView txtViewRecycler_ProductPricePerKg;
+        public TextView txtViewProducts_ProductQuantityNum;
+        public MaterialButton btnRecycler_AddToCart;
 
         public SetViewHolder(@NonNull View itemView) {
             super(itemView);
-            viewTextViewNumber = itemView.findViewById(R.id.textViewNumber);
-            viewTextViewSmsExplanation = itemView.findViewById(R.id.textViewAlertLangEn);
-            radioButtonTypeSelection = itemView.findViewById(R.id.radioButtonEll);
+            imgViewRecycler_ProductIcon = itemView.findViewById(R.id.imageViewProductIcon);
+            txtViewRecycler_ProductName = itemView.findViewById(R.id.textViewProducts_ProductName);
+            txtViewRecycler_ProductPrice = itemView.findViewById(R.id.textViewProducts_ProductPrice);
+            txtViewRecycler_ProductPricePerKg = itemView.findViewById(R.id.textViewProducts_ProductPricePerKg);
+            txtViewProducts_ProductQuantityNum = itemView.findViewById(R.id.textViewProducts_ProductQuantityNum);
+            btnRecycler_AddToCart = itemView.findViewById(R.id.btnRecyclerItemAddToCart);
         }
         void bind(final ItemProduct items) {
             /*if (checkedPosition == -1) {

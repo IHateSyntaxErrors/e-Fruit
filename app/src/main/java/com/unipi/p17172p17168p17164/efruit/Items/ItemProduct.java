@@ -1,19 +1,13 @@
 package com.unipi.p17172p17168p17164.efruit.Items;
 
+import android.widget.ImageView;
+
 public class ItemProduct {
     int id;
-    String smsNumber;
-    String smsReason;
-
-    public boolean isChecked() {
-        return isChecked;
-    }
-
-    public void setChecked(boolean checked) {
-        isChecked = checked;
-    }
-
-    boolean isChecked = false;
+    ImageView productIcon;
+    String productName;
+    String productPrice;
+    String productQuantity;
 
     public int getId() {
         return id;
@@ -23,19 +17,35 @@ public class ItemProduct {
         this.id = id;
     }
 
-    public String getSmsNumber() {
-        return smsNumber;
+    public ImageView getProductIcon() {
+        return productIcon;
     }
 
-    public void setSmsNumber(String smsNumber) {
-        this.smsNumber = smsNumber;
+    public void setProductIcon(ImageView productIcon) {
+        this.productIcon = productIcon;
     }
 
-    public String getSmsReason() {
-        return smsReason;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setSmsReason(String smsReason) {
-        this.smsReason = smsReason;
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getProductPrice() {
+        return productPrice;
+    }
+
+    public void setProductPrice(String productPrice) {
+        this.productPrice = productPrice;
+    }
+
+    public String getProductQuantity() {
+        return productQuantity;
+    }
+
+    public void setProductQuantity(String productQuantity) {
+        this.productQuantity = productQuantity;
     }
 }

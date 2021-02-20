@@ -2,6 +2,9 @@
 <resources>
     <string name="app_name" translatable="false">e-Fruit</string>
 
+    <!-- Neutral/General -->
+    <string name="general_ok">Okay</string>
+    <string name="general_cancel">Cancel</string>
     <string name="toast_speech_recognition_not_supported">Speech recognition is not supported in your device.</string>
     <string name="toast_speech_recognition_invalid_action">Invalid action. Try again!</string>
 
@@ -25,6 +28,8 @@
 
     <!--  Permissions  -->
     <string name="permission_denied">Permission denied.</string>
+    <string name="permission_allow_ask_reason">You need to allow necessary permissions for the application to work.</string>
+    <string name="permissions_allow_manually">You need to allow necessary permissions in system settings manually.</string>
 
     <!-- Login Page -->
     <string name="header_sign_in">Sing In</string>
@@ -32,6 +37,11 @@
 
     <!-- Home Page -->
 
+    <!-- Products Fragment Page -->
+    <string name="page_products_search_bar_hint">Search</string>
+    <string name="page_products_recycler_add_to_cart">Add to cart</string>
+    <string name="recycler_var_product_price" translatable="false">%1$s €</string>
+    <string name="recycler_var_product_price_per_kg" translatable="false">%1$s € / Kg </string>
 
     <!-- User Profile Page -->
     <string name="page_profile_header1_title">Profile</string>
@@ -52,7 +62,6 @@
     <string name="app_versionText">App Version </string>
 
     <!-- Dialogs -->
-    <string name="alert_btn_txt_ok">Okay</string>
     <string name="alert_lang_txt_title">Select language:</string>
     <string name="alert_lang_txt_view_eng">English</string>
     <string name="alert_lang_txt_view_ell">Greek (GR)</string>

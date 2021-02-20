@@ -1,7 +1,10 @@
 package com.unipi.p17172p17168p17164.efruit.Activities;
 
+import android.Manifest;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.Gravity;
@@ -31,6 +34,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.permissionx.guolindev.PermissionX;
 import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentHome;
 import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentProducts;
 import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentSettings;
@@ -266,6 +270,33 @@ public class MainActivity extends AppCompatActivity
         }
         // Else the user is not logged in - do actions
         // else {}
+    }
+
+    public boolean checkPermissions() {
+        String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION,
+                                Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.RECORD_AUDIO};
+
+        PermissionX.init(this)
+                .permissions(permissions)
+                .onExplainRequestReason((scope, deniedList) ->
+                        scope.showRequestReasonDialog(deniedList, getString(R.string.permission_allow_ask_reason),
+                                                      "OK", "Cancel"))
+                .onForwardToSettings((scope, deniedList) ->
+                        scope.showForwardToSettingsDialog(deniedList, getString(R.string.permissions_allow_manually),
+                                                          "OK", "Cancel"))
+                .request((allGranted, grantedList, deniedList) -> {
+                    if (!allGranted) {
+                        Toast toast = Toast.makeText(this, "Some permissions are denied", Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 400);
+                        toast.show();
+                    }
+                    else if (allGranted && startService) {
+                        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                        this.onLocationChanged(null);
+                    }
+                });
     }
 
     @Override
