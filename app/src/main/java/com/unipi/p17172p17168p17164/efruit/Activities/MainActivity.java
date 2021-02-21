@@ -5,6 +5,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,13 +27,22 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.permissionx.guolindev.PermissionX;
 import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentHome;
 import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentProducts;
 import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentSettings;
+import com.unipi.p17172p17168p17164.efruit.Models.ModelUsers;
 import com.unipi.p17172p17168p17164.efruit.R;
 import com.unipi.p17172p17168p17164.efruit.Utils.PermissionsUtils;
 
@@ -48,13 +58,24 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     // ~~~~~~~VARIABLES~~~~~~~
-    private DrawerLayout drawerLayout;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
     private FirebaseUser firebaseUser;
-    @BindView(R.id.nav_view) NavigationView navigationView;
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     private static final String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION,
                                                  Manifest.permission.ACCESS_FINE_LOCATION,
                                                  Manifest.permission.RECORD_AUDIO};
     private static final int REQUEST_CODE_SPEECH_INPUT = 10;
+    private FirebaseFirestore db;
+    @BindView(R.id.action_bar_circleimgview_profile)
+    CircleImageView circleImgViewUserAccount;
+    @BindView(R.id.action_bar_mic)
+    ImageButton imgBtnMic;
+    @BindView(R.id.action_bar_cart)
+    ImageButton imgBtnCart;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     @Override
@@ -63,10 +84,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        init();
 
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
         updateUI(); // Update UI with user's info.
 
         if (!PermissionsUtils.hasPermissions(this, permissions))
@@ -79,7 +98,6 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        drawerLayout = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                                                                  R.string.nav_drawer_close, R.string.nav_drawer_close);
         drawerLayout.addDrawerListener(toggle);
@@ -154,7 +172,7 @@ public class MainActivity extends AppCompatActivity
     {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        // as we have specified a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -236,28 +254,40 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public void init() {
+        db = FirebaseFirestore.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+    }
+
     public void updateUI() {
-        if (firebaseUser != null) {
-            NavigationView navigationView = findViewById(R.id.nav_view);
-            View headerView = navigationView.getHeaderView(0);
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if (account != null) {
+            DocumentReference userRef = db.collection("users").document(firebaseUser.getUid());
 
-            TextView textViewName = headerView.findViewById(R.id.textViewNavBar_Name);
-            textViewName.setText(firebaseUser.getDisplayName());
-            // Todo make it so the user phone is updated correctly.
-            TextView textViewPhone = headerView.findViewById(R.id.textViewNavBar_Phone);
-            textViewPhone.setText(firebaseUser.getDisplayName());
+            userRef.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        ModelUsers modelUsers = document.toObject(ModelUsers.class);
 
-            ImageButton imgBtnMic = findViewById(R.id.action_bar_mic);
+                        View headerView = navigationView.getHeaderView(0);
+                        TextView textViewName = headerView.findViewById(R.id.textViewNavBar_Name);
+                        textViewName.setText(modelUsers.getFull_name());
+
+                        TextView textViewPhone = headerView.findViewById(R.id.textViewNavBar_Phone);
+                        textViewPhone.setText(modelUsers.getPhone_number());
+                    }
+                }
+            });
+
             imgBtnMic.setOnClickListener(v -> {
                 speechToText();
             });
-            ImageButton imgBtnCart = findViewById(R.id.action_bar_cart);
             imgBtnCart.setOnClickListener(v -> {
                 // Todo add on cart icon press actions.
             });
 
-            // Load user img from google account if they haven't upload one.
-            CircleImageView circleImgViewUserAccount = findViewById(R.id.action_bar_circleimgview_profile);
             // With the help of glide library we are able to load user profile picture into our app.
             Glide.with(this).load(firebaseUser.getPhotoUrl()).into(circleImgViewUserAccount);
             // Add a click event to redirect the user to profile settings if the user profile icon is clicked
@@ -300,6 +330,12 @@ public class MainActivity extends AppCompatActivity
             drawerLayout.closeDrawer(GravityCompat.START);
         else
             super.onBackPressed();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateUI();
     }
 
     public boolean containsCaseInsensitive(String strToCompare, ArrayList<String> list)

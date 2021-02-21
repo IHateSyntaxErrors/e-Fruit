@@ -98,7 +98,7 @@ public class FragmentProducts extends Fragment {
         ArrayList<ItemProduct> finalCollection = new ArrayList<>();
         List<Task<?>> taskArray = new ArrayList<>();
 
-        Query queryProducts = db.collection("products").limit(1);
+        Query queryProducts = db.collection("products");
         /*DocumentReference queryShops = db.collection("shops")
                 .document("shop1")
                 .collection("quantity")

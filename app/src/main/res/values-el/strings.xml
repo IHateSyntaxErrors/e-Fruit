@@ -63,6 +63,8 @@
     <string name="alert_lang_txt_title">Επιλέξτε γλώσσα:</string>
     <string name="alert_lang_txt_view_eng">Αγγλικά</string>
     <string name="alert_lang_txt_view_ell">Ελληνικά</string>
+    <string name="alert_profile_saved_txt_title">Τα στοιχεία ενημερώθηκαν!</string>
+    <string name="alert_profile_saved_txt_desc">Τα στοιχεία σας έχουν ενημερωθεί επιτυχώς.</string>
 
     <!-- Content Descriptions -->
     <string name="img_content_desc_fb_btn">Σύνδεσμος Facebook</string>

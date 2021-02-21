@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -19,20 +20,31 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.orhanobut.hawk.Hawk;
+import com.unipi.p17172p17168p17164.efruit.Models.ModelUsers;
 import com.unipi.p17172p17168p17164.efruit.R;
 import com.unipi.p17172p17168p17164.efruit.Utils.PrefsUtils;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class SignInActivity extends AppCompatActivity {
     // ~~~~~~~VARIABLES~~~~~~~
-    private GoogleSignInClient mGoogleSignInClient;
+    private GoogleSignInClient googleSignInClient;
     private FirebaseUser firebaseUser;
     private FirebaseAuth firebaseAuth;
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
+    FirebaseFirestore db;
 
+    @BindView(R.id.materialButtonSignUpGoogle)
+    MaterialButton btnGoogleSignIn;
+    @BindView(R.id.imgFacebook)
+    ImageView imgFacebook;
+    @BindView(R.id.imgInstagram)
+    ImageView imgInstagram;
+    @BindView(R.id.imgTwitter)
+    ImageView imgTwitter;
     private static final int RC_SIGN_IN = 101;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -41,10 +53,8 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference();
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
+        ButterKnife.bind(this);
+        init();
 
         Hawk.init(this).build(); // Initializing Hawk API.
         new PrefsUtils(this).initKeys(); // Add keys to the prefs if they don't exists.
@@ -59,31 +69,33 @@ public class SignInActivity extends AppCompatActivity {
             .requestEmail()
             .build();
 
-        mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
+        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
 
-        MaterialButton materialButtonGoogleSignIn = findViewById(R.id.materialButtonSignUpGoogle);
-        materialButtonGoogleSignIn.setOnClickListener(v -> {
+        btnGoogleSignIn.setOnClickListener(v -> {
             signIn();
         });
 
         /* Social Media buttons -- Real pages haven't been specified, this is just an example of
         how we would do it*/
-        ImageView imgFacebook = findViewById(R.id.imgFacebook);
         imgFacebook.setOnClickListener(v -> {
             openFacebookPage();
         });
-        ImageView imgInstagram = findViewById(R.id.imgInstagram);
         imgInstagram.setOnClickListener(v -> {
             openInstagramPage();
         });
-        ImageView imgTwitter = findViewById(R.id.imgTwitter);
         imgTwitter.setOnClickListener(v -> {
             openTwitterPage();
         });
     }
 
+    private void init() {
+        db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+    }
+
     private void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        Intent signInIntent = googleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
@@ -96,28 +108,6 @@ public class SignInActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-    }
-
-    private void openFacebookPage() {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.addCategory(Intent.CATEGORY_BROWSABLE);
-        intent.setData(Uri.parse("https://www.facebook.com"));
-        startActivity(intent);
-    }
-    private void openTwitterPage() {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.addCategory(Intent.CATEGORY_BROWSABLE);
-        intent.setData(Uri.parse("https://www.twitter.com"));
-        startActivity(intent);
-    }
-    private void openInstagramPage() {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.addCategory(Intent.CATEGORY_BROWSABLE);
-        intent.setData(Uri.parse("https://www.instagram.com"));
-        startActivity(intent);
     }
 
     @Override
@@ -144,10 +134,18 @@ public class SignInActivity extends AppCompatActivity {
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
                             // Sign in successful.
-                            firebaseUser = firebaseAuth.getCurrentUser();
+
+                            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            String userName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+                            String tokenId = account.getIdToken();
+
+                            ModelUsers modelUsers = new ModelUsers(userName, tokenId, "", "");
+                            // Insert user data into cloud.
+                            db.collection("users").document(userId).set(modelUsers);
+
                             // Create the intent for the new activity and redirect the user to main activity.
-                            Intent i = new Intent(SignInActivity.this, MainActivity.class);
-                            startActivity(i);
+                            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                            startActivity(intent);
                             finish();
                         }
                         else {
@@ -169,7 +167,28 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        // if back button pressed, just close the app.
-        finish();
+        finish(); // if back button pressed, just close the app.
+    }
+
+    private void openFacebookPage() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+        intent.setData(Uri.parse("https://www.facebook.com"));
+        startActivity(intent);
+    }
+    private void openTwitterPage() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+        intent.setData(Uri.parse("https://www.twitter.com"));
+        startActivity(intent);
+    }
+    private void openInstagramPage() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+        intent.setData(Uri.parse("https://www.instagram.com"));
+        startActivity(intent);
     }
 }

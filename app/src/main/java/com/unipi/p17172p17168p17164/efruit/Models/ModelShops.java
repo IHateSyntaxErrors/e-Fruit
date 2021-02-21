@@ -1,15 +1,15 @@
 package com.unipi.p17172p17168p17164.efruit.Models;
 
-public class ItemShops {
+public class ModelShops {
     String address;
     String coords;
     String phone;
     String region;
     String zip;
 
-    private ItemShops() {} // Empty constructor for Firebase.
+    private ModelShops() {} // Empty constructor for Firebase.
 
-    private ItemShops(String address, String coords, String phone, String region, String zip) { // Constructor to read data from Firebase.
+    private ModelShops(String address, String coords, String phone, String region, String zip) { // Constructor to read data from Firebase.
         this.address = address;
         this.coords = coords;
         this.phone = phone;

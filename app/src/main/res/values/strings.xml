@@ -67,6 +67,8 @@
     <string name="alert_lang_txt_title">Select language:</string>
     <string name="alert_lang_txt_view_eng">English</string>
     <string name="alert_lang_txt_view_ell">Greek (GR)</string>
+    <string name="alert_profile_saved_txt_title">Saved!</string>
+    <string name="alert_profile_saved_txt_desc">Your personal information has been updated successfully!</string>
 
     <!-- Shared Preferences Keys -->
     <string name="switch_night_mode" translatable="false">SWITCH_NIGHT_MODE</string>
