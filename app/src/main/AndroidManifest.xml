@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/BaseTheme">
 
-        <activity android:name=".SignInActivity">
+        <activity android:name=".Activities.SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -24,30 +24,21 @@
         </activity>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.MainActivity"
             android:launchMode="singleTask">
 
         </activity>
 
         <activity
-            android:name=".ProfileActivity"
-            android:parentActivityName=".MainActivity">
+            android:name=".Activities.ProfileActivity"
+            android:parentActivityName=".Activities.MainActivity">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".Activities.MainActivity" />
         </activity>
 
-        <activity
-            android:name=".ActivitySettingsMessages"
-            android:parentActivityName=".MainActivity">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
     </application>
 
 </manifest>

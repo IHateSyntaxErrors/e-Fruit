@@ -20,6 +20,8 @@
     <color name="white">#FFFFFF</color>
     <color name="lightWhite">#F3F4F6</color>
 
+    <color name="thumbForebgColor">@color/lightGrey</color>
+
     <color name="contentTextTitleColor">#020000</color>
     <color name="miniTitle">#2A2E43</color>
 

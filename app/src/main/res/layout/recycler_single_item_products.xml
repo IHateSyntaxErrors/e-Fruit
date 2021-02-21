@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardViewSmsType"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="6dp"
+    android:background="@drawable/shape_card_view_recycler_items"
+    android:clickable="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textViewProducts_ProductName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:fontFamily="@font/helvetica_bold"
+            android:text="Product Name"
+            android:textColor="@color/colorText"
+            android:textSize="15sp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toStartOf="@+id/textViewProducts_ProductPricePerKg"
+            app:layout_constraintStart_toEndOf="@+id/CardViewProductIcon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewProducts_ProductPrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/helvetica"
+            android:text="0.00 €"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="@+id/CardViewProductIcon"
+            app:layout_constraintEnd_toEndOf="@+id/btnRecyclerItemAddToCart"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/CardViewProductIcon"
+            app:layout_constraintTop_toBottomOf="@+id/textViewProducts_ProductName"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/textViewProducts_ProductQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/helvetica"
+            android:text="On Stock: "
+            android:drawableLeft="@drawable/ic_stock"
+            android:textColor="@color/colorText"
+            android:drawablePadding="5dp"
+            android:textSize="15sp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="@+id/btnRecyclerItemAddToCart"
+            app:layout_constraintEnd_toStartOf="@+id/textViewProducts_ProductQuantityNum"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/btnRecyclerItemAddToCart" />
+
+        <TextView
+            android:id="@+id/textViewProducts_ProductQuantityNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/helvetica_bold"
+            android:text="1"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewProducts_ProductQuantity"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewProducts_ProductPricePerKg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/helvetica"
+            android:text="0.00 € / kg"
+            android:textColor="@color/colorText"
+            android:textSize="12sp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textViewProducts_ProductName" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/CardViewProductIcon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:elevation="5dp"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/colorPrimary"
+            app:strokeWidth="1dp"
+            tools:srcCompat="@tools:sample/avatars">
+
+            <ImageView
+                android:id="@+id/imageViewProductIcon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRecyclerItemAddToCart"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="154dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/selector_alert_neutral_btn"
+            android:fontFamily="@font/helvetica_bold"
+            android:text="Add to cart"
+            android:textAllCaps="false"
+            android:textColor="@color/colorButtonText"
+            android:textSize="15sp"
+            app:backgroundTint="@null"
+            app:icon="@drawable/ic_add_to_cart"
+            app:iconGravity="textStart"
+            app:iconTint="@color/colorButtonText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/CardViewProductIcon"
+            app:layout_constraintTop_toBottomOf="@+id/textViewProducts_ProductPrice" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="350dp"
+    android:layout_height="380dp"
+    android:layout_gravity="center"
+    android:layout_marginLeft="55dp"
+    android:layout_marginRight="55dp"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="320dp"
+            android:layout_gravity="center"
+            android:background="@drawable/shape_alert_layout_bg"
+            android:elevation="15dp"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/textViewAlertLangChangeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                android:fontFamily="@font/helvetica"
+                android:gravity="center"
+                android:text="@string/alert_lang_txt_title"
+                android:textColor="@color/colorText"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.501"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/radioButtonEn"
+                style="@style/settingsText"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:drawableStart="@drawable/ic_united_kingdom"
+                android:text="@string/alert_lang_txt_view_eng"
+                android:theme="@style/settingsActivateSwitch"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewAlertLangChangeTitle" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/radioButtonEll"
+                style="@style/settingsText"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:drawableStart="@drawable/ic_greece"
+                android:text="@string/alert_lang_txt_view_ell"
+                android:theme="@style/settingsActivateSwitch"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radioButtonEn" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonAlertLangOK"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="324dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/selector_alert_neutral_btn"
+                android:fontFamily="@font/helvetica_bold"
+                android:src="@android:color/transparent"
+                android:text="@string/general_ok"
+                android:textAllCaps="false"
+                android:textColor="@color/colorButtonText"
+                android:textSize="16sp"
+                app:backgroundTint="@null"
+                app:icon="@drawable/ic_checkmark_success"
+                app:iconGravity="textStart"
+                app:iconPadding="10dp"
+                app:iconTint="@color/colorButtonText"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.384"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radioButtonEll"
+                app:layout_constraintVertical_bias="0.064" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="0dp">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_lang_dictionary" />
+    </FrameLayout>
+
+</FrameLayout>

@@ -7,7 +7,7 @@
         <item name="backgroundColor">@color/colorBackground</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor" tools:targetApi="l">@color/colorActionBar</item> <!-- Status bar color. -->
-<!--        <item name="android:windowAnimationStyle">@null</item> &lt;!&ndash; Animation when changing activities &ndash;&gt;-->
+<!--        <itemProduct name="android:windowAnimationStyle">@null</itemProduct> &lt;!&ndash; Animation when changing activities &ndash;&gt;-->
     </style>
 
     <style name="BaseTheme.NoActionBar">
@@ -52,7 +52,7 @@
     </style>
 
     <style name="viewParent.headerText.settingsTextIcon" parent="viewParent.headerText.settingsMiniTitle">
-        <item name="android:drawableRight">@drawable/ic_more</item>
+        <item name="android:drawableRight">@drawable/ic_more_right_sign</item>
         <item name="android:textColor">@color/miniTitle</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:gravity">center_vertical</item>
@@ -72,9 +72,9 @@
         <item name="colorControlActivated">@color/colorPrimary</item>
 
         <!-- inactive thumb color -->
-        <item name="colorSwitchThumbNormal">#AD1457</item>
+        <item name="colorSwitchThumbNormal">@color/colorIcon</item>
 
         <!-- inactive track color (30% transparency) -->
-        <item name="android:colorForeground">#FF0070</item>
+        <item name="android:colorForeground">@color/thumbForebgColor</item>
     </style>
 </resources>

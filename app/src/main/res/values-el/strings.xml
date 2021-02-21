@@ -1,75 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Neutral/General -->
+    <string name="general_ok">Εντάξει</string>
+    <string name="general_cancel">Άκυρο</string>
     <string name="toast_speech_recognition_not_supported">Η συσκευή σας δεν υποστηρίζει αναγνώριση φωνής.</string>
     <string name="toast_speech_recognition_invalid_action">Μη έγκυρη ενέργεια! Δοκιμάστε ξανά.</string>
 
     <!-- Main Activity -->
     <string name="nav_drawer_open">Άνοιγμα</string>
     <string name="nav_drawer_close">Κλείσιμο</string>
-    <string name="menu_title_home">Αρχική</string>
-    <string name="menu_title_history">Ιστορικό</string>
-    <string name="menu_title_settings">Ρυθμίσεις</string>
+    <!-- ~~~~~~~NAV BAR~~~~~~~ -->
+    <string name="drawer_nav_bar_category_general">Γενικά</string>
+    <string name="drawer_nav_bar_item_home">Αρχική</string>
+    <string name="drawer_nav_bar_item_products">Προϊόντα</string>
+    <string name="drawer_nav_bar_item_sales">Προσφορές</string>
+    <string name="drawer_nav_bar_item_cart">Καλάθι</string>
+    <string name="drawer_nav_bar_category_account">Λογαρισμός</string>
+    <string name="drawer_nav_bar_item_my_account">Ο Λογαρισμός Μου</string>
+    <string name="drawer_nav_bar_item_orders">Παραγγελίες</string>
+    <string name="drawer_nav_bar_category_other">Άλλα</string>
+    <string name="drawer_nav_bar_item_settings">Ρυθμίσεις</string>
+    <string name="drawer_nav_bar_item_exit">Έξοδος Εφαρμογής</string>
     <string name="nav_top_title_speech_recognition">Γεία σας! Πείτε μου τι να κάνω.</string>
 
     <!--  Permissions  -->
     <string name="permission_denied">Η άδεια απενεργοποιήθηκε.</string>
+    <string name="permission_allow_ask_reason">Πρέπει να επιτρέψετε τις απαραίτητες άδειες για να λειτουργήσει η εφαρμογή.</string>
+    <string name="permissions_allow_manually">Πρέπει να επιτρέψετε τις απαραίτητες άδειες της εφαρμογής στις ρυθμίσεις της συσκευής σας.</string>
+    <string name="permissions_some_denied">Κάποιες από τις άδειες είναι απενεργοποιημένες.</string>
 
     <!-- Login Page -->
     <string name="header_sign_in">Συνδεθείτε</string>
     <string name="button_sign_in_with_google">Συνεχίστε με λογαριασμό Google</string>
 
-
     <!-- Home Page -->
-    <string name="page_home_header1_title">Στείλτε μήνυμα στο 13033</string>
-    <string name="page_home_header2_reason">Σκοπός μετακίνησης:</string>
-    <string name="page_home_button_send_sms">ΑΠΟΣΤΟΛΗ</string>
 
-    <!-- History Page -->
-    <string name="page_history_header1_title">Ιστορικό Αποστολών</string>
-    <string name="page_history_no_history_record">Δεν έχουν βρεθεί αποστολές μέσω της εφαρμογής.</string>
-    <string name="recyclerview_sms_number_text">%1$s.</string>
-    <string name="delete_all_rows_message">All recorded violations will be deleted permanently.</string>
-    <string name="delete_all_rows_title">Delete all violations?</string>
+
+    <!-- Products Fragment Page -->
+    <string name="page_products_search_bar_hint">Αναζήτηση</string>
+    <string name="page_products_recycler_add_to_cart">Προσθήκη</string>
 
     <!-- Settings -->
     <string name="page_settings_header1_title">Ρυθμίσεις</string>
-    <string name="page_settings_title_general">Γενικές Ρυθμίσεις</string>
-    <string name="settings_messages">Μηνύματα</string>
+    <string name="page_settings_title_general">Γενικά</string>
+    <string name="page_settings_languages">Γλώσσα</string>
     <string name="page_settings_title_appearance">Εμφάνιση</string>
     <string name="page_settings_dark_mode">Σκούρο Θέμα</string>
 
-    <!-- Settings/Edit Sms -->
-    <string name="alert_edit_sms_save_button">Αποθήκευση</string>
-    <string name="alert_edit_sms_input_sms_number">Αρ. Μηνύματος</string>
-    <string name="alert_edit_sms_input_sms_reason">Σκοπός Μετακίνησης</string>
-
     <!-- Profile -->
     <string name="page_profile_header1_title">Προφιλ</string>
-    <string name="page_profile_header1_full_name">Ονοματεπώνυμο</string>
+    <string name="page_profile_input_hint_full_name">Ονοματεπώνυμο</string>
+    <string name="page_profile_input_hint_phone">Αρ. Τηλεφώνου</string>
     <string name="page_profile_header2_personal_information">Προσωπικές Πληροφορίες</string>
+    <string name="page_profile_text_view_sign_out">Αποσύνδεση</string>
 
     <!-- Version -->
     <string name="app_versionCode">@string/versionName</string>
     <string name="app_versionText">Έκδοση Εφαρμογής </string>
 
-    <!--  Default SMS Format Messages  -->
-    <string name="sms_format_1">Μετάβαση σε φαρμακείο ή σε γιατρό.</string>
-    <string name="sms_format_2">Προμήθειες αγαθών πρώτης ανάγκης.</string>
-    <string name="sms_format_3">Μετάβαση στην τράπεζα.</string>
-    <string name="sms_format_4">Παροχή βοήθειας σε ανθρώπους που βρίσκονται σε ανάγκη.</string>
-    <string name="sms_format_5">Μετάβαση σε τελετή ή εν διαστάσει γονέων σε τέκνα.</string>
-    <string name="sms_format_6">Σωματική άσκηση σε εξωτερικό χώρο ή κίνηση με κατοικίδιο.</string>
-
-
-    <string name="page_home_text_input_hint_address">Διεύθυνση</string>
-    <string name="page_home_text_input_hint_full_name">Ονοματεπώνυμο</string>
-    <string name="alert_success_button_text">Εντάξει</string>
-    <string name="title_activity_settings_messages">ActivitySettingsMessages</string>
-
-    <string name="page_profile_text_view_sign_out">Αποσύνδεση</string>
-
     <!-- Dialogs -->
-    <string name="dialog_sms_sent_title">Στάλθηκε!</string>
-    <string name="dialog_sms_sent_description">Το μήνυμα σας με αρ. %1$s έχει\nαποσταλεί.</string>
+    <string name="alert_lang_txt_title">Επιλέξτε γλώσσα:</string>
+    <string name="alert_lang_txt_view_eng">Αγγλικά</string>
+    <string name="alert_lang_txt_view_ell">Ελληνικά</string>
 
+    <!-- Content Descriptions -->
+    <string name="img_content_desc_fb_btn">Σύνδεσμος Facebook</string>
+    <string name="img_content_desc_insta_btn">Σύνδεσμος  Instagram</string>
+    <string name="img_content_desc_twitter_btn">Σύνδεσμος  Twitter</string>
+    <string name="img_content_desc_fruits">Εικόνα με φρούτα</string>
+    <string name="img_content_desc_efruit_banner">Λάβαρο eFruit</string>
+    <string name="img_content_desc_fruit_basket">Κούπα με φρούτα</string>
 </resources>
