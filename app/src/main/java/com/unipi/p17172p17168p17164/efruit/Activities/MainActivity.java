@@ -40,6 +40,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity
     // ~~~~~~~VARIABLES~~~~~~~
     private DrawerLayout drawerLayout;
     private FirebaseUser firebaseUser;
+    @BindView(R.id.nav_view) NavigationView navigationView;
     private static final String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION,
                                                  Manifest.permission.ACCESS_FINE_LOCATION,
                                                  Manifest.permission.RECORD_AUDIO};
@@ -59,6 +62,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ButterKnife.bind(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -83,7 +87,6 @@ public class MainActivity extends AppCompatActivity
         toggle.getDrawerArrowDrawable().setColor(ContextCompat.getColor(this, R.color.colorIcon));
         toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_item_home);
 
@@ -111,15 +114,17 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_item_cart)
         {
+            navigationView.getMenu().getItem(id).setChecked(false);
             // Home Fragment
             FragmentHome homeFragment = new FragmentHome();
             setFragment(homeFragment);
         }
         else if (id == R.id.nav_item_profile)
         {
-            // Home Fragment
-            FragmentHome homeFragment = new FragmentHome();
-            setFragment(homeFragment);
+            navigationView.getMenu().getItem(0).setChecked(false);
+            // Profile Activity
+            Intent intentProfile = new Intent(MainActivity.this, ProfileActivity.class);
+            startActivity(intentProfile);
         }
         else if (id == R.id.nav_item_orders)
         {
@@ -153,7 +158,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        /*if (id == R.id.nav_item_settings)
+        /*if (id == R.id.nav_item_profile)
         {
             return true;
         }*/

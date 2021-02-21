@@ -33,10 +33,11 @@
     <string name="permissions_some_denied">Some permissions are denied.</string>
 
     <!-- Login Page -->
-    <string name="header_sign_in">Sing In</string>
+    <string name="header_sign_in">Sign In</string>
     <string name="button_sign_in_with_google">Continue with a Google account</string>
 
     <!-- Home Page -->
+
 
     <!-- Products Fragment Page -->
     <string name="page_products_search_bar_hint">Search</string>
