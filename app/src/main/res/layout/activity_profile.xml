@@ -137,10 +137,10 @@
                     android:id="@+id/txtInputProfile_Address"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:drawableStart="@drawable/ic_phone"
+                    android:drawableStart="@drawable/ic_home_location"
                     android:drawablePadding="10dp"
                     android:drawableTint="@color/colorText"
-                    android:hint="Address"/>
+                    android:hint="@string/page_profile_input_hint_address"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton

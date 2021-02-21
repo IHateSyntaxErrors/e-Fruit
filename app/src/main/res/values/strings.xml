@@ -49,6 +49,7 @@
     <string name="page_profile_header1_title">Profile</string>
     <string name="page_profile_input_hint_full_name">Full Name</string>
     <string name="page_profile_input_hint_phone">Phone Number</string>
+    <string name="page_profile_input_hint_address">Address</string>
     <string name="page_profile_header2_personal_information">Personal Information</string>
     <string name="page_profile_text_view_sign_out">Sign out</string>
 

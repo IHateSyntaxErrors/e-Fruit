@@ -52,6 +52,7 @@
     <string name="page_profile_header1_title">Προφιλ</string>
     <string name="page_profile_input_hint_full_name">Ονοματεπώνυμο</string>
     <string name="page_profile_input_hint_phone">Αρ. Τηλεφώνου</string>
+    <string name="page_profile_input_hint_address">Διεύθυνση</string>
     <string name="page_profile_header2_personal_information">Προσωπικές Πληροφορίες</string>
     <string name="page_profile_text_view_sign_out">Αποσύνδεση</string>
 
