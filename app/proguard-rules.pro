@@ -29,5 +29,5 @@
 # the package com.yourcompany.models. Modify to fit the structure
 # of your app.
 -keepclassmembers class com.unipi.p17172p17168p17164.efruit.* {
-  *;
+  public *;
 }

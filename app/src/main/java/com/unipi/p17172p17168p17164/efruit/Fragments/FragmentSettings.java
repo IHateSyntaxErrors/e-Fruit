@@ -98,8 +98,8 @@ public class FragmentSettings extends Fragment {
 
     public void reloadFragment() {
         // Reload current fragment
-        assert getFragmentManager() != null;
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        assert getParentFragmentManager() != null;
+        FragmentTransaction ft = getParentFragmentManager().beginTransaction();
         if (Build.VERSION.SDK_INT >= 26) {
             ft.setReorderingAllowed(false);
         }
