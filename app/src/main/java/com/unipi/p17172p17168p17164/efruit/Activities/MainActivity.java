@@ -300,10 +300,8 @@ public class MainActivity extends AppCompatActivity
                 speechToText();
             });
             imgBtnCart.setOnClickListener(v -> {
-                // Todo add on cart icon press actions.
-            });
-            imgBtnCart.setOnClickListener(v -> {
-                // Todo add on cart icon press actions.
+                Intent intent = new Intent(MainActivity.this, CartActivity.class);
+                startActivity(intent);
             });
 
             // With the help of glide library we are able to load user profile picture into our app.
