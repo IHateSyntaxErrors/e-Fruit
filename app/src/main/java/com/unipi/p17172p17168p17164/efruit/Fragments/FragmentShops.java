@@ -100,7 +100,7 @@ public class FragmentShops extends Fragment implements LocationListener {
         if (!PermissionsUtils.hasPermissions(context))
             PermissionsUtils.requestPermissions("FRAGMENT_SHOPS", this, context); // Check if permissions are allowed.
         else {
-            String le = Context.LOCATION_SERVICE;//dokimase, kanonika en evallame kate me fine location?
+            String le = Context.LOCATION_SERVICE;
             locationManager = (LocationManager) getContext().getSystemService(le);
             if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 //Toast toastDeviceNotSupported =
@@ -108,7 +108,7 @@ public class FragmentShops extends Fragment implements LocationListener {
                         "LOCATION DISABLED",
                         Toast.LENGTH_LONG).show();
                 //toastDeviceNotSupported.setGravity(Gravity.CENTER, 0, 0);
-                // toastDeviceNotSupported.show(); //dame emfanizeis toast oti en klisto
+                // toastDeviceNotSupported.show();
             } else
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
@@ -117,10 +117,10 @@ public class FragmentShops extends Fragment implements LocationListener {
                 //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
                 //                                          int[] grantResults)
                 // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details. en evalame ton elegxo gia to enabled
+                // for ActivityCompat#requestPermissions for more details.
                 return view;
             }
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);//to get Context piannei to parent tou fragment
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
         }
         return view;
     }
@@ -216,7 +216,7 @@ public class FragmentShops extends Fragment implements LocationListener {
      *
      * @param location the updated location
      */
-    @Override //me ta kinita to gps kapote arkei na ksekinisei
+    @Override
     public void onLocationChanged(@NonNull Location location) {
         double latUser = location.getLatitude();
         double lngUser = location.getLongitude();
@@ -235,17 +235,15 @@ public class FragmentShops extends Fragment implements LocationListener {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        // ... dame en aman mpoun stin vasi
-                        //dame dld mporei na ksekiniseis ton elegxo gia tin apostasi
-
+                        // ... εν μπουν στην βαση τι κανω
+                        //έλεγχος για την αποσταση
                         //Get location User
                         distanceShop(location,getContext());
                     }
                 });
         locationManager.removeUpdates(this);
     }
-    public void distanceShop(Location location, Context context) { //katse gt ekrousa
-        System.out.println("Got to distanceshop");
+    public void distanceShop(Location location, Context context) {
     }
 
     public class ShopsViewHolder extends RecyclerView.ViewHolder {
