@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity
     ImageButton imgBtnMic;
     @BindView(R.id.action_bar_cart)
     ImageButton imgBtnCart;
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     @Override
@@ -231,21 +232,28 @@ public class MainActivity extends AppCompatActivity
             if (resultCode == RESULT_OK && data != null) {
                 // get text array from voice input
                 ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-
                 // Todo fix this
                 if (containsCaseInsensitive("home", result)) {
                     // Change to home fragment
+                    FragmentHome fragmentHome = new FragmentHome();
+                    setFragment(fragmentHome);
                 }
                 else if (containsCaseInsensitive("products", result)
-                        || containsCaseInsensitive("go to products", result)) {
+                        || containsCaseInsensitive("go to products", result)
+                        || containsCaseInsensitive("fruits", result)) {
                     // Change to products fragment
+                    FragmentProducts fragmentProducts = new FragmentProducts();
+                    setFragment(fragmentProducts);
                 }
                 else if (containsCaseInsensitive("settings", result)
                         || containsCaseInsensitive("go to settings", result)) {
                     // Change to settings fragment
+                    FragmentProducts fragmentProducts = new FragmentProducts();
+                    setFragment(fragmentProducts);
                 }
                 else if (containsCaseInsensitive("exit", result)) {
                     finish();
+                    //exit from app
                     System.exit(0);
                 }
                 else {
