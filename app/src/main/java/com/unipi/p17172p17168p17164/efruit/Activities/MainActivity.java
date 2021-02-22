@@ -2,7 +2,12 @@ package com.unipi.p17172p17168p17164.efruit.Activities;
 
 import android.Manifest;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -21,6 +26,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -29,6 +35,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
+import com.firebase.geofire.GeoFireUtils;
+import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -50,7 +58,9 @@ import com.unipi.p17172p17168p17164.efruit.R;
 import com.unipi.p17172p17168p17164.efruit.Utils.PermissionsUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -60,7 +70,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 @RequiresApi(api = Build.VERSION_CODES.Q)
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
     // ~~~~~~~VARIABLES~~~~~~~
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
@@ -78,6 +87,7 @@ public class MainActivity extends AppCompatActivity
     ImageButton imgBtnMic;
     @BindView(R.id.action_bar_cart)
     ImageButton imgBtnCart;
+    LocationManager locationManager;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     @Override
@@ -101,7 +111,7 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setHomeButtonEnabled(true);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
-                                                                 R.string.nav_drawer_close, R.string.nav_drawer_close);
+                R.string.nav_drawer_close, R.string.nav_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         // Change drawer arrow icon
         toggle.getDrawerArrowDrawable().setColor(ContextCompat.getColor(this, R.color.colorIcon));
@@ -121,45 +131,32 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         Fragment fragment = null;
-        if (id == R.id.nav_item_home)
-        {
+        if (id == R.id.nav_item_home) {
             // Home Fragment
             fragment = new FragmentHome();
             setFragment(fragment, "FRAGMENT_HOME");
-        }
-        else if (id == R.id.nav_item_products)
-        {
+        } else if (id == R.id.nav_item_products) {
             // Products Fragment
             fragment = new FragmentShops();
             setFragment(fragment, "FRAGMENT_SHOPS");
-        }
-        else if (id == R.id.nav_item_cart)
-        {
+        } else if (id == R.id.nav_item_cart) {
             // Cart Activity
             Intent intent = new Intent(MainActivity.this, CartActivity.class);
             startActivity(intent);
             return false;
-        }
-        else if (id == R.id.nav_item_profile)
-        {
+        } else if (id == R.id.nav_item_profile) {
             // Profile Activity
             Intent intentProfile = new Intent(MainActivity.this, ProfileActivity.class);
             startActivity(intentProfile);
             return false;
-        }
-        else if (id == R.id.nav_item_orders)
-        {
+        } else if (id == R.id.nav_item_orders) {
             // Orders Fragment
 //            fragment = new FragmentHome();
-        }
-        else if (id == R.id.nav_item_settings)
-        {
+        } else if (id == R.id.nav_item_settings) {
             // Settings Fragment
             fragment = new FragmentSettings();
             setFragment(fragment, "FRAGMENT_SETTINGS");
-        }
-        else if (id == R.id.nav_item_exit)
-        {
+        } else if (id == R.id.nav_item_exit) {
             this.finish();
             System.exit(0);
             return false;
@@ -175,8 +172,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as we have specified a parent activity in AndroidManifest.xml.
@@ -192,8 +188,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     // Method that will change fragments when a item is selected from the navigation drawer.
-    private void setFragment(Fragment fragment, String tagName)
-    {
+    private void setFragment(Fragment fragment, String tagName) {
         //get current fragment manager
         FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -208,18 +203,17 @@ public class MainActivity extends AppCompatActivity
     public void speechToText() {
         // SpeechRecognizer speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         Intent speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
         speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.nav_top_title_speech_recognition));
 
         try {
             startActivityForResult(speechRecognizerIntent, REQUEST_CODE_SPEECH_INPUT);
-        }
-        catch (ActivityNotFoundException e) {
+        } catch (ActivityNotFoundException e) {
             e.printStackTrace();
             Toast toastDeviceNotSupported = Toast.makeText(MainActivity.this,
-                                                           getString(R.string.toast_speech_recognition_not_supported),
-                                                           Toast.LENGTH_LONG);
+                    getString(R.string.toast_speech_recognition_not_supported),
+                    Toast.LENGTH_LONG);
             toastDeviceNotSupported.setGravity(Gravity.CENTER, 0, 0);
             toastDeviceNotSupported.show();
         }
@@ -239,28 +233,24 @@ public class MainActivity extends AppCompatActivity
                     // Change to home fragment
                     FragmentHome fragmentHome = new FragmentHome();
                     setFragment(fragmentHome, "FRAGMENT_HOME");
-                }
-                else if (containsCaseInsensitive("products", result)
+                } else if (containsCaseInsensitive("products", result)
                         || containsCaseInsensitive("go to products", result)
                         || containsCaseInsensitive("fruits", result)) {
                     // Change to products fragment
                    /* FragmentProducts fragmentProducts = new FragmentProducts();
                     setFragment(fragmentProducts);*/
-                }
-                else if (containsCaseInsensitive("settings", result)
+                } else if (containsCaseInsensitive("settings", result)
                         || containsCaseInsensitive("go to settings", result)) {
                     // Change to settings fragment
                     FragmentSettings fragmentSettings = new FragmentSettings();
                     setFragment(fragmentSettings, "FRAGMENT_SETTINGS");
-                }
-                else if (containsCaseInsensitive("exit", result)) {
+                } else if (containsCaseInsensitive("exit", result)) {
                     finish();
                     System.exit(0);
-                }
-                else {
+                } else {
                     Toast invalidToast = Toast.makeText(MainActivity.this,
-                                                        getString(R.string.toast_speech_recognition_invalid_action),
-                                                        Toast.LENGTH_LONG);
+                            getString(R.string.toast_speech_recognition_invalid_action),
+                            Toast.LENGTH_LONG);
                     invalidToast.setGravity(Gravity.CENTER, 0, 0);
                     invalidToast.show();
                 }
@@ -315,29 +305,6 @@ public class MainActivity extends AppCompatActivity
         // Else the user is not logged in - do actions
         // else {}
     }
-
-//    public void requestPermissions() {
-//        PermissionX.init(this)
-//                .permissions(permissions)
-//                .onExplainRequestReason((scope, deniedList) ->
-//                        scope.showRequestReasonDialog(deniedList, getString(R.string.permission_allow_ask_reason),
-//                                                      getString(R.string.general_ok), getString(R.string.general_cancel)))
-//                .onForwardToSettings((scope, deniedList) ->
-//                        scope.showForwardToSettingsDialog(deniedList, getString(R.string.permissions_allow_manually),
-//                                                          getString(R.string.general_ok), getString(R.string.general_cancel)))
-//                .request((allGranted, grantedList, deniedList) -> {
-//                    if (!allGranted) {
-//                        Toast toast = Toast.makeText(this, getString(R.string.permissions_some_denied), Toast.LENGTH_LONG);
-//                        toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 400);
-//                        toast.show();
-//                    }
-//                    /*else if (allGranted && startService) {
-//                        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-//                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-//                        this.onLocationChanged(null);
-//                    }*/
-//                });
-//    }
 
     @Override
     public void onBackPressed() {

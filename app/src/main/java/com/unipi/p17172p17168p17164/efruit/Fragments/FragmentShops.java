@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,30 +27,42 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.geofire.GeoFireUtils;
+import com.firebase.geofire.GeoLocation;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.unipi.p17172p17168p17164.efruit.Activities.MainActivity;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelShops;
 import com.unipi.p17172p17168p17164.efruit.R;
 import com.unipi.p17172p17168p17164.efruit.Utils.PermissionsUtils;
 import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static android.content.Context.LOCATION_SERVICE;
 
-public class FragmentShops extends Fragment {
+public class FragmentShops extends Fragment implements LocationListener {
     // ~~~~~~~VARIABLES~~~~~~~
     private Context context;
     private View view;
 
     private FirebaseFirestore db;
     private FirestoreRecyclerAdapter adapter;
+    FirebaseUser firebaseUser;
 
     @BindView(R.id.recyclerViewShops)
     RecyclerView recyclerShops;
@@ -84,9 +99,29 @@ public class FragmentShops extends Fragment {
 
         if (!PermissionsUtils.hasPermissions(context))
             PermissionsUtils.requestPermissions("FRAGMENT_SHOPS", this, context); // Check if permissions are allowed.
-
-//        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, context);
-
+        else {
+            String le = Context.LOCATION_SERVICE;//dokimase, kanonika en evallame kate me fine location?
+            locationManager = (LocationManager) getContext().getSystemService(le);
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                //Toast toastDeviceNotSupported =
+                Toast.makeText(getContext(),
+                        "LOCATION DISABLED",
+                        Toast.LENGTH_LONG).show();
+                //toastDeviceNotSupported.setGravity(Gravity.CENTER, 0, 0);
+                // toastDeviceNotSupported.show(); //dame emfanizeis toast oti en klisto
+            } else
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details. en evalame ton elegxo gia to enabled
+                return view;
+            }
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);//to get Context piannei to parent tou fragment
+        }
         return view;
     }
 
@@ -95,7 +130,8 @@ public class FragmentShops extends Fragment {
         recyclerShops.setLayoutManager(linearLayoutManager);
         recyclerShops.setHasFixedSize(true);
         db = FirebaseFirestore.getInstance();
-
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
         editTxtInputShops_SearchBar.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 Toolbox.hideKeyboard(v, context);
@@ -173,6 +209,43 @@ public class FragmentShops extends Fragment {
         };
         adapter.notifyDataSetChanged();
         recyclerShops.setAdapter(adapter);
+    }
+
+    /**
+     * Called when the location has changed.
+     *
+     * @param location the updated location
+     */
+    @Override //me ta kinita to gps kapote arkei na ksekinisei
+    public void onLocationChanged(@NonNull Location location) {
+        double latUser = location.getLatitude();
+        double lngUser = location.getLongitude();
+        System.out.println(latUser + lngUser);
+        // Compute the GeoHash for a lat/lng point
+        String hash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(latUser, lngUser));
+        //DocumentReference userRef = db.collection("users").document(firebaseUser.getUid());
+        // Add the hash and the lat/lng to the document. We will use the hash
+        // for queries and the lat/lng for distance comparisons.
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("geohash", hash);
+        updates.put("lat", latUser);
+        updates.put("lng", lngUser);
+        DocumentReference locationRef = db.collection("users").document(firebaseUser.getUid());
+        locationRef.update(updates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // ... dame en aman mpoun stin vasi
+                        //dame dld mporei na ksekiniseis ton elegxo gia tin apostasi
+
+                        //Get location User
+                        distanceShop(location,getContext());
+                    }
+                });
+        locationManager.removeUpdates(this);
+    }
+    public void distanceShop(Location location, Context context) { //katse gt ekrousa
+        System.out.println("Got to distanceshop");
     }
 
     public class ShopsViewHolder extends RecyclerView.ViewHolder {
