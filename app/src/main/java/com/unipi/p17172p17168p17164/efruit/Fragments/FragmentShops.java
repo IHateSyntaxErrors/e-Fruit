@@ -1,6 +1,10 @@
 package com.unipi.p17172p17168p17164.efruit.Fragments;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -31,6 +36,8 @@ import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.content.Context.LOCATION_SERVICE;
+
 public class FragmentShops extends Fragment {
     // ~~~~~~~VARIABLES~~~~~~~
     private Context context;
@@ -46,12 +53,15 @@ public class FragmentShops extends Fragment {
 
     @BindView(R.id.editTxtInputShops_SearchBar)
     TextInputEditText editTxtInputShops_SearchBar;
+
+    LocationManager locationManager;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = requireActivity();
+
     }
 
     @Override
@@ -63,6 +73,17 @@ public class FragmentShops extends Fragment {
 
         init();
         getShopsList();
+
+
+        locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
+
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.
+                    requestPermissions(context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 234);
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
         return view;
     }
