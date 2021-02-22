@@ -67,8 +67,8 @@
 
         <TextView
             android:id="@+id/textViewShops_ShopRegion"
-            android:layout_width="170dp"
-            android:layout_height="19dp"
+            android:layout_width="146dp"
+            android:layout_height="0dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="16dp"
             android:fontFamily="@font/helvetica"
