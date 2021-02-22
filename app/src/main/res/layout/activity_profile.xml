@@ -126,6 +126,46 @@
                     android:inputType="phone" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInputLayoutProfile_Address"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:endIconMode="clear_text">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtInputProfile_Address"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableStart="@drawable/ic_home_location"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="@color/colorText"
+                    android:hint="@string/page_profile_input_hint_address"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonProfile_Save"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/selector_login_large_button"
+                android:fontFamily="@font/helvetica_bold"
+                android:gravity="center"
+                android:text="@string/fui_button_text_save"
+                android:textAllCaps="false"
+                android:textColor="@color/colorButtonText"
+                android:textSize="18sp"
+                android:textAlignment="center"
+                app:backgroundTint="@null"
+                app:icon="@drawable/ic_floppy_disk_save"
+                app:iconGravity="textStart"
+                app:iconPadding="10dp"
+                app:iconTint="@color/colorButtonText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewSignUp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

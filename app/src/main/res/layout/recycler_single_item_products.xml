@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cardViewSmsType"
+    android:id="@+id/cardViewSingleItem_Products"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
@@ -28,7 +28,7 @@
             android:textSize="15sp"
             app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toStartOf="@+id/textViewProducts_ProductPricePerKg"
-            app:layout_constraintStart_toEndOf="@+id/CardViewProductIcon"
+            app:layout_constraintStart_toEndOf="@+id/CardViewProducts_Image"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -41,10 +41,10 @@
             android:textColor="@color/colorPrimary"
             android:textSize="15sp"
             app:layout_constrainedWidth="true"
-            app:layout_constraintBottom_toBottomOf="@+id/CardViewProductIcon"
+            app:layout_constraintBottom_toBottomOf="@+id/CardViewProducts_Image"
             app:layout_constraintEnd_toEndOf="@+id/btnRecyclerItemAddToCart"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/CardViewProductIcon"
+            app:layout_constraintStart_toEndOf="@+id/CardViewProducts_Image"
             app:layout_constraintTop_toBottomOf="@+id/textViewProducts_ProductName"
             app:layout_constraintVertical_bias="1.0" />
 
@@ -91,7 +91,7 @@
             app:layout_constraintTop_toTopOf="@+id/textViewProducts_ProductName" />
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/CardViewProductIcon"
+            android:id="@+id/CardViewProducts_Image"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginStart="16dp"
@@ -105,9 +105,10 @@
             tools:srcCompat="@tools:sample/avatars">
 
             <ImageView
-                android:id="@+id/imageViewProductImage"
+                android:id="@+id/imageViewProducts_ProductImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:padding="7dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/avatars" />
@@ -132,7 +133,7 @@
             app:iconGravity="textStart"
             app:iconTint="@color/colorButtonText"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/CardViewProductIcon"
+            app:layout_constraintStart_toStartOf="@+id/CardViewProducts_Image"
             app:layout_constraintTop_toBottomOf="@+id/textViewProducts_ProductPrice" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

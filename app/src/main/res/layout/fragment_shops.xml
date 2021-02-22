@@ -9,10 +9,10 @@
     android:clickable="true"
     android:focusable="true"
     android:focusableInTouchMode ="true"
-    tools:context=".Fragments.FragmentProducts">
+    tools:context=".Fragments.FragmentShops">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayoutProductsToolbar"
+        android:id="@+id/constraintLayoutShops_Toolbar"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@color/colorContainer"
@@ -21,25 +21,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-            android:id="@+id/imageButtonProducts_Sort"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:layout_marginStart="8dp"
-            android:adjustViewBounds="true"
-            android:background="@drawable/shape_small_button"
-            android:padding="12dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_sort"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:clickable="true"
-            android:focusable="true"
-            android:focusableInTouchMode ="true"/>
-
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txtInputLayoutProducts_SearchBar"
+            android:id="@+id/txtInputLayoutShops_SearchBar"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="59dp"
@@ -48,12 +31,12 @@
             app:endIconMode="clear_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageButtonProducts_Sort"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.35000002">
+            app:layout_constraintVertical_bias="0.37">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTxtInputProducts_SearchBar"
+                android:id="@+id/editTxtInputShops_SearchBar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:drawableStart="@drawable/ic_magnifying_glass_search"
@@ -74,10 +57,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayoutProductsToolbar">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayoutShops_Toolbar">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewProducts"
+            android:id="@+id/recyclerViewShops"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"

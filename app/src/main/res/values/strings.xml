@@ -7,6 +7,7 @@
     <string name="general_cancel">Cancel</string>
     <string name="toast_speech_recognition_not_supported">Speech recognition is not supported in your device.</string>
     <string name="toast_speech_recognition_invalid_action">Invalid action. Try again!</string>
+    <string name="search_bar_hint">Search</string>
 
     <!-- Main Activity -->
     <string name="nav_drawer_open">Open</string>
@@ -39,8 +40,10 @@
     <!-- Home Page -->
 
 
+    <!-- Shops Fragment Page -->
+    <string name="recycler_var_shops_zip">Zip: %1$s</string>
+
     <!-- Products Fragment Page -->
-    <string name="page_products_search_bar_hint">Search</string>
     <string name="page_products_recycler_add_to_cart">Add to cart</string>
     <string name="recycler_var_product_price" translatable="false">%1$s €</string>
     <string name="recycler_var_product_price_per_kg" translatable="false">%1$s € / Kg </string>
@@ -49,8 +52,13 @@
     <string name="page_profile_header1_title">Profile</string>
     <string name="page_profile_input_hint_full_name">Full Name</string>
     <string name="page_profile_input_hint_phone">Phone Number</string>
+    <string name="page_profile_input_hint_address">Address</string>
     <string name="page_profile_header2_personal_information">Personal Information</string>
     <string name="page_profile_text_view_sign_out">Sign out</string>
+
+    <!-- Shopping Cart Page -->
+    <string name="page_cart_header">Shopping Cart</string>
+    <string name="page_cart_empty_shopping_cart">Shopping cart is empty! :(</string>
 
     <!-- Settings -->
     <string name="page_settings_header1_title">Settings</string>
@@ -67,6 +75,8 @@
     <string name="alert_lang_txt_title">Select language:</string>
     <string name="alert_lang_txt_view_eng">English</string>
     <string name="alert_lang_txt_view_ell">Greek (GR)</string>
+    <string name="alert_profile_saved_txt_title">Saved!</string>
+    <string name="alert_profile_saved_txt_desc">Your personal information has been updated successfully!</string>
 
     <!-- Shared Preferences Keys -->
     <string name="switch_night_mode" translatable="false">SWITCH_NIGHT_MODE</string>

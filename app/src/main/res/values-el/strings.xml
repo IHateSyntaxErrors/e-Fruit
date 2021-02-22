@@ -6,6 +6,7 @@
     <string name="general_cancel">Άκυρο</string>
     <string name="toast_speech_recognition_not_supported">Η συσκευή σας δεν υποστηρίζει αναγνώριση φωνής.</string>
     <string name="toast_speech_recognition_invalid_action">Μη έγκυρη ενέργεια! Δοκιμάστε ξανά.</string>
+    <string name="search_bar_hint">Αναζήτηση</string>
 
     <!-- Main Activity -->
     <string name="nav_drawer_open">Άνοιγμα</string>
@@ -36,9 +37,10 @@
 
     <!-- Home Page -->
 
+    <!-- Products Fragment Page -->
+    <string name="recycler_var_shops_zip">Τ.Κ: %1$s</string>
 
     <!-- Products Fragment Page -->
-    <string name="page_products_search_bar_hint">Αναζήτηση</string>
     <string name="page_products_recycler_add_to_cart">Προσθήκη</string>
 
     <!-- Settings -->
@@ -52,8 +54,13 @@
     <string name="page_profile_header1_title">Προφιλ</string>
     <string name="page_profile_input_hint_full_name">Ονοματεπώνυμο</string>
     <string name="page_profile_input_hint_phone">Αρ. Τηλεφώνου</string>
+    <string name="page_profile_input_hint_address">Διεύθυνση</string>
     <string name="page_profile_header2_personal_information">Προσωπικές Πληροφορίες</string>
     <string name="page_profile_text_view_sign_out">Αποσύνδεση</string>
+
+    <!-- Shopping Cart Page -->
+    <string name="page_cart_header">Καλάθι</string>
+    <string name="page_cart_empty_shopping_cart">Το καλάθι σας είναι κενό! :(</string>
 
     <!-- Version -->
     <string name="app_versionCode">@string/versionName</string>
@@ -63,6 +70,8 @@
     <string name="alert_lang_txt_title">Επιλέξτε γλώσσα:</string>
     <string name="alert_lang_txt_view_eng">Αγγλικά</string>
     <string name="alert_lang_txt_view_ell">Ελληνικά</string>
+    <string name="alert_profile_saved_txt_title">Τα στοιχεία ενημερώθηκαν!</string>
+    <string name="alert_profile_saved_txt_desc">Τα στοιχεία σας έχουν ενημερωθεί επιτυχώς.</string>
 
     <!-- Content Descriptions -->
     <string name="img_content_desc_fb_btn">Σύνδεσμος Facebook</string>

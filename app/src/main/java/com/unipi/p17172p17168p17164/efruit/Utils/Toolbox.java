@@ -25,6 +25,20 @@ public class Toolbox {
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+    public Dialog showDialogPersonalInfoSaved(Context context) {
+        final Dialog dialog = new Dialog(context);
+
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.alert_profile_saved);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        MaterialButton btnAlertLangOk = dialog.findViewById(R.id.btnAlertProfileSaved_Ok);
+        btnAlertLangOk.setOnClickListener(v -> dialog.dismiss());
+
+        return dialog;
+    }
+
     public Dialog showDialogLangChange(Context context) {
         final Dialog dialog = new Dialog(context);
         final String ENG ="Eng";

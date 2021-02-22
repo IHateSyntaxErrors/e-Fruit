@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardViewSingleItem_Shops"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="6dp"
+    android:background="@drawable/shape_card_view_recycler_items"
+    android:clickable="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textViewShops_ShopName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/helvetica_bold"
+            android:text="Shop Name"
+            android:textColor="@color/colorText"
+            android:textSize="15sp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/CardViewShops_ShopImage"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewShops_ShopPhone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/helvetica"
+            android:text="Phone: 21312321"
+            android:textColor="@color/colorText"
+            android:textSize="12sp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textViewShops_ShopName"
+            app:layout_constraintTop_toBottomOf="@+id/textViewShops_ShopName"
+            app:drawableLeftCompat="@drawable/ic_phone_12"
+            android:drawablePadding="5dp"/>
+
+        <TextView
+            android:id="@+id/textViewShops_ShopAddress"
+            android:layout_width="283dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/helvetica"
+            android:text="Address"
+            android:textColor="@color/colorText"
+            android:textSize="12sp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/textViewShops_ShopPhone"
+            app:layout_constraintTop_toBottomOf="@+id/textViewShops_ShopPhone"
+            app:drawableLeftCompat="@drawable/ic_location"
+            android:drawablePadding="5dp"/>
+
+        <TextView
+            android:id="@+id/textViewShops_ShopRegion"
+            android:layout_width="146dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/helvetica"
+            android:text="Region: Athens"
+            android:textColor="@color/colorText"
+            android:textSize="12sp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textViewShops_ShopAddress"
+            app:layout_constraintTop_toBottomOf="@+id/textViewShops_ShopAddress" />
+
+        <TextView
+            android:id="@+id/textViewShops_ShopZip"
+            android:layout_width="0dp"
+            android:layout_height="19dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/helvetica"
+            android:text="Zip: 18534"
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorText"
+            android:textSize="12sp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/textViewShops_ShopRegion"
+            app:layout_constraintTop_toBottomOf="@+id/textViewShops_ShopAddress" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/CardViewShops_ShopImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="18dp"
+            android:elevation="5dp"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textViewShops_ShopName">
+
+            <ImageView
+                android:id="@+id/imageViewShops_ShopImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@drawable/fruit_shop" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

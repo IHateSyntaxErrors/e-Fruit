@@ -19,21 +19,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.unipi.p17172p17168p17164.efruit.Models.ItemProduct;
+import com.unipi.p17172p17168p17164.efruit.Models.ModelProducts;
 import com.unipi.p17172p17168p17164.efruit.R;
 import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
 
@@ -51,15 +44,21 @@ public class FragmentProducts extends Fragment {
 
     private FirebaseFirestore db;
     private FirestoreRecyclerAdapter adapter;
+    String shopId;
 
     @BindView(R.id.recyclerViewProducts) RecyclerView productsList;
 
     private LinearLayoutManager linearLayoutManager;
-    private List<ItemProduct> itemProductList = new ArrayList<>();
+    private List<ModelProducts> modelProductsList = new ArrayList<>();
 
-    @BindView(R.id.txtInputProducts_SearchBar)
+    @BindView(R.id.editTxtInputProducts_SearchBar)
     TextInputEditText txtInputProducts_SearchBar;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+    public FragmentProducts(String shopId) {
+        this.shopId = shopId;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,23 +93,9 @@ public class FragmentProducts extends Fragment {
     }
 
     public void getProductsList(){
-        final String TAG = "efruit";
-        ArrayList<ItemProduct> finalCollection = new ArrayList<>();
-        List<Task<?>> taskArray = new ArrayList<>();
+        final String TAG = "[FragmentProducts]";
 
-        Query queryProducts = db.collection("products").limit(1);
-        /*DocumentReference queryShops = db.collection("shops")
-                .document("shop1")
-                .collection("quantity")
-                .document("applegreen");*/
-
-        Task firstTask = queryProducts.get();
-//        Task secondTask = queryShops.get();
-
-        /*Task<List<QuerySnapshot>> combinedTasks = Tasks.whenAllSuccess(firstTask, secondTask);
-        combinedTasks.addOnSuccessListener(querySnapshots -> {
-
-        });*/
+        Query queryProducts = db.collection("shops").document(shopId).collection("products");
 
         queryProducts.addSnapshotListener((snapshots, e) -> {
             if (e != null) {
@@ -135,12 +120,12 @@ public class FragmentProducts extends Fragment {
         });
 
         // RecyclerOptions
-        FirestoreRecyclerOptions<ItemProduct> recyclerOptions = new FirestoreRecyclerOptions.Builder<ItemProduct>()
-                .setQuery(queryProducts, ItemProduct.class)
+        FirestoreRecyclerOptions<ModelProducts> recyclerOptions = new FirestoreRecyclerOptions.Builder<ModelProducts>()
+                .setQuery(queryProducts, ModelProducts.class)
                 .build();
-        adapter = new FirestoreRecyclerAdapter<ItemProduct, ProductsViewHolder>(recyclerOptions) {
+        adapter = new FirestoreRecyclerAdapter<ModelProducts, ProductsViewHolder>(recyclerOptions) {
             @Override
-            protected void onBindViewHolder(@NonNull ProductsViewHolder holder, int position, @NonNull ItemProduct model) {
+            protected void onBindViewHolder(@NonNull ProductsViewHolder holder, int position, @NonNull ModelProducts model) {
                 Glide.with(context)
                         .load(model.getImgUrl())
                         .into(holder.viewHolderProducts_ImgProductImage);
@@ -170,7 +155,7 @@ public class FragmentProducts extends Fragment {
     }
 
     public class ProductsViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.imageViewProductImage)
+        @BindView(R.id.imageViewProducts_ProductImage)
         ImageView viewHolderProducts_ImgProductImage;
         @BindView(R.id.textViewProducts_ProductName)
         TextView viewHolderProducts_TxtProductName;
