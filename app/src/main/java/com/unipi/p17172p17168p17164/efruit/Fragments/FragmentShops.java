@@ -83,7 +83,7 @@ public class FragmentShops extends Fragment {
 
 
         if (!PermissionsUtils.hasPermissions(context))
-            PermissionsUtils.requestPermissions("FRAGMENT_SHOPS", this.getParentFragment(), context); // Check if permissions are allowed.
+            PermissionsUtils.requestPermissions("FRAGMENT_SHOPS", this, context); // Check if permissions are allowed.
 
 //        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, context);
 

@@ -17,7 +17,7 @@ import com.permissionx.guolindev.PermissionX;
 import com.unipi.p17172p17168p17164.efruit.R;
 
 @RequiresApi(api = Build.VERSION_CODES.Q)
-public class PermissionsUtils {
+public class PermissionsUtils extends Fragment{
     private static final String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.REQUEST_COMPANION_RUN_IN_BACKGROUND,

@@ -64,7 +64,7 @@ public class CartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_cart);
 
         // Activity opening animation when opened
         this.overridePendingTransition(R.anim.anim_slide_in_left,
@@ -73,7 +73,6 @@ public class CartActivity extends AppCompatActivity {
         init();
         getCartList();
         updateUI();
-
 
         imageViewBackButton.setOnClickListener(v -> {
             onBackPressed();
@@ -88,7 +87,7 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void getCartList() {
-        final String TAG = "[FragmentProducts]";
+        final String TAG = "[CartActivity]";
 
         Query queryProducts = db.collection("carts").document(firebaseUser.getUid()).collection("products");
 
