@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -31,6 +33,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelShops;
 import com.unipi.p17172p17168p17164.efruit.R;
+import com.unipi.p17172p17168p17164.efruit.Utils.PermissionsUtils;
 import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
 
 import butterknife.BindView;
@@ -64,6 +67,7 @@ public class FragmentShops extends Fragment {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,13 +81,11 @@ public class FragmentShops extends Fragment {
 
         locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
 
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.
-                    requestPermissions(context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 234);
-            return;
-        }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+
+        if (!PermissionsUtils.hasPermissions(context))
+            PermissionsUtils.requestPermissions("FRAGMENT_SHOPS", this.getParentFragment(), context); // Check if permissions are allowed.
+
+//        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, context);
 
         return view;
     }

@@ -38,10 +38,9 @@
     <!-- Home Page -->
 
     <!-- Products Fragment Page -->
-    <string name="recycler_var_shops_zip">Τ.Κ: %1$s</string>
-
-    <!-- Products Fragment Page -->
     <string name="page_products_recycler_add_to_cart">Προσθήκη</string>
+    <string name="page_products_recycler_txt_on_stock">Διαθέσιμα: </string>
+    <string name="recycler_var_shops_zip">Τ.Κ: %1$s</string>
 
     <!-- Settings -->
     <string name="page_settings_header1_title">Ρυθμίσεις</string>

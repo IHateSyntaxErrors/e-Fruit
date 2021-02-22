@@ -45,6 +45,7 @@
 
     <!-- Products Fragment Page -->
     <string name="page_products_recycler_add_to_cart">Add to cart</string>
+    <string name="page_products_recycler_txt_on_stock">On Stock: </string>
     <string name="recycler_var_product_price" translatable="false">%1$s €</string>
     <string name="recycler_var_product_price_per_kg" translatable="false">%1$s € / Kg </string>
 
