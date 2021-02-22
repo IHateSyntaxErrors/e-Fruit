@@ -49,7 +49,6 @@ public class FragmentProducts extends Fragment {
     @BindView(R.id.recyclerViewProducts) RecyclerView productsList;
 
     private LinearLayoutManager linearLayoutManager;
-    private List<ModelProducts> modelProductsList = new ArrayList<>();
 
     @BindView(R.id.editTxtInputProducts_SearchBar)
     TextInputEditText txtInputProducts_SearchBar;

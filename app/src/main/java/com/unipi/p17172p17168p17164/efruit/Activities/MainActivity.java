@@ -69,11 +69,7 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    private static final String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION,
-                                                 Manifest.permission.ACCESS_FINE_LOCATION,
-                                                 Manifest.permission.REQUEST_COMPANION_RUN_IN_BACKGROUND,
-                                                 Manifest.permission.ACCESS_BACKGROUND_LOCATION,
-                                                 Manifest.permission.RECORD_AUDIO};
+
     private static final int REQUEST_CODE_SPEECH_INPUT = 10;
     private FirebaseFirestore db;
     @BindView(R.id.action_bar_circleimgview_profile)
@@ -94,8 +90,8 @@ public class MainActivity extends AppCompatActivity
 
         updateUI(); // Update UI with user's info.
 
-        if (!PermissionsUtils.hasPermissions(this, permissions))
-            requestPermissions(); // Check if permissions are allowed.
+        if (!PermissionsUtils.hasPermissions(this))
+            PermissionsUtils.requestPermissions(this); // Check if permissions are allowed.
 
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -116,7 +112,7 @@ public class MainActivity extends AppCompatActivity
 
         // Add the home fragment to show it in the frame layout of main activity.
         FragmentHome fragmentHome = new FragmentHome();
-        setFragment(fragmentHome);
+        setFragment(fragmentHome, "FRAGMENT_HOME");
     }
 
     @Override
@@ -124,21 +120,25 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        Fragment fragment = new FragmentHome();
+        Fragment fragment = null;
         if (id == R.id.nav_item_home)
         {
             // Home Fragment
             fragment = new FragmentHome();
+            setFragment(fragment, "FRAGMENT_HOME");
         }
         else if (id == R.id.nav_item_products)
         {
             // Products Fragment
             fragment = new FragmentShops();
+            setFragment(fragment, "FRAGMENT_SHOPS");
         }
         else if (id == R.id.nav_item_cart)
         {
-            // Home Fragment
-            fragment = new FragmentShops();
+            // Cart Activity
+            Intent intent = new Intent(MainActivity.this, CartActivity.class);
+            startActivity(intent);
+            return false;
         }
         else if (id == R.id.nav_item_profile)
         {
@@ -149,13 +149,14 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_item_orders)
         {
-            // Home Fragment
-            fragment = new FragmentHome();
+            // Orders Fragment
+//            fragment = new FragmentHome();
         }
         else if (id == R.id.nav_item_settings)
         {
-            // Home Fragment
+            // Settings Fragment
             fragment = new FragmentSettings();
+            setFragment(fragment, "FRAGMENT_SETTINGS");
         }
         else if (id == R.id.nav_item_exit)
         {
@@ -164,7 +165,10 @@ public class MainActivity extends AppCompatActivity
             return false;
         }
 
-        setFragment(fragment);
+        if (fragment == null) {
+            fragment = new FragmentHome();
+            setFragment(fragment, "FRAGMENT_HOME");
+        }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -188,7 +192,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     // Method that will change fragments when a item is selected from the navigation drawer.
-    private void setFragment(Fragment fragment)
+    private void setFragment(Fragment fragment, String tagName)
     {
         //get current fragment manager
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -197,7 +201,7 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         //set new fragment in fragment_container (FrameLayout)
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.replace(R.id.fragment_container, fragment, tagName);
         fragmentTransaction.commit();
     }
 
@@ -234,7 +238,7 @@ public class MainActivity extends AppCompatActivity
                 if (containsCaseInsensitive("home", result)) {
                     // Change to home fragment
                     FragmentHome fragmentHome = new FragmentHome();
-                    setFragment(fragmentHome);
+                    setFragment(fragmentHome, "FRAGMENT_HOME");
                 }
                 else if (containsCaseInsensitive("products", result)
                         || containsCaseInsensitive("go to products", result)
@@ -247,7 +251,7 @@ public class MainActivity extends AppCompatActivity
                         || containsCaseInsensitive("go to settings", result)) {
                     // Change to settings fragment
                     FragmentSettings fragmentSettings = new FragmentSettings();
-                    setFragment(fragmentSettings);
+                    setFragment(fragmentSettings, "FRAGMENT_SETTINGS");
                 }
                 else if (containsCaseInsensitive("exit", result)) {
                     finish();
@@ -282,6 +286,7 @@ public class MainActivity extends AppCompatActivity
                         ModelUsers modelUsers = document.toObject(ModelUsers.class);
 
                         View headerView = navigationView.getHeaderView(0);
+
                         TextView textViewName = headerView.findViewById(R.id.textViewNavBar_Name);
                         textViewName.setText(modelUsers.getFull_name());
 
@@ -293,6 +298,9 @@ public class MainActivity extends AppCompatActivity
 
             imgBtnMic.setOnClickListener(v -> {
                 speechToText();
+            });
+            imgBtnCart.setOnClickListener(v -> {
+                // Todo add on cart icon press actions.
             });
             imgBtnCart.setOnClickListener(v -> {
                 // Todo add on cart icon press actions.
@@ -310,28 +318,28 @@ public class MainActivity extends AppCompatActivity
         // else {}
     }
 
-    public void requestPermissions() {
-        PermissionX.init(this)
-                .permissions(permissions)
-                .onExplainRequestReason((scope, deniedList) ->
-                        scope.showRequestReasonDialog(deniedList, getString(R.string.permission_allow_ask_reason),
-                                                      getString(R.string.general_ok), getString(R.string.general_cancel)))
-                .onForwardToSettings((scope, deniedList) ->
-                        scope.showForwardToSettingsDialog(deniedList, getString(R.string.permissions_allow_manually),
-                                                          getString(R.string.general_ok), getString(R.string.general_cancel)))
-                .request((allGranted, grantedList, deniedList) -> {
-                    if (!allGranted) {
-                        Toast toast = Toast.makeText(this, getString(R.string.permissions_some_denied), Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 400);
-                        toast.show();
-                    }
-                    /*else if (allGranted && startService) {
-                        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-                        this.onLocationChanged(null);
-                    }*/
-                });
-    }
+//    public void requestPermissions() {
+//        PermissionX.init(this)
+//                .permissions(permissions)
+//                .onExplainRequestReason((scope, deniedList) ->
+//                        scope.showRequestReasonDialog(deniedList, getString(R.string.permission_allow_ask_reason),
+//                                                      getString(R.string.general_ok), getString(R.string.general_cancel)))
+//                .onForwardToSettings((scope, deniedList) ->
+//                        scope.showForwardToSettingsDialog(deniedList, getString(R.string.permissions_allow_manually),
+//                                                          getString(R.string.general_ok), getString(R.string.general_cancel)))
+//                .request((allGranted, grantedList, deniedList) -> {
+//                    if (!allGranted) {
+//                        Toast toast = Toast.makeText(this, getString(R.string.permissions_some_denied), Toast.LENGTH_LONG);
+//                        toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 400);
+//                        toast.show();
+//                    }
+//                    /*else if (allGranted && startService) {
+//                        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+//                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+//                        this.onLocationChanged(null);
+//                    }*/
+//                });
+//    }
 
     @Override
     public void onBackPressed() {

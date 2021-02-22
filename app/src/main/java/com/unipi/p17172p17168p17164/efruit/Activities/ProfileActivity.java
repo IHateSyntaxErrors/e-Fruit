@@ -146,21 +146,7 @@ public class ProfileActivity extends AppCompatActivity {
             });
 
             btnSaveProfile.setOnClickListener(v-> {
-                String full_name = String.valueOf(txtInputProfile_FullName.getText());
-                String phone = String.valueOf(txtInputProfile_Phone.getText());
-                String address = String.valueOf(txtEditInputProfile_Address.getText());
-
-                Map< String, Object > updatedUser = new HashMap< >();
-                updatedUser.put("full_name", full_name);
-                updatedUser.put("phone_number", phone);
-                updatedUser.put("address", address);
-                updatedUser.put("tokenId", tokenId);
-
-                db.collection("users").document(tokenId).set(updatedUser).addOnSuccessListener(s -> {
-                    Dialog dialog = toolbox.showDialogPersonalInfoSaved(this);
-                    dialog.show();
-                    txtViewProfile_FullName.setText(full_name);
-                });
+                saveProfile(tokenId);
             });
 
             // Load user img from google account if they haven't upload one.
@@ -175,8 +161,22 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    private void saveProfile() {
+    private void saveProfile(String tokenId) {
+        String full_name = String.valueOf(txtInputProfile_FullName.getText());
+        String phone = String.valueOf(txtInputProfile_Phone.getText());
+        String address = String.valueOf(txtEditInputProfile_Address.getText());
 
+        Map< String, Object > updatedUser = new HashMap< >();
+        updatedUser.put("full_name", full_name);
+        updatedUser.put("phone_number", phone);
+        updatedUser.put("address", address);
+        updatedUser.put("tokenId", tokenId);
+
+        db.collection("users").document(tokenId).set(updatedUser).addOnSuccessListener(s -> {
+            Dialog dialog = toolbox.showDialogPersonalInfoSaved(this);
+            dialog.show();
+            txtViewProfile_FullName.setText(full_name);
+        });
     }
 
     @Override
