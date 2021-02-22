@@ -38,30 +38,19 @@
             android:focusable="true"
             android:focusableInTouchMode ="true"/>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txtInputLayoutProducts_SearchBar"
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchViewProducts"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="59dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            app:endIconMode="clear_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageButtonProducts_Sort"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.35000002">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTxtInputProducts_SearchBar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:drawableStart="@drawable/ic_magnifying_glass_search"
-                android:drawablePadding="10dp"
-                android:drawableTint="@color/colorText"
-                android:hint="@string/search_bar_hint" />
-
-        </com.google.android.material.textfield.TextInputLayout>
+        </androidx.appcompat.widget.SearchView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -84,6 +73,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="parent"
+            tools:listitem="@layout/recycler_single_item_products"
             android:clickable="true"
             android:focusable="true"
             android:focusableInTouchMode ="true"/>

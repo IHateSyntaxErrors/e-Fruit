@@ -124,7 +124,7 @@
             android:layout_marginBottom="16dp"
             android:background="@drawable/selector_alert_neutral_btn"
             android:fontFamily="@font/helvetica_bold"
-            android:text="Add to cart"
+            android:text="@string/page_products_recycler_add_to_cart"
             android:textAllCaps="false"
             android:textColor="@color/colorButtonText"
             android:textSize="15sp"

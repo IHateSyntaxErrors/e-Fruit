@@ -67,8 +67,6 @@ public class ProfileActivity extends AppCompatActivity {
     TextInputEditText txtInputProfile_FullName;
     @BindView(R.id.txtInputProfile_Phone)
     TextInputEditText txtInputProfile_Phone;
-    @BindView(R.id.txtInputProfile_Address)
-    TextInputEditText txtEditInputProfile_Address;
 
     @BindView(R.id.buttonProfile_Save)
     MaterialButton btnSaveProfile;
@@ -128,7 +126,6 @@ public class ProfileActivity extends AppCompatActivity {
 
                         txtInputProfile_FullName.setText(modelUsers.getFull_name());
                         txtInputProfile_Phone.setText(modelUsers.getPhone_number());
-                        txtEditInputProfile_Address.setText(modelUsers.getAddress());
                     }
                 }
             });
@@ -164,15 +161,13 @@ public class ProfileActivity extends AppCompatActivity {
     private void saveProfile(String tokenId) {
         String full_name = String.valueOf(txtInputProfile_FullName.getText());
         String phone = String.valueOf(txtInputProfile_Phone.getText());
-        String address = String.valueOf(txtEditInputProfile_Address.getText());
 
         Map< String, Object > updatedUser = new HashMap< >();
         updatedUser.put("full_name", full_name);
         updatedUser.put("phone_number", phone);
-        updatedUser.put("address", address);
         updatedUser.put("tokenId", tokenId);
 
-        db.collection("users").document(tokenId).set(updatedUser).addOnSuccessListener(s -> {
+        db.collection("users").document(tokenId).update(updatedUser).addOnSuccessListener(s -> {
             Dialog dialog = toolbox.showDialogPersonalInfoSaved(this);
             dialog.show();
             txtViewProfile_FullName.setText(full_name);

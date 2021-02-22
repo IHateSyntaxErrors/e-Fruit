@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -78,6 +79,8 @@ public class MainActivity extends AppCompatActivity
     ImageButton imgBtnMic;
     @BindView(R.id.action_bar_cart)
     ImageButton imgBtnCart;
+    @BindView(R.id.action_bar_admin_panel)
+    ImageButton imgBtnAdminPanel;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     @Override
@@ -292,6 +295,11 @@ public class MainActivity extends AppCompatActivity
 
                         TextView textViewPhone = headerView.findViewById(R.id.textViewNavBar_Phone);
                         textViewPhone.setText(modelUsers.getPhone_number());
+
+                        if (modelUsers.getIs_admin()) { // If user is admin, show the admin UI.
+                            imgBtnAdminPanel.setVisibility(View.VISIBLE);
+                            navigationView.getMenu().getItem(2).setVisible(true);
+                        }
                     }
                 }
             });

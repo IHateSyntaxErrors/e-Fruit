@@ -19,6 +19,8 @@
     <string name="drawer_nav_bar_item_cart">Καλάθι</string>
     <string name="drawer_nav_bar_category_account">Λογαρισμός</string>
     <string name="drawer_nav_bar_item_my_account">Ο Λογαρισμός Μου</string>
+    <string name="drawer_nav_bar_category_admin">Διαχείριση</string>
+    <string name="drawer_nav_bar_item_admin_panel">Πίνακας Διαχειριστή</string>
     <string name="drawer_nav_bar_item_orders">Παραγγελίες</string>
     <string name="drawer_nav_bar_category_other">Άλλα</string>
     <string name="drawer_nav_bar_item_settings">Ρυθμίσεις</string>
@@ -60,6 +62,8 @@
     <!-- Shopping Cart Page -->
     <string name="page_cart_header">Καλάθι</string>
     <string name="page_cart_empty_shopping_cart">Το καλάθι σας είναι κενό! :(</string>
+    <string name="page_cart_select_time">Επιλέξτε ημ/νια και ώρα παράλαβής</string>
+    <string name="page_cart_remove_item">Αφαίρεση</string>
 
     <!-- Version -->
     <string name="app_versionCode">@string/versionName</string>

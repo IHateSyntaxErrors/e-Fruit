@@ -33,6 +33,16 @@
             </group>
         </menu>
     </item>
+    <item android:visible="false" android:title="@string/drawer_nav_bar_category_admin">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_item_admin_panel"
+                    android:icon="@drawable/ic_admin_panel"
+                    android:title="@string/drawer_nav_bar_item_admin_panel" />
+            </group>
+        </menu>
+    </item>
     <item android:title="@string/drawer_nav_bar_category_other">
         <menu>
             <group android:checkableBehavior="single">
