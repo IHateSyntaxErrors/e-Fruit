@@ -50,7 +50,7 @@ public class FragmentProducts extends Fragment {
     private LinearLayoutManager linearLayoutManager;
     private List<ModelProducts> modelProductsList = new ArrayList<>();
 
-    @BindView(R.id.txtInputProducts_SearchBar)
+    @BindView(R.id.editTxtInputProducts_SearchBar)
     TextInputEditText txtInputProducts_SearchBar;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

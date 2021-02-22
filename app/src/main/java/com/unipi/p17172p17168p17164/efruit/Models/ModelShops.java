@@ -1,4 +1,5 @@
 package com.unipi.p17172p17168p17164.efruit.Models;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
 import java.util.HashMap;
@@ -7,15 +8,15 @@ import java.util.HashMap;
 public class ModelShops {
     String name;
     String address;
-    String coords;
+    GeoPoint coords;
     String phone;
     String region;
     String zip;
-    HashMap<Object, >
+    HashMap<Object, ModelProducts> products;
 
     private ModelShops() {} // Empty constructor for Firebase.
 
-    private ModelShops(String address, String coords, String phone, String region, String zip, String name) { // Constructor to read data from Firebase.
+    private ModelShops(String address, GeoPoint coords, String phone, String region, String zip, String name) { // Constructor to read data from Firebase.
         this.address = address;
         this.coords = coords;
         this.phone = phone;
@@ -32,11 +33,11 @@ public class ModelShops {
         this.address = address;
     }
 
-    public String getCoords() {
+    public GeoPoint getCoords() {
         return coords;
     }
 
-    public void setCoords(String coords) {
+    public void setCoords(GeoPoint coords) {
         this.coords = coords;
     }
 

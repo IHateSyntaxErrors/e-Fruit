@@ -46,7 +46,7 @@ public class FragmentShops extends Fragment {
     private FirebaseFirestore db;
     private FirestoreRecyclerAdapter adapter;
 
-    @BindView(R.id.recyclerViewProducts)
+    @BindView(R.id.recyclerViewShops)
     RecyclerView recyclerShops;
 
     private LinearLayoutManager linearLayoutManager;
@@ -64,7 +64,7 @@ public class FragmentShops extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_products, container, false);
+        view = inflater.inflate(R.layout.fragment_shops, container, false);
 
         ButterKnife.bind(this, view);
 
@@ -91,18 +91,6 @@ public class FragmentShops extends Fragment {
         final String TAG = "efruit";
 
         Query queryShops = db.collection("shops");
-        /*DocumentReference queryShops = db.collection("shops")
-                .document("shop1")
-                .collection("quantity")
-                .document("applegreen");*/
-
-        Task firstTask = queryShops.get();
-//        Task secondTask = queryShops.get();
-
-        /*Task<List<QuerySnapshot>> combinedTasks = Tasks.whenAllSuccess(firstTask, secondTask);
-        combinedTasks.addOnSuccessListener(querySnapshots -> {
-
-        });*/
 
         queryShops.addSnapshotListener((snapshots, e) -> {
             if (e != null) {
@@ -133,17 +121,18 @@ public class FragmentShops extends Fragment {
         adapter = new FirestoreRecyclerAdapter<ModelShops, ShopsViewHolder>(recyclerOptions) {
             @Override
             protected void onBindViewHolder(@NonNull ShopsViewHolder holder, int position, @NonNull ModelShops model) {
+                holder.viewHolderImgShops_ShopImage.setBackgroundResource(R.drawable.fruit_shop);
                 holder.viewHolderTxtViewShops_ShopName.setText(model.getName());
                 holder.viewHolderTxtViewShops_ShopPhone.setText(model.getPhone());
                 holder.viewHolderTxtViewShops_ShopAddress.setText(model.getAddress());
                 holder.viewHolderTxtViewShops_ShopRegion.setText(model.getRegion());
-                holder.viewHolderTxtViewShops_ShopZip.setText(model.getZip());
+                holder.viewHolderTxtViewShops_ShopZip.setText(String.format(context.getString(R.string.recycler_var_shops_zip), model.getZip() + ""));
             }
 
             @NonNull
             @Override
             public ShopsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_single_item_products, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_single_item_shops, parent, false);
                 return new ShopsViewHolder(view);
             }
 
@@ -157,6 +146,8 @@ public class FragmentShops extends Fragment {
     }
 
     public class ShopsViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.imageViewShops_ShopImage)
+        ImageView viewHolderImgShops_ShopImage;
         @BindView(R.id.textViewShops_ShopName)
         TextView viewHolderTxtViewShops_ShopName;
         @BindView(R.id.textViewShops_ShopPhone)

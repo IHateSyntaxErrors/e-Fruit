@@ -3,6 +3,7 @@ package com.unipi.p17172p17168p17164.efruit.Activities;
 import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,6 +44,7 @@ import com.permissionx.guolindev.PermissionX;
 import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentHome;
 import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentProducts;
 import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentSettings;
+import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentShops;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelUsers;
 import com.unipi.p17172p17168p17164.efruit.R;
 import com.unipi.p17172p17168p17164.efruit.Utils.PermissionsUtils;
@@ -54,6 +57,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+@RequiresApi(api = Build.VERSION_CODES.Q)
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -134,10 +138,9 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_item_cart)
         {
-            navigationView.getMenu().getItem(id).setChecked(false);
             // Home Fragment
-            FragmentHome homeFragment = new FragmentHome();
-            setFragment(homeFragment);
+            FragmentShops fragmentShops = new FragmentShops();
+            setFragment(fragmentShops);
         }
         else if (id == R.id.nav_item_profile)
         {
