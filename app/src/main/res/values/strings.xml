@@ -56,6 +56,10 @@
     <string name="page_profile_header2_personal_information">Personal Information</string>
     <string name="page_profile_text_view_sign_out">Sign out</string>
 
+    <!-- Shopping Cart Page -->
+    <string name="page_cart_header">Shopping Cart</string>
+    <string name="page_cart_empty_shopping_cart">Shopping cart is empty! :(</string>
+
     <!-- Settings -->
     <string name="page_settings_header1_title">Settings</string>
     <string name="page_settings_title_general">General</string>

@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 @IgnoreExtraProperties
 public class ModelShops {
+    String shopId;
     String name;
     String address;
     GeoPoint coords;
@@ -16,13 +17,14 @@ public class ModelShops {
 
     private ModelShops() {} // Empty constructor for Firebase.
 
-    private ModelShops(String address, GeoPoint coords, String phone, String region, String zip, String name) { // Constructor to read data from Firebase.
+    private ModelShops(String address, GeoPoint coords, String phone, String region, String zip, String name, String shopId) { // Constructor to read data from Firebase.
         this.address = address;
         this.coords = coords;
         this.phone = phone;
         this.region = region;
         this.zip = zip;
         this.name = name;
+        this.shopId = shopId;
     }
 
     public String getAddress() {
@@ -71,5 +73,13 @@ public class ModelShops {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(String shopId) {
+        this.shopId = shopId;
     }
 }

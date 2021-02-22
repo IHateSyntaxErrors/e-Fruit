@@ -8,32 +8,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
-import com.unipi.p17172p17168p17164.efruit.Models.ModelProducts;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelShops;
 import com.unipi.p17172p17168p17164.efruit.R;
 import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
-
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -88,7 +81,7 @@ public class FragmentShops extends Fragment {
     }
 
     public void getShopsList(){
-        final String TAG = "efruit";
+        final String TAG = "[FragmentShops]";
 
         Query queryShops = db.collection("shops");
 
@@ -101,10 +94,10 @@ public class FragmentShops extends Fragment {
             for (DocumentChange dc : snapshots.getDocumentChanges()) {
                 switch (dc.getType()) {
                     case ADDED:
-                        Log.d(TAG, "New Product: " + dc.getDocument().getData());
+                        Log.d(TAG, "New Shop: " + dc.getDocument().getData());
                         break;
                     case MODIFIED:
-                        Log.d(TAG, "Modified Product: " + dc.getDocument().getData());
+                        Log.d(TAG, "Modified Shop: " + dc.getDocument().getData());
                         break;
                     case REMOVED:
                         Log.d(TAG, "Removed Product: " + dc.getDocument().getData());
@@ -127,6 +120,20 @@ public class FragmentShops extends Fragment {
                 holder.viewHolderTxtViewShops_ShopAddress.setText(model.getAddress());
                 holder.viewHolderTxtViewShops_ShopRegion.setText(model.getRegion());
                 holder.viewHolderTxtViewShops_ShopZip.setText(String.format(context.getString(R.string.recycler_var_shops_zip), model.getZip() + ""));
+
+                holder.itemView.setOnClickListener(v -> {
+                    FragmentProducts fragment = new FragmentProducts(model.getShopId());
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+                    //get fragment transaction
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                    //set new fragment in fragment_container (FrameLayout)
+                    fragmentTransaction.replace(R.id.fragment_container, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+
+                });
             }
 
             @NonNull
@@ -164,6 +171,14 @@ public class FragmentShops extends Fragment {
             ButterKnife.bind(this, itemView);
         }
     }
+
+    /*public void onShopListener(int pos) {
+
+    }
+
+    public interface onShopListener {
+        void onShopClick(int pos);
+    }*/
 
     @Override
     public void onStart() {

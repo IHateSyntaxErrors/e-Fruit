@@ -44,6 +44,7 @@ public class FragmentProducts extends Fragment {
 
     private FirebaseFirestore db;
     private FirestoreRecyclerAdapter adapter;
+    String shopId;
 
     @BindView(R.id.recyclerViewProducts) RecyclerView productsList;
 
@@ -53,6 +54,11 @@ public class FragmentProducts extends Fragment {
     @BindView(R.id.editTxtInputProducts_SearchBar)
     TextInputEditText txtInputProducts_SearchBar;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+    public FragmentProducts(String shopId) {
+        this.shopId = shopId;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,23 +93,9 @@ public class FragmentProducts extends Fragment {
     }
 
     public void getProductsList(){
-        final String TAG = "efruit";
-        ArrayList<ModelProducts> finalCollection = new ArrayList<>();
-        List<Task<?>> taskArray = new ArrayList<>();
+        final String TAG = "[FragmentProducts]";
 
-        Query queryProducts = db.collection("products");
-        /*DocumentReference queryShops = db.collection("shops")
-                .document("shop1")
-                .collection("quantity")
-                .document("applegreen");*/
-
-        Task firstTask = queryProducts.get();
-//        Task secondTask = queryShops.get();
-
-        /*Task<List<QuerySnapshot>> combinedTasks = Tasks.whenAllSuccess(firstTask, secondTask);
-        combinedTasks.addOnSuccessListener(querySnapshots -> {
-
-        });*/
+        Query queryProducts = db.collection("shops").document(shopId).collection("products");
 
         queryProducts.addSnapshotListener((snapshots, e) -> {
             if (e != null) {

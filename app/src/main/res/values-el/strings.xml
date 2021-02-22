@@ -58,6 +58,10 @@
     <string name="page_profile_header2_personal_information">Προσωπικές Πληροφορίες</string>
     <string name="page_profile_text_view_sign_out">Αποσύνδεση</string>
 
+    <!-- Shopping Cart Page -->
+    <string name="page_cart_header">Καλάθι</string>
+    <string name="page_cart_empty_shopping_cart">Το καλάθι σας είναι κενό! :(</string>
+
     <!-- Version -->
     <string name="app_versionCode">@string/versionName</string>
     <string name="app_versionText">Έκδοση Εφαρμογής </string>

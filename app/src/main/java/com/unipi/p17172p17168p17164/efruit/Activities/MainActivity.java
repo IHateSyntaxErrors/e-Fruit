@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity
     ImageButton imgBtnMic;
     @BindView(R.id.action_bar_cart)
     ImageButton imgBtnCart;
-
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     @Override
@@ -125,49 +124,47 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        Fragment fragment = new FragmentHome();
         if (id == R.id.nav_item_home)
         {
             // Home Fragment
-            FragmentHome fragmentHome = new FragmentHome();
-            setFragment(fragmentHome);
+            fragment = new FragmentHome();
         }
         else if (id == R.id.nav_item_products)
         {
             // Products Fragment
-            FragmentProducts fragmentProducts = new FragmentProducts();
-            setFragment(fragmentProducts);
+            fragment = new FragmentShops();
         }
         else if (id == R.id.nav_item_cart)
         {
             // Home Fragment
-            FragmentShops fragmentShops = new FragmentShops();
-            setFragment(fragmentShops);
+            fragment = new FragmentShops();
         }
         else if (id == R.id.nav_item_profile)
         {
-            navigationView.getMenu().getItem(0).setChecked(false);
             // Profile Activity
             Intent intentProfile = new Intent(MainActivity.this, ProfileActivity.class);
             startActivity(intentProfile);
+            return false;
         }
         else if (id == R.id.nav_item_orders)
         {
             // Home Fragment
-            FragmentHome homeFragment = new FragmentHome();
-            setFragment(homeFragment);
+            fragment = new FragmentHome();
         }
         else if (id == R.id.nav_item_settings)
         {
             // Home Fragment
-            FragmentSettings fragmentSettings = new FragmentSettings();
-            setFragment(fragmentSettings);
+            fragment = new FragmentSettings();
         }
         else if (id == R.id.nav_item_exit)
         {
             this.finish();
             System.exit(0);
+            return false;
         }
 
+        setFragment(fragment);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -232,6 +229,7 @@ public class MainActivity extends AppCompatActivity
             if (resultCode == RESULT_OK && data != null) {
                 // get text array from voice input
                 ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+
                 // Todo fix this
                 if (containsCaseInsensitive("home", result)) {
                     // Change to home fragment
@@ -242,18 +240,17 @@ public class MainActivity extends AppCompatActivity
                         || containsCaseInsensitive("go to products", result)
                         || containsCaseInsensitive("fruits", result)) {
                     // Change to products fragment
-                    FragmentProducts fragmentProducts = new FragmentProducts();
-                    setFragment(fragmentProducts);
+                   /* FragmentProducts fragmentProducts = new FragmentProducts();
+                    setFragment(fragmentProducts);*/
                 }
                 else if (containsCaseInsensitive("settings", result)
                         || containsCaseInsensitive("go to settings", result)) {
                     // Change to settings fragment
-                    FragmentProducts fragmentProducts = new FragmentProducts();
-                    setFragment(fragmentProducts);
+                    FragmentSettings fragmentSettings = new FragmentSettings();
+                    setFragment(fragmentSettings);
                 }
                 else if (containsCaseInsensitive("exit", result)) {
                     finish();
-                    //exit from app
                     System.exit(0);
                 }
                 else {
