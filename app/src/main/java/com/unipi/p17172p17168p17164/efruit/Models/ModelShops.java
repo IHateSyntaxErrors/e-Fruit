@@ -1,20 +1,27 @@
 package com.unipi.p17172p17168p17164.efruit.Models;
+import com.google.firebase.firestore.IgnoreExtraProperties;
 
+import java.util.HashMap;
+
+@IgnoreExtraProperties
 public class ModelShops {
+    String name;
     String address;
     String coords;
     String phone;
     String region;
     String zip;
+    HashMap<Object, >
 
     private ModelShops() {} // Empty constructor for Firebase.
 
-    private ModelShops(String address, String coords, String phone, String region, String zip) { // Constructor to read data from Firebase.
+    private ModelShops(String address, String coords, String phone, String region, String zip, String name) { // Constructor to read data from Firebase.
         this.address = address;
         this.coords = coords;
         this.phone = phone;
         this.region = region;
         this.zip = zip;
+        this.name = name;
     }
 
     public String getAddress() {
@@ -55,5 +62,13 @@ public class ModelShops {
 
     public void setZip(String zip) {
         this.zip = zip;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

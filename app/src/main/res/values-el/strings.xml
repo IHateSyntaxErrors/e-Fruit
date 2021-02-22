@@ -6,6 +6,7 @@
     <string name="general_cancel">Άκυρο</string>
     <string name="toast_speech_recognition_not_supported">Η συσκευή σας δεν υποστηρίζει αναγνώριση φωνής.</string>
     <string name="toast_speech_recognition_invalid_action">Μη έγκυρη ενέργεια! Δοκιμάστε ξανά.</string>
+    <string name="search_bar_hint">Αναζήτηση</string>
 
     <!-- Main Activity -->
     <string name="nav_drawer_open">Άνοιγμα</string>
@@ -36,9 +37,10 @@
 
     <!-- Home Page -->
 
+    <!-- Products Fragment Page -->
+    <string name="recycler_var_shops_zip">Τ.Κ: %1$s</string>
 
     <!-- Products Fragment Page -->
-    <string name="page_products_search_bar_hint">Αναζήτηση</string>
     <string name="page_products_recycler_add_to_cart">Προσθήκη</string>
 
     <!-- Settings -->

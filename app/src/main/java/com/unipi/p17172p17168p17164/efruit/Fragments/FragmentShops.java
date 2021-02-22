@@ -27,6 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelProducts;
+import com.unipi.p17172p17168p17164.efruit.Models.ModelShops;
 import com.unipi.p17172p17168p17164.efruit.R;
 import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
 
@@ -37,7 +38,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FragmentProducts extends Fragment {
+public class FragmentShops extends Fragment {
     // ~~~~~~~VARIABLES~~~~~~~
     private Context context;
     private View view;
@@ -45,13 +46,13 @@ public class FragmentProducts extends Fragment {
     private FirebaseFirestore db;
     private FirestoreRecyclerAdapter adapter;
 
-    @BindView(R.id.recyclerViewProducts) RecyclerView productsList;
+    @BindView(R.id.recyclerViewProducts)
+    RecyclerView recyclerShops;
 
     private LinearLayoutManager linearLayoutManager;
-    private List<ModelProducts> modelProductsList = new ArrayList<>();
 
-    @BindView(R.id.txtInputProducts_SearchBar)
-    TextInputEditText txtInputProducts_SearchBar;
+    @BindView(R.id.editTxtInputShops_SearchBar)
+    TextInputEditText editTxtInputShops_SearchBar;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     @Override
@@ -68,36 +69,34 @@ public class FragmentProducts extends Fragment {
         ButterKnife.bind(this, view);
 
         init();
-        getProductsList();
+        getShopsList();
 
         return view;
     }
 
     private void init() {
         linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        productsList.setLayoutManager(linearLayoutManager);
-        productsList.setHasFixedSize(true);
+        recyclerShops.setLayoutManager(linearLayoutManager);
+        recyclerShops.setHasFixedSize(true);
         db = FirebaseFirestore.getInstance();
 
-        txtInputProducts_SearchBar.setOnFocusChangeListener((v, hasFocus) -> {
+        editTxtInputShops_SearchBar.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 Toolbox.hideKeyboard(v, context);
             }
         });
     }
 
-    public void getProductsList(){
+    public void getShopsList(){
         final String TAG = "efruit";
-        ArrayList<ModelProducts> finalCollection = new ArrayList<>();
-        List<Task<?>> taskArray = new ArrayList<>();
 
-        Query queryProducts = db.collection("products");
+        Query queryShops = db.collection("shops");
         /*DocumentReference queryShops = db.collection("shops")
                 .document("shop1")
                 .collection("quantity")
                 .document("applegreen");*/
 
-        Task firstTask = queryProducts.get();
+        Task firstTask = queryShops.get();
 //        Task secondTask = queryShops.get();
 
         /*Task<List<QuerySnapshot>> combinedTasks = Tasks.whenAllSuccess(firstTask, secondTask);
@@ -105,7 +104,7 @@ public class FragmentProducts extends Fragment {
 
         });*/
 
-        queryProducts.addSnapshotListener((snapshots, e) -> {
+        queryShops.addSnapshotListener((snapshots, e) -> {
             if (e != null) {
                 Log.w(TAG, "listen:error", e);
                 return;
@@ -128,29 +127,24 @@ public class FragmentProducts extends Fragment {
         });
 
         // RecyclerOptions
-        FirestoreRecyclerOptions<ModelProducts> recyclerOptions = new FirestoreRecyclerOptions.Builder<ModelProducts>()
-                .setQuery(queryProducts, ModelProducts.class)
+        FirestoreRecyclerOptions<ModelShops> recyclerOptions = new FirestoreRecyclerOptions.Builder<ModelShops>()
+                .setQuery(queryShops, ModelShops.class)
                 .build();
-        adapter = new FirestoreRecyclerAdapter<ModelProducts, ProductsViewHolder>(recyclerOptions) {
+        adapter = new FirestoreRecyclerAdapter<ModelShops, ShopsViewHolder>(recyclerOptions) {
             @Override
-            protected void onBindViewHolder(@NonNull ProductsViewHolder holder, int position, @NonNull ModelProducts model) {
-                Glide.with(context)
-                        .load(model.getImgUrl())
-                        .into(holder.viewHolderProducts_ImgProductImage);
-                holder.viewHolderProducts_TxtProductName.setText(model.getName());
-                holder.viewHolderProducts_TxtProductPrice.setText(String.format(context.getString(R.string.recycler_var_product_price), model.getPrice() + ""));
-                holder.viewHolderProducts_TxtProductPricePerKg.setText(String.format(context.getString(R.string.recycler_var_product_price_per_kg), model.getPrice() + ""));
-                holder.viewHolderProducts_TxtProductQuantity.setText(MessageFormat.format("{0}", model.getQuantity()));
-                holder.viewHolderProducts_btnAddToCart.setOnClickListener(v -> {
-                    Toast.makeText(context, model.getName() + " " + model.getPrice(), Toast.LENGTH_SHORT).show();
-                });
+            protected void onBindViewHolder(@NonNull ShopsViewHolder holder, int position, @NonNull ModelShops model) {
+                holder.viewHolderTxtViewShops_ShopName.setText(model.getName());
+                holder.viewHolderTxtViewShops_ShopPhone.setText(model.getPhone());
+                holder.viewHolderTxtViewShops_ShopAddress.setText(model.getAddress());
+                holder.viewHolderTxtViewShops_ShopRegion.setText(model.getRegion());
+                holder.viewHolderTxtViewShops_ShopZip.setText(model.getZip());
             }
 
             @NonNull
             @Override
-            public ProductsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            public ShopsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_single_item_products, parent, false);
-                return new ProductsViewHolder(view);
+                return new ShopsViewHolder(view);
             }
 
             @Override
@@ -159,24 +153,22 @@ public class FragmentProducts extends Fragment {
             }
         };
         adapter.notifyDataSetChanged();
-        productsList.setAdapter(adapter);
+        recyclerShops.setAdapter(adapter);
     }
 
-    public class ProductsViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.imageViewProducts_ProductImage)
-        ImageView viewHolderProducts_ImgProductImage;
-        @BindView(R.id.textViewProducts_ProductName)
-        TextView viewHolderProducts_TxtProductName;
-        @BindView(R.id.textViewProducts_ProductPrice)
-        TextView viewHolderProducts_TxtProductPrice;
-        @BindView(R.id.textViewProducts_ProductPricePerKg)
-        TextView viewHolderProducts_TxtProductPricePerKg;
-        @BindView(R.id.textViewProducts_ProductQuantityNum)
-        TextView viewHolderProducts_TxtProductQuantity;
-        @BindView(R.id.btnRecyclerItemAddToCart)
-        MaterialButton viewHolderProducts_btnAddToCart;
+    public class ShopsViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.textViewShops_ShopName)
+        TextView viewHolderTxtViewShops_ShopName;
+        @BindView(R.id.textViewShops_ShopPhone)
+        TextView viewHolderTxtViewShops_ShopPhone;
+        @BindView(R.id.textViewShops_ShopAddress)
+        TextView viewHolderTxtViewShops_ShopAddress;
+        @BindView(R.id.textViewShops_ShopRegion)
+        TextView viewHolderTxtViewShops_ShopRegion;
+        @BindView(R.id.textViewShops_ShopZip)
+        TextView viewHolderTxtViewShops_ShopZip;
 
-        public ProductsViewHolder(@NonNull View itemView) {
+        public ShopsViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

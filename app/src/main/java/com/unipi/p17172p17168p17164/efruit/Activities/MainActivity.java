@@ -67,6 +67,8 @@ public class MainActivity extends AppCompatActivity
     Toolbar toolbar;
     private static final String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION,
                                                  Manifest.permission.ACCESS_FINE_LOCATION,
+                                                 Manifest.permission.REQUEST_COMPANION_RUN_IN_BACKGROUND,
+                                                 Manifest.permission.ACCESS_BACKGROUND_LOCATION,
                                                  Manifest.permission.RECORD_AUDIO};
     private static final int REQUEST_CODE_SPEECH_INPUT = 10;
     private FirebaseFirestore db;

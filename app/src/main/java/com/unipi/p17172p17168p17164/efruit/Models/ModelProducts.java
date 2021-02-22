@@ -5,15 +5,15 @@ import com.google.firebase.firestore.IgnoreExtraProperties;
 import java.util.HashMap;
 
 @IgnoreExtraProperties
-public class ItemProduct {
+public class ModelProducts {
     String imgUrl;
     String name;
     double price;
-    HashMap<String, Object> quantity;
+    int quantity;
 
-    private ItemProduct() {} // Empty constructor for Firebase.
+    private ModelProducts() {} // Empty constructor for Firebase.
 
-    private ItemProduct(String imgUrl, String name, long price, HashMap<String, Object> quantity) { // Constructor to read data from Firebase.
+    private ModelProducts(String imgUrl, String name, long price, int quantity) { // Constructor to read data from Firebase.
         this.imgUrl = imgUrl;
         this.name = name;
         this.price = price;
@@ -44,11 +44,11 @@ public class ItemProduct {
         this.price = price;
     }
 
-    public HashMap<String, Object> getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(HashMap<String, Object> quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 }

@@ -7,6 +7,7 @@
     <string name="general_cancel">Cancel</string>
     <string name="toast_speech_recognition_not_supported">Speech recognition is not supported in your device.</string>
     <string name="toast_speech_recognition_invalid_action">Invalid action. Try again!</string>
+    <string name="search_bar_hint">Search</string>
 
     <!-- Main Activity -->
     <string name="nav_drawer_open">Open</string>
@@ -39,8 +40,10 @@
     <!-- Home Page -->
 
 
+    <!-- Shops Fragment Page -->
+    <string name="recycler_var_shops_zip">Zip: %1$s</string>
+
     <!-- Products Fragment Page -->
-    <string name="page_products_search_bar_hint">Search</string>
     <string name="page_products_recycler_add_to_cart">Add to cart</string>
     <string name="recycler_var_product_price" translatable="false">%1$s €</string>
     <string name="recycler_var_product_price_per_kg" translatable="false">%1$s € / Kg </string>
