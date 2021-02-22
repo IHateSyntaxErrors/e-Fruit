@@ -1,8 +1,7 @@
 package com.unipi.p17172p17168p17164.efruit.Models;
+
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.IgnoreExtraProperties;
-
-import java.util.HashMap;
 
 @IgnoreExtraProperties
 public class ModelShops {
@@ -13,7 +12,6 @@ public class ModelShops {
     String phone;
     String region;
     String zip;
-    HashMap<Object, ModelProducts> products;
 
     private ModelShops() {} // Empty constructor for Firebase.
 

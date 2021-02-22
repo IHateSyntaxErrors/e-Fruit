@@ -1,6 +1,7 @@
 package com.unipi.p17172p17168p17164.efruit.Activities;
 
 import android.content.Intent;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -22,10 +23,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.type.LatLng;
 import com.orhanobut.hawk.Hawk;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelUsers;
 import com.unipi.p17172p17168p17164.efruit.R;
 import com.unipi.p17172p17168p17164.efruit.Utils.PrefsUtils;
+import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -138,8 +142,9 @@ public class SignInActivity extends AppCompatActivity {
                             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                             String userName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
                             String tokenId = account.getIdToken();
+                            GeoPoint userLocation = Toolbox.LatLonPoint(0, 0);
 
-                            ModelUsers modelUsers = new ModelUsers(userName, tokenId, "", "");
+                            ModelUsers modelUsers = new ModelUsers(userName, tokenId, "", userLocation, false);
                             // Insert user data into cloud.
                             db.collection("users").document(userId).set(modelUsers);
 

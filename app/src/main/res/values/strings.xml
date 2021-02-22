@@ -20,6 +20,8 @@
     <string name="drawer_nav_bar_item_cart">Cart</string>
     <string name="drawer_nav_bar_category_account">Account</string>
     <string name="drawer_nav_bar_item_my_account">My Account</string>
+    <string name="drawer_nav_bar_category_admin">Administration</string>
+    <string name="drawer_nav_bar_item_admin_panel">Admin Panel</string>
     <string name="drawer_nav_bar_item_orders">Orders</string>
     <string name="drawer_nav_bar_category_other">Other</string>
     <string name="drawer_nav_bar_item_settings">Settings</string>
@@ -60,6 +62,8 @@
     <!-- Shopping Cart Page -->
     <string name="page_cart_header">Shopping Cart</string>
     <string name="page_cart_empty_shopping_cart">Shopping cart is empty! :(</string>
+    <string name="page_cart_select_time">Select click-away time</string>
+    <string name="page_cart_remove_item">Remove</string>
 
     <!-- Settings -->
     <string name="page_settings_header1_title">Settings</string>

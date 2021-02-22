@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,8 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,6 +34,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.unipi.p17172p17168p17164.efruit.Models.ModelCart;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelProducts;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelUsers;
 import com.unipi.p17172p17168p17164.efruit.R;
@@ -57,6 +62,8 @@ public class CartActivity extends AppCompatActivity {
 
     @BindView(R.id.imageViewCart_BackButton)
     ImageView imageViewBackButton;
+    @BindView(R.id.viewFlipperCart)
+    ViewFlipper viewFlipper;
     private LinearLayoutManager linearLayoutManager;
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -80,18 +87,26 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void init() {
+        db = FirebaseFirestore.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         cartList.setLayoutManager(linearLayoutManager);
         cartList.setHasFixedSize(true);
-        db = FirebaseFirestore.getInstance();
     }
 
     private void getCartList() {
         final String TAG = "[CartActivity]";
 
-        Query queryProducts = db.collection("carts").document(firebaseUser.getUid()).collection("products");
+        Query queryCartProducts = db.collection("carts").document(firebaseUser.getUid()).collection("products");
 
-        queryProducts.addSnapshotListener((snapshots, e) -> {
+        /*queryCartProducts.get().addOnCompleteListener(task -> {
+            if (task.getResult().isEmpty()) {
+                viewFlipper.setDisplayedChild(0);
+            }
+        });*/
+
+        queryCartProducts.addSnapshotListener((snapshots, e) -> {
             if (e != null) {
                 Log.w(TAG, "listen:error", e);
                 return;
@@ -110,16 +125,16 @@ public class CartActivity extends AppCompatActivity {
                         break;
                 }
             }
-
         });
 
         // RecyclerOptions
-        FirestoreRecyclerOptions<ModelProducts> recyclerOptions = new FirestoreRecyclerOptions.Builder<ModelProducts>()
-                .setQuery(queryProducts, ModelProducts.class)
+        FirestoreRecyclerOptions<ModelCart> recyclerOptions = new FirestoreRecyclerOptions.Builder<ModelCart>()
+                .setQuery(queryCartProducts, ModelCart.class)
                 .build();
-        adapter = new FirestoreRecyclerAdapter<ModelProducts, ProductsViewHolder>(recyclerOptions) {
+
+        adapter = new FirestoreRecyclerAdapter<ModelCart, CartViewHolder>(recyclerOptions) {
             @Override
-            protected void onBindViewHolder(@NonNull ProductsViewHolder holder, int position, @NonNull ModelProducts model) {
+            protected void onBindViewHolder(@NonNull CartViewHolder holder, int position, @NonNull ModelCart model) {
                 Glide.with(getApplicationContext())
                         .load(model.getImgUrl())
                         .into(holder.viewHolderCart_ImgProductImage);
@@ -127,14 +142,16 @@ public class CartActivity extends AppCompatActivity {
                 holder.viewHolderCart_TxtProductPrice.setText(String.format(getString(R.string.recycler_var_product_price), model.getPrice() + ""));
                 holder.viewHolderCart_TxtProductPricePerKg.setText(String.format(getString(R.string.recycler_var_product_price_per_kg), model.getPrice() + ""));
                 holder.viewHolderCart_TxtProductQuantity.setText(MessageFormat.format("{0}", model.getQuantity()));
+                holder.viewHolderCart_btnRemoveItem.setOnClickListener(v -> {
 
+                });
             }
 
             @NonNull
             @Override
-            public ProductsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_single_item_products, parent, false);
-                return new ProductsViewHolder(view);
+            public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_single_item_cart, parent, false);
+                return new CartViewHolder(view);
             }
 
             @Override
@@ -146,7 +163,7 @@ public class CartActivity extends AppCompatActivity {
         cartList.setAdapter(adapter);
     }
 
-    public class ProductsViewHolder extends RecyclerView.ViewHolder {
+    public class CartViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.imageViewCart_ProductImage)
         ImageView viewHolderCart_ImgProductImage;
         @BindView(R.id.textViewCart_ProductName)
@@ -159,8 +176,10 @@ public class CartActivity extends AppCompatActivity {
         TextView viewHolderCart_TxtProductQuantity;
         /*@BindView(R.id.textViewCart_SelectedAmtNumber)
         TextView viewHolderProducts_TxtSelectedAmtNumber;*/
+        @BindView(R.id.btnCart_RemoveItem)
+        TextView viewHolderCart_btnRemoveItem;
 
-        public ProductsViewHolder(@NonNull View itemView) {
+        public CartViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

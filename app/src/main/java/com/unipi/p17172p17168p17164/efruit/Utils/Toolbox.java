@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.firestore.GeoPoint;
 import com.orhanobut.hawk.Hawk;
 import com.unipi.p17172p17168p17164.efruit.R;
 
@@ -37,6 +38,12 @@ public class Toolbox {
         btnAlertLangOk.setOnClickListener(v -> dialog.dismiss());
 
         return dialog;
+    }
+
+    public static GeoPoint LatLonPoint(double latitude, double longitude) {
+        int lat = (int) (latitude * 1E6);
+        int lng = (int) (longitude * 1E6);
+        return new GeoPoint(lat, lng);
     }
 
     public Dialog showDialogLangChange(Context context) {

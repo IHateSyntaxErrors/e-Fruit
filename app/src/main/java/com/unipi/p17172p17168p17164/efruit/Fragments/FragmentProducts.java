@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,8 +51,8 @@ public class FragmentProducts extends Fragment {
 
     private LinearLayoutManager linearLayoutManager;
 
-    @BindView(R.id.editTxtInputProducts_SearchBar)
-    TextInputEditText txtInputProducts_SearchBar;
+    @BindView(R.id.searchViewProducts)
+    SearchView txtInputProducts_SearchBar;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -117,6 +118,8 @@ public class FragmentProducts extends Fragment {
             }
 
         });
+
+
 
         // RecyclerOptions
         FirestoreRecyclerOptions<ModelProducts> recyclerOptions = new FirestoreRecyclerOptions.Builder<ModelProducts>()
