@@ -83,4 +83,5 @@
     <string name="img_content_desc_fruits">Εικόνα με φρούτα</string>
     <string name="img_content_desc_efruit_banner">Λάβαρο eFruit</string>
     <string name="img_content_desc_fruit_basket">Κούπα με φρούτα</string>
+    <string name="LOCATION_DISABLED">Η τοποθεσία είναι απενεργοποιημένη</string>
 </resources>

@@ -106,8 +106,7 @@ public class FragmentShops extends Fragment implements LocationListener {
             locationManager = (LocationManager) getContext().getSystemService(le);
             if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 Toast toast =
-                Toast.makeText(getContext(),
-                        "LOCATION DISABLED", Toast.LENGTH_LONG);
+                Toast.makeText(getContext(), getString(R.string.LOCATION_DISABLED), Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
             } else

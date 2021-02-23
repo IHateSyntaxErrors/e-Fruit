@@ -94,4 +94,5 @@
     <string name="img_content_desc_fruits">Fruits Image</string>
     <string name="img_content_desc_efruit_banner">eFruit Banner</string>
     <string name="img_content_desc_fruit_basket">Fruits Basket</string>
+    <string name="LOCATION_DISABLED">LOCATION DISABLED</string>
 </resources>
