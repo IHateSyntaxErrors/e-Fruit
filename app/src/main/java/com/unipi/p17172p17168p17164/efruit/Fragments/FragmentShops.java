@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
 import com.unipi.p17172p17168p17164.efruit.Activities.MainActivity;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelShops;
@@ -47,6 +49,7 @@ import com.unipi.p17172p17168p17164.efruit.R;
 import com.unipi.p17172p17168p17164.efruit.Utils.PermissionsUtils;
 import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,6 +76,7 @@ public class FragmentShops extends Fragment implements LocationListener {
     TextInputEditText editTxtInputShops_SearchBar;
 
     LocationManager locationManager;
+    private Map<String, Object> updates;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     @Override
@@ -93,22 +97,19 @@ public class FragmentShops extends Fragment implements LocationListener {
         init();
         getShopsList();
 
-
+        //Check if location is enabled.
         locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
-
-
         if (!PermissionsUtils.hasPermissions(context))
             PermissionsUtils.requestPermissions("FRAGMENT_SHOPS", this, context); // Check if permissions are allowed.
         else {
             String le = Context.LOCATION_SERVICE;
             locationManager = (LocationManager) getContext().getSystemService(le);
             if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                //Toast toastDeviceNotSupported =
+                Toast toast =
                 Toast.makeText(getContext(),
-                        "LOCATION DISABLED",
-                        Toast.LENGTH_LONG).show();
-                //toastDeviceNotSupported.setGravity(Gravity.CENTER, 0, 0);
-                // toastDeviceNotSupported.show();
+                        "LOCATION DISABLED", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
             } else
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
@@ -121,6 +122,7 @@ public class FragmentShops extends Fragment implements LocationListener {
                 return view;
             }
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
+
         }
         return view;
     }
@@ -220,16 +222,9 @@ public class FragmentShops extends Fragment implements LocationListener {
     public void onLocationChanged(@NonNull Location location) {
         double latUser = location.getLatitude();
         double lngUser = location.getLongitude();
-        System.out.println(latUser + lngUser);
-        // Compute the GeoHash for a lat/lng point
-        String hash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(latUser, lngUser));
-        //DocumentReference userRef = db.collection("users").document(firebaseUser.getUid());
-        // Add the hash and the lat/lng to the document. We will use the hash
-        // for queries and the lat/lng for distance comparisons.
-        Map<String, Object> updates = new HashMap<>();
-        updates.put("geohash", hash);
-        updates.put("lat", latUser);
-        updates.put("lng", lngUser);
+        //System.out.println(latUser + lngUser);
+        Map<String, Object>updates = new HashMap<>();
+        updates.put("location", new GeoPoint(latUser, lngUser));
         DocumentReference locationRef = db.collection("users").document(firebaseUser.getUid());
         locationRef.update(updates)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -237,13 +232,9 @@ public class FragmentShops extends Fragment implements LocationListener {
                     public void onComplete(@NonNull Task<Void> task) {
                         // ... εν μπουν στην βαση τι κανω
                         //έλεγχος για την αποσταση
-                        //Get location User
-                        distanceShop(location,getContext());
                     }
                 });
-        locationManager.removeUpdates(this);
-    }
-    public void distanceShop(Location location, Context context) {
+        locationManager.removeUpdates(this); //If the location changes it will not get the new coordinates.
     }
 
     public class ShopsViewHolder extends RecyclerView.ViewHolder {
