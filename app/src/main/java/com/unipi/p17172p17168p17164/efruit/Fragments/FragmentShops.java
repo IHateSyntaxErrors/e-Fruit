@@ -24,23 +24,33 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.geofire.GeoFireUtils;
+import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.GeoQueryBounds;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelShops;
 import com.unipi.p17172p17168p17164.efruit.R;
 import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
 import com.unipi.p17172p17168p17164.efruit.databinding.FragmentShopsBinding;
 import com.unipi.p17172p17168p17164.efruit.databinding.RecyclerSingleItemShopsBinding;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static android.content.Context.LOCATION_SERVICE;
@@ -240,13 +250,56 @@ public class FragmentShops extends Fragment implements LocationListener {
     public void onLocationChanged(@NonNull Location location) {
         double latUser = location.getLatitude();
         double lngUser = location.getLongitude();
+        String hash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(latUser, lngUser));
         Map<String, Object>updates = new HashMap<>();
         updates.put("location", new GeoPoint(latUser, lngUser));
+        updates.put("geohash", hash);
         DocumentReference locationRef = db.collection("users").document(firebaseUser.getUid());
         locationRef.update(updates)
                 .addOnCompleteListener(task -> {
                     // ... εν μπουν στην βαση τι κανω
-                    //έλεγχος για την αποσταση
+                    final GeoLocation center = new GeoLocation(latUser,lngUser);
+                    final double radiusInM = 50 * 1000;
+                    List<GeoQueryBounds> bounds = GeoFireUtils.getGeoHashQueryBounds(center, radiusInM);
+                    final List<Task<QuerySnapshot>> tasks = new ArrayList<>();
+                    for (GeoQueryBounds b : bounds) {
+                        Query q = db.collection("shops")
+                                .orderBy("geohash")
+                                .startAt(b.startHash)
+                                .endAt(b.endHash);
+
+                        tasks.add(q.get());
+                    }
+                    // Collect all the query results together into a single list
+                    Tasks.whenAllComplete(tasks)
+                            .addOnCompleteListener(new OnCompleteListener<List<Task<?>>>() {
+                                @Override
+                                public void onComplete(@NonNull Task<List<Task<?>>> t) {
+                                    List<DocumentSnapshot> matchingDocs = new ArrayList<>();
+                                    System.out.println("111111111111111111111111111111111111111111111111111");
+                                    for (Task<QuerySnapshot> task : tasks) {
+                                        QuerySnapshot snap = task.getResult();
+                                        for (DocumentSnapshot doc : snap.getDocuments()) {
+                                           // double lat = doc.getDouble("lat"); //εν μπορω να καταλαβω τι ακριβως πιανει δαμε
+                                           // double lng = doc.getDouble("lng");
+                                            System.out.println("222222222222222222222222222222222222222222222222222222222");
+                                            // We have to filter out a few false positives due to GeoHash
+                                            // accuracy, but most will match
+                                            GeoLocation docLocation = new GeoLocation(latUser, lngUser); // εβαλα απευθείας τις μεταβλητες δαμε αλλα πιστευω εν λαθος.
+                                            double distanceInM = GeoFireUtils.getDistanceBetween(docLocation, center);
+                                            if (distanceInM <= radiusInM) {
+                                                matchingDocs.add(doc);
+                                                System.out.println("/////////////////////");
+                                                System.out.println(matchingDocs);
+                                                System.out.println("/////////////////////");
+                                            }
+                                        }
+                                    }
+
+                                    // matchingDocs contains the results
+                                    // ...
+                                }
+                            });
                 });
         locationManager.removeUpdates(this); //If the location changes it will not get the new coordinates.
     }
