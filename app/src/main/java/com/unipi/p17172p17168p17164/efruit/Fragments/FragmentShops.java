@@ -1,11 +1,8 @@
 package com.unipi.p17172p17168p17164.efruit.Fragments;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -13,20 +10,14 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Looper;
-import android.provider.Settings;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -35,11 +26,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
@@ -50,14 +36,12 @@ import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelShops;
 import com.unipi.p17172p17168p17164.efruit.R;
-import com.unipi.p17172p17168p17164.efruit.Utils.PermissionsUtils;
 import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
 import com.unipi.p17172p17168p17164.efruit.databinding.FragmentShopsBinding;
 import com.unipi.p17172p17168p17164.efruit.databinding.RecyclerSingleItemShopsBinding;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -90,7 +74,7 @@ public class FragmentShops extends Fragment implements LocationListener {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentShopsBinding.inflate(inflater, container, false);
-        View view = binding.getRoot();
+        view = binding.getRoot();
 
         init();
         getShopsList();
