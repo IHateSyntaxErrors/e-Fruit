@@ -1,5 +1,6 @@
 package com.unipi.p17172p17168p17164.efruit.Models;
 
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
 import java.sql.Timestamp;
@@ -14,11 +15,11 @@ public class ModelCart {
     String imgUrl;
     String name;
     double price;
-    int quantity;
+    DocumentReference quantity;
 
     private ModelCart() {} // Empty constructor for Firebase.
 
-    public ModelCart(Timestamp created_at, String shopId, String userId, int amount, String imgUrl, String name, double price, int quantity) {
+    public ModelCart(Timestamp created_at, String shopId, String userId, int amount, String imgUrl, String name, double price, DocumentReference quantity) {
         this.created_at = created_at;
         this.shopId = shopId;
         this.userId = userId;
@@ -85,11 +86,12 @@ public class ModelCart {
         this.price = price;
     }
 
-    public int getQuantity() {
+    public DocumentReference getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(DocumentReference quantity) {
         this.quantity = quantity;
     }
+
 }

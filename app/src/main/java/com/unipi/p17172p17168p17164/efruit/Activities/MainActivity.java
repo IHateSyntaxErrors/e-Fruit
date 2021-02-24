@@ -49,6 +49,8 @@ import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentShops;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelUsers;
 import com.unipi.p17172p17168p17164.efruit.R;
 import com.unipi.p17172p17168p17164.efruit.Utils.PermissionsUtils;
+import com.unipi.p17172p17168p17164.efruit.databinding.ActivityMainBinding;
+import com.unipi.p17172p17168p17164.efruit.databinding.ToolbarTopBinding;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -63,55 +65,43 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     // ~~~~~~~VARIABLES~~~~~~~
-    @BindView(R.id.drawer_layout)
-    DrawerLayout drawerLayout;
+    private ActivityMainBinding binding;
     private FirebaseUser firebaseUser;
-    @BindView(R.id.nav_view)
-    NavigationView navigationView;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
 
     private static final int REQUEST_CODE_SPEECH_INPUT = 10;
     private FirebaseFirestore db;
-    @BindView(R.id.action_bar_circleimgview_profile)
-    CircleImageView circleImgViewUserAccount;
-    @BindView(R.id.action_bar_mic)
-    ImageButton imgBtnMic;
-    @BindView(R.id.action_bar_cart)
-    ImageButton imgBtnCart;
-    @BindView(R.id.action_bar_admin_panel)
-    ImageButton imgBtnAdminPanel;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        ButterKnife.bind(this);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+
         init();
-
         updateUI(); // Update UI with user's info.
 
         if (!PermissionsUtils.hasPermissions(this))
             PermissionsUtils.requestPermissions(this); // Check if permissions are allowed.
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar.getRoot());
         Objects.requireNonNull(getSupportActionBar()).setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.toolbar_top);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar.getRoot(),
                                                                  R.string.nav_drawer_close, R.string.nav_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
+        binding.drawerLayout.addDrawerListener(toggle);
         // Change drawer arrow icon
         toggle.getDrawerArrowDrawable().setColor(ContextCompat.getColor(this, R.color.colorIcon));
         toggle.syncState();
 
-        navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setCheckedItem(R.id.nav_item_home);
+        binding.navView.setNavigationItemSelectedListener(this);
+        binding.navView.setCheckedItem(R.id.nav_item_home);
 
         // Add the home fragment to show it in the frame layout of main activity.
         FragmentHome fragmentHome = new FragmentHome();
@@ -285,37 +275,38 @@ public class MainActivity extends AppCompatActivity
             userRef.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
+                    assert document != null;
                     if (document.exists()) {
                         ModelUsers modelUsers = document.toObject(ModelUsers.class);
 
-                        View headerView = navigationView.getHeaderView(0);
+                        View headerView = binding.navView.getHeaderView(0);
 
                         TextView textViewName = headerView.findViewById(R.id.textViewNavBar_Name);
-                        textViewName.setText(modelUsers.getFull_name());
+                        textViewName.setText(Objects.requireNonNull(modelUsers).getFull_name());
 
                         TextView textViewPhone = headerView.findViewById(R.id.textViewNavBar_Phone);
                         textViewPhone.setText(modelUsers.getPhone_number());
 
                         if (modelUsers.getIs_admin()) { // If user is admin, show the admin UI.
-                            imgBtnAdminPanel.setVisibility(View.VISIBLE);
-                            navigationView.getMenu().getItem(2).setVisible(true);
+                            binding.toolbar.actionBarAdminPanel.setVisibility(View.VISIBLE);
+                            binding.navView.getMenu().getItem(2).setVisible(true);
                         }
                     }
                 }
             });
 
-            imgBtnMic.setOnClickListener(v -> {
+            binding.toolbar.actionBarMic.setOnClickListener(v -> {
                 speechToText();
             });
-            imgBtnCart.setOnClickListener(v -> {
+            binding.toolbar.actionBarCart.setOnClickListener(v -> {
                 Intent intent = new Intent(MainActivity.this, CartActivity.class);
                 startActivity(intent);
             });
 
             // With the help of glide library we are able to load user profile picture into our app.
-            Glide.with(this).load(firebaseUser.getPhotoUrl()).into(circleImgViewUserAccount);
+            Glide.with(this).load(firebaseUser.getPhotoUrl()).into(binding.toolbar.actionBarCircleimgviewProfile);
             // Add a click event to redirect the user to profile settings if the user profile icon is clicked
-            circleImgViewUserAccount.setOnClickListener(v -> {
+            binding.toolbar.actionBarCircleimgviewProfile.setOnClickListener(v -> {
                 Intent intentProfile = new Intent(MainActivity.this, ProfileActivity.class);
                 startActivity(intentProfile);
             });
@@ -350,8 +341,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         // If the drawer navigation is open, close it if the back button is pressed
-        if (drawerLayout.isDrawerOpen(GravityCompat.START))
-            drawerLayout.closeDrawer(GravityCompat.START);
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START))
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
         else
             super.onBackPressed();
     }

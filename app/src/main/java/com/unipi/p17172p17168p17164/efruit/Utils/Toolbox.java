@@ -1,17 +1,22 @@
 package com.unipi.p17172p17168p17164.efruit.Utils;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
+import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.GeoPoint;
@@ -76,6 +81,18 @@ public class Toolbox {
         btnAlertLangOk.setOnClickListener(v -> dialog.dismiss());
 
         return dialog;
+    }
+
+    public AlertDialog buildAlertMessageNoGps(Context context) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", (dialog, id) -> {
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    context.startActivity(intent);
+                })
+                .setNegativeButton("No", (dialog, id) -> dialog.cancel());
+        return builder.create();
     }
 
 /*    public void updateLanguage(String language, Context context)

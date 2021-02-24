@@ -50,6 +50,7 @@ public class PermissionsUtils extends Fragment{
                         toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 400);
                         toast.show();
                     }
+
                 });
     }
     public static void requestPermissions(String fragment_tag, Fragment fragment, Context context) {

@@ -40,10 +40,13 @@ import com.unipi.p17172p17168p17164.efruit.Models.ModelProducts;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelUsers;
 import com.unipi.p17172p17168p17164.efruit.R;
 import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
+import com.unipi.p17172p17168p17164.efruit.databinding.ActivityCartBinding;
+import com.unipi.p17172p17168p17164.efruit.databinding.RecyclerSingleItemCartBinding;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,44 +55,42 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CartActivity extends AppCompatActivity {
 
     // ~~~~~~~VARIABLES~~~~~~~
+    private ActivityCartBinding binding;
     private FirebaseUser firebaseUser;
     private Toolbox toolbox;
     private FirebaseFirestore db;
-    private FirestoreRecyclerAdapter adapter;
+    public FirestoreRecyclerAdapter adapter;
 
-    @BindView(R.id.recyclerViewCart)
-    RecyclerView cartList;
+    public RecyclerView cartList;
+    public ViewFlipper viewFlipper;
 
-    @BindView(R.id.imageViewCart_BackButton)
-    ImageView imageViewBackButton;
-    @BindView(R.id.viewFlipperCart)
-    ViewFlipper viewFlipper;
-    private LinearLayoutManager linearLayoutManager;
-
+    public LinearLayoutManager linearLayoutManager;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cart);
+        binding = ActivityCartBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
         // Activity opening animation when opened
         this.overridePendingTransition(R.anim.anim_slide_in_left,
-                                       R.anim.anim_slide_out_left);
-        ButterKnife.bind(this);
+                R.anim.anim_slide_out_left);
+
         init();
         getCartList();
         updateUI();
-
-        imageViewBackButton.setOnClickListener(v -> {
-            onBackPressed();
-        });
     }
 
     private void init() {
         db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+
+        cartList = binding.recyclerViewCart;
+        viewFlipper = binding.viewFlipperCart;
+
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         cartList.setLayoutManager(linearLayoutManager);
         cartList.setHasFixedSize(true);
@@ -100,11 +101,11 @@ public class CartActivity extends AppCompatActivity {
 
         Query queryCartProducts = db.collection("carts").document(firebaseUser.getUid()).collection("products");
 
-        /*queryCartProducts.get().addOnCompleteListener(task -> {
-            if (task.getResult().isEmpty()) {
+        queryCartProducts.get().addOnCompleteListener(task -> {
+            if (Objects.requireNonNull(task.getResult()).isEmpty()) {
                 viewFlipper.setDisplayedChild(0);
             }
-        });*/
+        });
 
         queryCartProducts.addSnapshotListener((snapshots, e) -> {
             if (e != null) {
@@ -112,6 +113,7 @@ public class CartActivity extends AppCompatActivity {
                 return;
             }
 
+            assert snapshots != null;
             for (DocumentChange dc : snapshots.getDocumentChanges()) {
                 switch (dc.getType()) {
                     case ADDED:
@@ -137,12 +139,12 @@ public class CartActivity extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull CartViewHolder holder, int position, @NonNull ModelCart model) {
                 Glide.with(getApplicationContext())
                         .load(model.getImgUrl())
-                        .into(holder.viewHolderCart_ImgProductImage);
-                holder.viewHolderCart_TxtProductName.setText(model.getName());
-                holder.viewHolderCart_TxtProductPrice.setText(String.format(getString(R.string.recycler_var_product_price), model.getPrice() + ""));
-                holder.viewHolderCart_TxtProductPricePerKg.setText(String.format(getString(R.string.recycler_var_product_price_per_kg), model.getPrice() + ""));
-                holder.viewHolderCart_TxtProductQuantity.setText(MessageFormat.format("{0}", model.getQuantity()));
-                holder.viewHolderCart_btnRemoveItem.setOnClickListener(v -> {
+                        .into(holder.singleItemCartBinding.imageViewCartProductImage);
+                holder.singleItemCartBinding.textViewCartProductName.setText(model.getName());
+                holder.singleItemCartBinding.textViewCartProductPrice.setText(String.format(getString(R.string.recycler_var_product_price), model.getPrice() + ""));
+                holder.singleItemCartBinding.textViewCartProductPricePerKg.setText(String.format(getString(R.string.recycler_var_product_price_per_kg), model.getPrice() + ""));
+//                holder.singleItemCartBinding.textViewCartProductQuantity.setText(MessageFormat.format("{0}", model.getQuantity()));
+                holder.singleItemCartBinding.btnCartRemoveItem.setOnClickListener(v -> {
 
                 });
             }
@@ -150,7 +152,8 @@ public class CartActivity extends AppCompatActivity {
             @NonNull
             @Override
             public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_single_item_cart, parent, false);
+                RecyclerSingleItemCartBinding view = RecyclerSingleItemCartBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+
                 return new CartViewHolder(view);
             }
 
@@ -163,30 +166,31 @@ public class CartActivity extends AppCompatActivity {
         cartList.setAdapter(adapter);
     }
 
-    public class CartViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.imageViewCart_ProductImage)
-        ImageView viewHolderCart_ImgProductImage;
-        @BindView(R.id.textViewCart_ProductName)
-        TextView viewHolderCart_TxtProductName;
-        @BindView(R.id.textViewCart_ProductPrice)
-        TextView viewHolderCart_TxtProductPrice;
-        @BindView(R.id.textViewCart_ProductPricePerKg)
-        TextView viewHolderCart_TxtProductPricePerKg;
-        @BindView(R.id.textViewCart_ProductQuantityNum)
-        TextView viewHolderCart_TxtProductQuantity;
-        /*@BindView(R.id.textViewCart_SelectedAmtNumber)
-        TextView viewHolderProducts_TxtSelectedAmtNumber;*/
-        @BindView(R.id.btnCart_RemoveItem)
-        TextView viewHolderCart_btnRemoveItem;
+    public static class CartViewHolder extends RecyclerView.ViewHolder {
+        private final RecyclerSingleItemCartBinding singleItemCartBinding;
 
-        public CartViewHolder(@NonNull View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        public CartViewHolder(RecyclerSingleItemCartBinding singleItemCartBinding) {
+            super(singleItemCartBinding.getRoot());
+            this.singleItemCartBinding = singleItemCartBinding;
         }
     }
 
     public void updateUI() {
+        binding.imageViewCartBackButton.setOnClickListener(v -> {
+            onBackPressed();
+        });
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 
     @Override

@@ -44,6 +44,7 @@
 
     <!-- Shops Fragment Page -->
     <string name="recycler_var_shops_zip">Zip: %1$s</string>
+    <string name="LOCATION_DISABLED">LOCATION DISABLED</string>
 
     <!-- Products Fragment Page -->
     <string name="page_products_recycler_add_to_cart">Add to cart</string>
@@ -58,6 +59,8 @@
     <string name="page_profile_input_hint_address">Address</string>
     <string name="page_profile_header2_personal_information">Personal Information</string>
     <string name="page_profile_text_view_sign_out">Sign out</string>
+    <string name="validation_full_name">Should contain only letters and not numbers or special characters.</string>
+    <string name="validation_digits">Should contain only digits.</string>
 
     <!-- Shopping Cart Page -->
     <string name="page_cart_header">Shopping Cart</string>
@@ -94,5 +97,5 @@
     <string name="img_content_desc_fruits">Fruits Image</string>
     <string name="img_content_desc_efruit_banner">eFruit Banner</string>
     <string name="img_content_desc_fruit_basket">Fruits Basket</string>
-    <string name="LOCATION_DISABLED">LOCATION DISABLED</string>
+    <string name="img_content_desc_back_button">Back Button</string>
 </resources>

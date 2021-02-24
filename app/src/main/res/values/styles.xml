@@ -10,6 +10,10 @@
 <!--        <itemProduct name="android:windowAnimationStyle">@null</itemProduct> &lt;!&ndash; Animation when changing activities &ndash;&gt;-->
     </style>
 
+    <style name="TextInputLayoutNegativeStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@drawable/selector_input_negative</item>
+    </style>
+
     <style name="BaseTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">false</item>

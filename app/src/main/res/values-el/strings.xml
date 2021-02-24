@@ -39,10 +39,13 @@
 
     <!-- Home Page -->
 
+    <!-- Shops Fragment Page -->
+    <string name="recycler_var_shops_zip">Τ.Κ: %1$s</string>
+    <string name="LOCATION_DISABLED">Η τοποθεσία είναι απενεργοποιημένη</string>
+
     <!-- Products Fragment Page -->
     <string name="page_products_recycler_add_to_cart">Προσθήκη</string>
     <string name="page_products_recycler_txt_on_stock">Διαθέσιμα: </string>
-    <string name="recycler_var_shops_zip">Τ.Κ: %1$s</string>
 
     <!-- Settings -->
     <string name="page_settings_header1_title">Ρυθμίσεις</string>
@@ -58,6 +61,8 @@
     <string name="page_profile_input_hint_address">Διεύθυνση</string>
     <string name="page_profile_header2_personal_information">Προσωπικές Πληροφορίες</string>
     <string name="page_profile_text_view_sign_out">Αποσύνδεση</string>
+    <string name="validation_full_name">Πρέπει να περιέχει μόνο γράμματα και όχι αριθμούς ή σύμβολα.</string>
+    <string name="validation_digits">Πρέπει να περιέχει μόνο αριθμούς.</string>
 
     <!-- Shopping Cart Page -->
     <string name="page_cart_header">Καλάθι</string>
@@ -83,5 +88,5 @@
     <string name="img_content_desc_fruits">Εικόνα με φρούτα</string>
     <string name="img_content_desc_efruit_banner">Λάβαρο eFruit</string>
     <string name="img_content_desc_fruit_basket">Κούπα με φρούτα</string>
-    <string name="LOCATION_DISABLED">Η τοποθεσία είναι απενεργοποιημένη</string>
+    <string name="img_content_desc_back_button">Κουμπί για να πάμε πίσω</string>
 </resources>

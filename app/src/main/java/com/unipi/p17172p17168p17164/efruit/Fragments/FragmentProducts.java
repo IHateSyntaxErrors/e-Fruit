@@ -6,8 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,41 +18,34 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelProducts;
 import com.unipi.p17172p17168p17164.efruit.R;
-import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
+import com.unipi.p17172p17168p17164.efruit.databinding.FragmentProductsBinding;
+import com.unipi.p17172p17168p17164.efruit.databinding.RecyclerSingleItemProductsBinding;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import java.util.Objects;
 
 public class FragmentProducts extends Fragment {
     // ~~~~~~~VARIABLES~~~~~~~
+    private FragmentProductsBinding binding;
     private Context context;
-    private View view;
+    public View view;
 
     private FirebaseFirestore db;
     private FirestoreRecyclerAdapter adapter;
     String shopId;
 
-    @BindView(R.id.recyclerViewProducts) RecyclerView productsList;
+    RecyclerView productsListRecycler;
 
-    private LinearLayoutManager linearLayoutManager;
+    public LinearLayoutManager linearLayoutManager;
 
-    @BindView(R.id.searchViewProducts)
-    SearchView txtInputProducts_SearchBar;
+    SearchView searchViewProducts_SearchBar;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
     public FragmentProducts(String shopId) {
         this.shopId = shopId;
@@ -67,11 +58,10 @@ public class FragmentProducts extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_products, container, false);
-
-        ButterKnife.bind(this, view);
+        binding = FragmentProductsBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
 
         init();
         getProductsList();
@@ -80,16 +70,15 @@ public class FragmentProducts extends Fragment {
     }
 
     private void init() {
-        linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        productsList.setLayoutManager(linearLayoutManager);
-        productsList.setHasFixedSize(true);
         db = FirebaseFirestore.getInstance();
 
-        txtInputProducts_SearchBar.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                Toolbox.hideKeyboard(v, context);
-            }
-        });
+        linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+
+        productsListRecycler = binding.recyclerViewProducts;
+        searchViewProducts_SearchBar = binding.searchViewProducts;
+
+        productsListRecycler.setLayoutManager(linearLayoutManager);
+        productsListRecycler.setHasFixedSize(true);
     }
 
     public void getProductsList(){
@@ -103,7 +92,7 @@ public class FragmentProducts extends Fragment {
                 return;
             }
 
-            for (DocumentChange dc : snapshots.getDocumentChanges()) {
+            for (DocumentChange dc : Objects.requireNonNull(snapshots).getDocumentChanges()) {
                 switch (dc.getType()) {
                     case ADDED:
                         Log.d(TAG, "New Product: " + dc.getDocument().getData());
@@ -119,8 +108,6 @@ public class FragmentProducts extends Fragment {
 
         });
 
-
-
         // RecyclerOptions
         FirestoreRecyclerOptions<ModelProducts> recyclerOptions = new FirestoreRecyclerOptions.Builder<ModelProducts>()
                 .setQuery(queryProducts, ModelProducts.class)
@@ -130,12 +117,12 @@ public class FragmentProducts extends Fragment {
             protected void onBindViewHolder(@NonNull ProductsViewHolder holder, int position, @NonNull ModelProducts model) {
                 Glide.with(context)
                         .load(model.getImgUrl())
-                        .into(holder.viewHolderProducts_ImgProductImage);
-                holder.viewHolderProducts_TxtProductName.setText(model.getName());
-                holder.viewHolderProducts_TxtProductPrice.setText(String.format(context.getString(R.string.recycler_var_product_price), model.getPrice() + ""));
-                holder.viewHolderProducts_TxtProductPricePerKg.setText(String.format(context.getString(R.string.recycler_var_product_price_per_kg), model.getPrice() + ""));
-                holder.viewHolderProducts_TxtProductQuantity.setText(MessageFormat.format("{0}", model.getQuantity()));
-                holder.viewHolderProducts_btnAddToCart.setOnClickListener(v -> {
+                        .into(holder.singleItemProductsBinding.imageViewProductsProductImage);
+                holder.singleItemProductsBinding.textViewProductsProductName.setText(model.getName());
+                holder.singleItemProductsBinding.textViewProductsProductPrice.setText(String.format(context.getString(R.string.recycler_var_product_price), model.getPrice() + ""));
+                holder.singleItemProductsBinding.textViewProductsProductPricePerKg.setText(String.format(context.getString(R.string.recycler_var_product_price_per_kg), model.getPrice() + ""));
+                holder.singleItemProductsBinding.textViewProductsProductQuantityNum.setText(MessageFormat.format("{0}", model.getQuantity()));
+                holder.singleItemProductsBinding.btnRecyclerItemAddToCart.setOnClickListener(v -> {
                     Toast.makeText(context, model.getName() + " " + model.getPrice(), Toast.LENGTH_SHORT).show();
                 });
             }
@@ -143,7 +130,8 @@ public class FragmentProducts extends Fragment {
             @NonNull
             @Override
             public ProductsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_single_item_products, parent, false);
+                RecyclerSingleItemProductsBinding view = RecyclerSingleItemProductsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+
                 return new ProductsViewHolder(view);
             }
 
@@ -153,26 +141,15 @@ public class FragmentProducts extends Fragment {
             }
         };
         adapter.notifyDataSetChanged();
-        productsList.setAdapter(adapter);
+        productsListRecycler.setAdapter(adapter);
     }
 
-    public class ProductsViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.imageViewProducts_ProductImage)
-        ImageView viewHolderProducts_ImgProductImage;
-        @BindView(R.id.textViewProducts_ProductName)
-        TextView viewHolderProducts_TxtProductName;
-        @BindView(R.id.textViewProducts_ProductPrice)
-        TextView viewHolderProducts_TxtProductPrice;
-        @BindView(R.id.textViewProducts_ProductPricePerKg)
-        TextView viewHolderProducts_TxtProductPricePerKg;
-        @BindView(R.id.textViewProducts_ProductQuantityNum)
-        TextView viewHolderProducts_TxtProductQuantity;
-        @BindView(R.id.btnRecyclerItemAddToCart)
-        MaterialButton viewHolderProducts_btnAddToCart;
+    public static class ProductsViewHolder extends RecyclerView.ViewHolder {
+        private final RecyclerSingleItemProductsBinding singleItemProductsBinding;
 
-        public ProductsViewHolder(@NonNull View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        public ProductsViewHolder(RecyclerSingleItemProductsBinding singleItemProductsBinding) {
+            super(singleItemProductsBinding.getRoot());
+            this.singleItemProductsBinding = singleItemProductsBinding;
         }
     }
 
@@ -186,5 +163,11 @@ public class FragmentProducts extends Fragment {
     public void onStop() {
         super.onStop();
         adapter.stopListening();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

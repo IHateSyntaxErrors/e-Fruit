@@ -31,3 +31,5 @@
 -keepclassmembers class com.unipi.p17172p17168p17164.efruit.* {
   public *;
 }
+-keep class com.mobsandgeeks.saripaar.* {*;}
+-keep @com.mobsandgeeks.saripaar.annotation.ValidateUsing class * {*;}
