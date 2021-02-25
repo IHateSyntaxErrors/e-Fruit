@@ -4,26 +4,22 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.provider.Settings;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.RadioButton;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.GeoPoint;
 import com.orhanobut.hawk.Hawk;
 import com.unipi.p17172p17168p17164.efruit.R;
 
-import java.util.Locale;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Toolbox {
     public static void hideKeyboard(View view, Context context) {
@@ -93,6 +89,16 @@ public class Toolbox {
                 })
                 .setNegativeButton("No", (dialog, id) -> dialog.cancel());
         return builder.create();
+    }
+
+    public static String getTimeDate(long timestamp){
+        try{
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss:SSS'Z'");
+            Date netDate = (new Date(timestamp));
+            return dateFormat.format(netDate);
+        } catch(Exception e) {
+            return "date";
+        }
     }
 
 /*    public void updateLanguage(String language, Context context)

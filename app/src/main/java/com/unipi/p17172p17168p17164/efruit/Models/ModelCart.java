@@ -4,10 +4,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
 import java.sql.Timestamp;
+import java.util.Map;
 
 @IgnoreExtraProperties
 public class ModelCart {
-    Timestamp created_at;
+    Map<String, String> created_at;
     String shopId;
     String userId;
 
@@ -16,10 +17,13 @@ public class ModelCart {
     String name;
     double price;
     DocumentReference quantity;
+    String productId;
 
     private ModelCart() {} // Empty constructor for Firebase.
 
-    public ModelCart(Timestamp created_at, String shopId, String userId, int amount, String imgUrl, String name, double price, DocumentReference quantity) {
+    public ModelCart(Map<String, String> created_at, String shopId, String userId,
+                     int amount, String imgUrl, String name, double price,
+                     DocumentReference quantity, String productId) {
         this.created_at = created_at;
         this.shopId = shopId;
         this.userId = userId;
@@ -28,13 +32,14 @@ public class ModelCart {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
+        this.productId = productId;
     }
 
-    public Timestamp getCreated_at() {
+    public Map<String, String> getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(Timestamp created_at) {
+    public void setCreated_at(Map<String, String> created_at) {
         this.created_at = created_at;
     }
 
@@ -94,4 +99,11 @@ public class ModelCart {
         this.quantity = quantity;
     }
 
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
 }

@@ -26,7 +26,7 @@ public class FragmentSettings extends Fragment {
     private PrefsUtils prefsUtils;
     private Toolbox toolbox;
     private String prefNightModeKey;
-    private String prefLanguageKey;
+    public String prefLanguageKey;
     private SwitchCompat switchCompatNightMode;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -35,7 +35,7 @@ public class FragmentSettings extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
-        context = getActivity(); // Initalize the context from the main activity.
+        context = getActivity(); // Initialize the context from the main activity.
 
         toolbox = new Toolbox();
         prefsUtils = new PrefsUtils(context);

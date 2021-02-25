@@ -99,11 +99,13 @@ public class CartActivity extends AppCompatActivity {
     private void getCartList() {
         final String TAG = "[CartActivity]";
 
-        Query queryCartProducts = db.collection("carts").document(firebaseUser.getUid()).collection("products");
+        Query queryCartProducts = db.collection("carts")
+                                    .document(firebaseUser.getUid())
+                                    .collection("products");
 
         queryCartProducts.get().addOnCompleteListener(task -> {
             if (Objects.requireNonNull(task.getResult()).isEmpty()) {
-                viewFlipper.setDisplayedChild(0);
+                viewFlipper.setDisplayedChild(1);
             }
         });
 
@@ -138,14 +140,60 @@ public class CartActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull CartViewHolder holder, int position, @NonNull ModelCart model) {
                 Glide.with(getApplicationContext())
-                        .load(model.getImgUrl())
-                        .into(holder.singleItemCartBinding.imageViewCartProductImage);
+                     .load(model.getImgUrl())
+                     .into(holder.singleItemCartBinding.imageViewCartProductImage);
                 holder.singleItemCartBinding.textViewCartProductName.setText(model.getName());
-                holder.singleItemCartBinding.textViewCartProductPrice.setText(String.format(getString(R.string.recycler_var_product_price), model.getPrice() + ""));
-                holder.singleItemCartBinding.textViewCartProductPricePerKg.setText(String.format(getString(R.string.recycler_var_product_price_per_kg), model.getPrice() + ""));
-//                holder.singleItemCartBinding.textViewCartProductQuantity.setText(MessageFormat.format("{0}", model.getQuantity()));
-                holder.singleItemCartBinding.btnCartRemoveItem.setOnClickListener(v -> {
+                holder.singleItemCartBinding.textViewCartProductPrice.setText(String.format(getString(R.string.recycler_var_product_price),
+                                                                              model.getPrice() + ""));
+                holder.singleItemCartBinding.textViewCartProductPricePerKg.setText(String.format(getString(R.string.recycler_var_product_price_per_kg),
+                                                                                   model.getPrice() + ""));
 
+                // We need to load the cart data when the activity opens
+                DocumentReference itemInCart_on_load = db.collection("carts")
+                                                         .document(firebaseUser.getUid())
+                                                         .collection("products")
+                                                         .document(model.getProductId());
+
+                itemInCart_on_load.get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        holder.singleItemCartBinding.textViewCartSelectedAmount.setText(document.getData().get("amount").toString());
+
+                        holder.singleItemCartBinding.imgBtnRecyclerCartSelectAmountMinus.setOnClickListener(v -> {
+                            int currentCount = Integer.parseInt((String) holder.singleItemCartBinding.textViewCartSelectedAmount.getText());
+                            int count = currentCount - 1;
+
+                            if (count >= 1) {
+                                db.collection("carts")
+                                   .document(firebaseUser.getUid())
+                                   .collection("products")
+                                   .document(model.getProductId())
+                                   .update("amount", count)
+                                        .addOnCompleteListener(task2 -> holder.singleItemCartBinding.textViewCartSelectedAmount.setText(String.valueOf(count)));;
+                                }
+                        });
+                        holder.singleItemCartBinding.imgBtnRecyclerCartSelectAmountPlus.setOnClickListener(v -> {
+                            int currentCount = Integer.parseInt((String) holder.singleItemCartBinding.textViewCartSelectedAmount.getText());
+                            int count = currentCount + 1;
+
+                            db.collection("carts")
+                              .document(firebaseUser.getUid())
+                              .collection("products")
+                              .document(model.getProductId())
+                              .update("amount", count)
+                                    .addOnCompleteListener(task2 -> holder.singleItemCartBinding.textViewCartSelectedAmount.setText(String.valueOf(count)));
+                        });
+                        holder.singleItemCartBinding.imgBtnRecyclerCartAmountDelete.setOnClickListener(v -> {
+                            Map< String, Object > updatedSelectedAmount = new HashMap< >();
+                            updatedSelectedAmount.put("amount", Integer.parseInt((String) holder.singleItemCartBinding.textViewCartSelectedAmount.getText()));
+                            db.collection("carts")
+                                    .document(firebaseUser.getUid())
+                                    .collection("products")
+                                    .document(model.getProductId())
+                                    .update(updatedSelectedAmount);
+                        });
+                    } else
+                        Log.d(TAG, "Failed with: ", task.getException());
                 });
             }
 

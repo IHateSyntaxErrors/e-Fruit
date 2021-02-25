@@ -13,17 +13,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <NumberPicker
-            android:id="@+id/number_picker"
-            android:layout_width="130dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/CardViewCart_Image"
-            app:layout_constraintTop_toBottomOf="@+id/CardViewCart_Image" />
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/textViewCart_ProductName"
@@ -52,6 +42,8 @@
             android:textSize="15sp"
             app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="@+id/CardViewCart_Image"
+            app:layout_constraintEnd_toEndOf="@+id/btnRecyclerItemAddToCart"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/CardViewCart_Image"
             app:layout_constraintTop_toBottomOf="@+id/textViewCart_ProductName"
             app:layout_constraintVertical_bias="1.0" />
@@ -60,16 +52,17 @@
             android:id="@+id/textViewCart_ProductQuantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_stock"
             android:drawablePadding="5dp"
             android:fontFamily="@font/helvetica"
-            android:text="@string/page_products_recycler_txt_on_stock"
+            android:text="On Stock: "
             android:textColor="@color/colorText"
             android:textSize="15sp"
             app:layout_constrainedWidth="true"
-            app:layout_constraintBottom_toBottomOf="@+id/textViewCart_ProductPrice"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayoutCart_SelectedAmount"
             app:layout_constraintEnd_toStartOf="@+id/textViewCart_ProductQuantityNum"
-            app:layout_constraintTop_toTopOf="@+id/textViewCart_ProductPrice" />
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/linearLayoutCart_SelectedAmount"
+            app:drawableLeftCompat="@drawable/ic_stock" />
 
         <TextView
             android:id="@+id/textViewCart_ProductQuantityNum"
@@ -122,28 +115,105 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnCart_RemoveItem"
-            style="@style/Widget.AppCompat.Button"
+        <LinearLayout
+            android:id="@+id/linearLayoutCart_SelectedAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/selector_negative_btn"
-            android:fontFamily="@font/helvetica_bold"
-            android:text="@string/page_cart_remove_item"
-            android:textAllCaps="false"
-            android:textColor="@color/colorButtonText"
-            android:textSize="15sp"
-            android:textAlignment="center"
-            android:gravity="center"
-            app:backgroundTint="@null"
-            app:icon="@drawable/ic_cross"
-            app:iconGravity="textStart"
-            app:iconTint="@color/colorButtonText"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/textViewCart_ProductQuantityNum"
-            app:layout_constraintTop_toBottomOf="@+id/textViewCart_ProductQuantity" />
+            app:layout_constraintStart_toStartOf="@+id/CardViewCart_Image"
+            app:layout_constraintTop_toBottomOf="@+id/CardViewCart_Image">
+
+            <ImageButton
+                android:id="@+id/imgBtnRecyclerCart_SelectAmountMinus"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/selector_neutral_btn_left_side"
+                android:clickable="true"
+                android:fontFamily="@font/helvetica_bold"
+                android:padding="12dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_minus"
+                android:text="@string/page_products_recycler_add_to_cart"
+                android:textAllCaps="false"
+                android:textColor="@color/colorButtonText"
+                android:textSize="15sp"
+                app:backgroundTint="@null"
+                app:iconGravity="textStart"
+                app:iconTint="@color/colorButtonText"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imgBtnRecyclerCart_AmountDelete"
+                app:layout_constraintTop_toBottomOf="@+id/textViewCart_ProductPrice"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/textViewCart_SelectedAmount"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:fontFamily="@font/helvetica_bold"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/colorText"
+                android:background="@color/colorPrimary"
+                android:textAlignment="center"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="132dp" />
+
+            <ImageButton
+                android:id="@+id/imgBtnRecyclerCart_SelectAmountPlus"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/selector_neutral_btn_right_side"
+                android:clickable="true"
+                android:fontFamily="@font/helvetica_bold"
+                android:padding="12dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_plus_sign"
+                android:text="@string/page_products_recycler_add_to_cart"
+                android:textAllCaps="false"
+                android:textColor="@color/colorButtonText"
+                android:textSize="15sp"
+                app:backgroundTint="@null"
+                app:iconGravity="textStart"
+                app:iconTint="@color/colorButtonText"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewCart_ProductPrice"
+                app:layout_constraintVertical_bias="0.0"
+                tools:layout_editor_absoluteX="182dp" />
+
+            <ImageButton
+                android:id="@+id/imgBtnRecyclerCart_AmountDelete"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="16dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/selector_negative_btn"
+                android:clickable="true"
+                android:fontFamily="@font/helvetica_bold"
+                android:padding="12dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_delete_garbage"
+                android:text="@string/page_products_recycler_add_to_cart"
+                android:textAllCaps="false"
+                android:textColor="@color/colorButtonText"
+                android:textSize="15sp"
+                android:visibility="visible"
+                app:backgroundTint="@null"
+                app:iconGravity="textStart"
+                app:iconTint="@color/colorButtonText"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/CardViewCart_Image"
+                app:layout_constraintTop_toBottomOf="@+id/textViewCart_ProductPrice" />
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
