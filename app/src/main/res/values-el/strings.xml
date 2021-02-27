@@ -69,6 +69,8 @@
     <string name="page_cart_empty_shopping_cart">Το καλάθι σας είναι κενό! :(</string>
     <string name="page_cart_select_time">Επιλέξτε ημ/νια και ώρα παράλαβής</string>
     <string name="page_cart_remove_item">Αφαίρεση</string>
+    <string name="page_cart_items_header">Προϊόντα</string>
+    <string name="page_cart_total_payment_header">Τελική Τιμή</string>
 
     <!-- Version -->
     <string name="app_versionCode">@string/versionName</string>
@@ -89,4 +91,8 @@
     <string name="img_content_desc_efruit_banner">Λάβαρο eFruit</string>
     <string name="img_content_desc_fruit_basket">Κούπα με φρούτα</string>
     <string name="img_content_desc_back_button">Κουμπί για να πάμε πίσω</string>
+    <string name="img_content_desc_mic">Κουμπί για Μικρόφωνο</string>
+    <string name="img_content_desc_admin_panel">Κουμπί για Admin Panel</string>
+    <string name="img_content_desc_cart">Κουμπί για καλάθι</string>
+    <string name="img_content_desc_empty_cart">Εικόνα με άδειο καλάθι</string>
 </resources>

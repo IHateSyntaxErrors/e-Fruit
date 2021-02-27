@@ -206,7 +206,6 @@
                 android:textAllCaps="false"
                 android:textColor="@color/colorButtonText"
                 android:textSize="15sp"
-                android:visibility="visible"
                 app:backgroundTint="@null"
                 app:iconGravity="textStart"
                 app:iconTint="@color/colorButtonText"

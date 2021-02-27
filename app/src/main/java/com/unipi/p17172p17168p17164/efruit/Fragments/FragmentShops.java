@@ -52,6 +52,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -156,7 +157,7 @@ public class FragmentShops extends Fragment implements LocationListener {
 
                 holder.itemView.setOnClickListener(v -> {
                     FragmentProducts fragment = new FragmentProducts(model.getShopId());
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
 
                     //get fragment transaction
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

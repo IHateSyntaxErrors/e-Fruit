@@ -67,6 +67,9 @@
     <string name="page_cart_empty_shopping_cart">Shopping cart is empty! :(</string>
     <string name="page_cart_select_time">Select click-away time</string>
     <string name="page_cart_remove_item">Remove</string>
+    <string name="page_cart_items_header">Items</string>
+    <string name="page_cart_total_payment_header">Total Payment</string>
+    <string name="page_cart_total_payment_number" translatable="false">%1$.2f €</string>
 
     <!-- Settings -->
     <string name="page_settings_header1_title">Settings</string>
@@ -95,7 +98,11 @@
     <string name="img_content_desc_insta_btn">Instagram Link</string>
     <string name="img_content_desc_twitter_btn">Twitter Link</string>
     <string name="img_content_desc_fruits">Fruits Image</string>
-    <string name="img_content_desc_efruit_banner">eFruit Banner</string>
-    <string name="img_content_desc_fruit_basket">Fruits Basket</string>
+    <string name="img_content_desc_efruit_banner">eFruit Banner Image</string>
+    <string name="img_content_desc_fruit_basket">Fruits Basket Image</string>
     <string name="img_content_desc_back_button">Back Button</string>
+    <string name="img_content_desc_mic">Microphone Button</string>
+    <string name="img_content_desc_admin_panel">Admin Panel Button</string>
+    <string name="img_content_desc_cart">Shopping Cart Button</string>
+    <string name="img_content_desc_empty_cart">Empty Cart Image</string>
 </resources>

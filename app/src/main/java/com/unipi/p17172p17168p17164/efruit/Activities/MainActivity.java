@@ -304,9 +304,9 @@ public class MainActivity extends AppCompatActivity
             });
 
             // With the help of glide library we are able to load user profile picture into our app.
-            Glide.with(this).load(firebaseUser.getPhotoUrl()).into(binding.toolbar.actionBarCircleimgviewProfile);
+            Glide.with(this).load(firebaseUser.getPhotoUrl()).into(binding.toolbar.actionBarCircleImgViewProfile);
             // Add a click event to redirect the user to profile settings if the user profile icon is clicked
-            binding.toolbar.actionBarCircleimgviewProfile.setOnClickListener(v -> {
+            binding.toolbar.actionBarCircleImgViewProfile.setOnClickListener(v -> {
                 Intent intentProfile = new Intent(MainActivity.this, ProfileActivity.class);
                 startActivity(intentProfile);
             });
