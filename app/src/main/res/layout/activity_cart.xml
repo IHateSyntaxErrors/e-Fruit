@@ -31,7 +31,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/colorText" />
+            app:tint="@color/colorText"
+            android:contentDescription="@string/img_content_desc_back_button" />
 
         <TextView
             android:id="@+id/textViewCart_Header"

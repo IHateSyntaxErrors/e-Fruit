@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
+    android:animateLayoutChanges="true"
     android:clickable="true"
     android:focusable="true"
     android:focusableInTouchMode ="true"
@@ -21,23 +22,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-            android:id="@+id/imageButtonProducts_Sort"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:layout_marginStart="8dp"
-            android:adjustViewBounds="true"
-            android:background="@drawable/shape_small_button"
-            android:padding="12dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_sort"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:clickable="true"
-            android:focusable="true"
-            android:focusableInTouchMode ="true"/>
-
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchViewProducts"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -47,7 +31,7 @@
             android:layout_marginEnd="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageButtonProducts_Sort"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
         </androidx.appcompat.widget.SearchView>
@@ -77,6 +61,37 @@
             android:clickable="true"
             android:focusable="true"
             android:focusableInTouchMode ="true"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout_Products_GoToCart"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_cart_select_time_btn"
+        android:clickable="true"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/textView_Products_GoToCart"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/helvetica_bold"
+            android:gravity="center"
+            android:text="@string/page_products_go_to_cart"
+            android:textColor="@color/colorButtonText"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:drawablePadding="10dp"
+            app:drawableStartCompat="@drawable/ic_shopping_cart"
+            app:drawableTint="@color/colorButtonText" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

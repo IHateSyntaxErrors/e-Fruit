@@ -3,6 +3,7 @@
 
     <!-- Neutral/General -->
     <string name="general_ok">Εντάξει</string>
+    <string name="general_got_it">Κατάλαβα</string>
     <string name="general_cancel">Άκυρο</string>
     <string name="toast_speech_recognition_not_supported">Η συσκευή σας δεν υποστηρίζει αναγνώριση φωνής.</string>
     <string name="toast_speech_recognition_invalid_action">Μη έγκυρη ενέργεια! Δοκιμάστε ξανά.</string>
@@ -46,6 +47,7 @@
     <!-- Products Fragment Page -->
     <string name="page_products_recycler_add_to_cart">Προσθήκη</string>
     <string name="page_products_recycler_txt_on_stock">Διαθέσιμα: </string>
+    <string name="page_products_go_to_cart">Το καλάθι μου</string>
 
     <!-- Settings -->
     <string name="page_settings_header1_title">Ρυθμίσεις</string>
@@ -82,6 +84,9 @@
     <string name="alert_lang_txt_view_ell">Ελληνικά</string>
     <string name="alert_profile_saved_txt_title">Τα στοιχεία ενημερώθηκαν!</string>
     <string name="alert_profile_saved_txt_desc">Τα στοιχεία σας έχουν ενημερωθεί επιτυχώς.</string>
+    <string name="alert_shop_warning_txt_title">Κίνδυνος!</string>
+    <string name="alert_shop_warning_txt_desc">Αυτήν τη στιγμή έχετε αντικείμενα από άλλο κατάστημα μέσα στο καλάθι σας. Πρέπει να αφαιρέσετε τα πάντα πριν επιλέξετε αντικείμενα από άλλο κατάστημα! </string>
+    <string name="alert_shop_warning_txt_desc_header2">Ήσαστε στο:</string>
 
     <!-- Content Descriptions -->
     <string name="img_content_desc_fb_btn">Σύνδεσμος Facebook</string>

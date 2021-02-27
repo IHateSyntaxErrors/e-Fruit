@@ -4,6 +4,7 @@
 
     <!-- Neutral/General -->
     <string name="general_ok">Okay</string>
+    <string name="general_got_it">Got it</string>
     <string name="general_cancel">Cancel</string>
     <string name="toast_speech_recognition_not_supported">Speech recognition is not supported in your device.</string>
     <string name="toast_speech_recognition_invalid_action">Invalid action. Try again!</string>
@@ -49,6 +50,7 @@
     <!-- Products Fragment Page -->
     <string name="page_products_recycler_add_to_cart">Add to cart</string>
     <string name="page_products_recycler_txt_on_stock">On Stock: </string>
+    <string name="page_products_go_to_cart">Go to cart</string>
     <string name="recycler_var_product_price" translatable="false">%1$s €</string>
     <string name="recycler_var_product_price_per_kg" translatable="false">%1$s € / Kg </string>
 
@@ -88,6 +90,9 @@
     <string name="alert_lang_txt_view_ell">Greek (GR)</string>
     <string name="alert_profile_saved_txt_title">Saved!</string>
     <string name="alert_profile_saved_txt_desc">Your personal information has been updated successfully!</string>
+    <string name="alert_shop_warning_txt_title">Warning!</string>
+    <string name="alert_shop_warning_txt_desc">You currently have items from another shop inside your cart. You need to remove everything before selecting items from another shop!</string>
+    <string name="alert_shop_warning_txt_desc_header2">You are on:</string>
 
     <!-- Shared Preferences Keys -->
     <string name="switch_night_mode" translatable="false">SWITCH_NIGHT_MODE</string>

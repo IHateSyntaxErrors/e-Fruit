@@ -1,5 +1,6 @@
     package com.unipi.p17172p17168p17164.efruit.Fragments;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +33,7 @@ import com.google.firebase.storage.UploadTask;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelProducts;
 import com.unipi.p17172p17168p17164.efruit.R;
 import com.unipi.p17172p17168p17164.efruit.Utils.DBHelper;
+import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
 import com.unipi.p17172p17168p17164.efruit.databinding.FragmentProductsBinding;
 import com.unipi.p17172p17168p17164.efruit.databinding.RecyclerSingleItemProductsBinding;
 
@@ -50,7 +52,7 @@ public class FragmentProducts extends Fragment {
     private FirebaseUser firebaseUser;
     private FirestoreRecyclerAdapter adapter;
     String shopId;
-
+    boolean isCartShop;
     RecyclerView productsListRecycler;
 
     public LinearLayoutManager linearLayoutManager;
@@ -84,6 +86,9 @@ public class FragmentProducts extends Fragment {
         db = FirebaseFirestore.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+
+        // Animations
+        binding.constraintLayoutProductsGoToCart.animate().translationY(binding.constraintLayoutProductsGoToCart.getHeight());
 
         productsListRecycler = binding.recyclerViewProducts;
         searchViewProducts_SearchBar = binding.searchViewProducts;
@@ -135,13 +140,24 @@ public class FragmentProducts extends Fragment {
                 holder.singleItemProductsBinding.textViewProductsProductPricePerKg.setText(String.format(context.getString(R.string.recycler_var_product_price_per_kg), model.getPrice() + ""));
                 holder.singleItemProductsBinding.textViewProductsProductQuantityNum.setText(MessageFormat.format("{0}", model.getQuantity()));
 
+                db.collection("carts").whereEqualTo("userId", firebaseUser.getUid()).get()
+                        .addOnCompleteListener(taskCheck -> {
+                            if (taskCheck.isSuccessful())
+                                if (taskCheck.getResult().isEmpty())
+                                    isCartShop = true;
+                                else
+                                    for (DocumentSnapshot documentCartDetails : taskCheck.getResult())
+                                        isCartShop = model.getShopId().equals(documentCartDetails.getString("shopId"));
+                        });
+
                 // BUTTONS
                 // We need to check if each item is added in cart so we change the add to cart button to the selection operators.
                 Query queryCartItem = DBHelper.getCartItem(db, firebaseUser.getUid(), model.getProductId());
 
                 queryCartItem.get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        if (!task.getResult().isEmpty()) { // Checking if the query returned nothing
+                        if (!task.getResult().isEmpty() && isCartShop) { // Checking if the query returned nothing
+                            binding.constraintLayoutProductsGoToCart.setVisibility(View.VISIBLE);
                             for (DocumentSnapshot documentCartItem : task.getResult()) {
                                 // Hide the add to cart button completely
                                 holder.singleItemProductsBinding.btnRecyclerItemAddToCart.setVisibility(View.INVISIBLE);
@@ -200,22 +216,35 @@ public class FragmentProducts extends Fragment {
                             .get()
                             .addOnCompleteListener(taskCheck -> {
                                 // If the cart is empty of products, switch to the empty cart view.
-                                if (Objects.requireNonNull(taskCheck.getResult()).isEmpty())
+                                if (Objects.requireNonNull(taskCheck.getResult()).isEmpty()) {
                                     DBHelper.getCartDetails(db, firebaseUser.getUid()).delete();
+                                    binding.constraintLayoutProductsGoToCart.setVisibility(View.INVISIBLE);
+                                }
                             });
                 });
 
                 // ADD TO CART BUTTON
                 holder.singleItemProductsBinding.btnRecyclerItemAddToCart.setOnClickListener(v -> {
-                    Query cardItem = DBHelper.getCartItem(db, firebaseUser.getUid(), model.getProductId());
-                    cardItem.get().addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(context, "TEST", Toast.LENGTH_SHORT).show();
-                            DBHelper.setCartItem(db, firebaseUser.getUid(), shopId, model.getProductId(), model.getPrice(), 1);
-                            notifyItemChanged(holder.getAdapterPosition());
-                            adapter.notifyDataSetChanged();
-                        }
-                    });
+                    if (isCartShop) {
+                        Query cardItem = DBHelper.getCartItem(db, firebaseUser.getUid(), model.getProductId());
+                        cardItem.get().addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                DBHelper.setCartItem(db, firebaseUser.getUid(), shopId, model.getProductId(), model.getPrice(), 1)
+                                        .addOnCompleteListener(taskAdd -> {
+                                            if (taskAdd.isSuccessful()) {
+                                                notifyItemChanged(holder.getAdapterPosition());
+                                                adapter.notifyDataSetChanged();
+                                            }
+                                        });
+                            }
+                        });
+                    }
+                    else {
+                        DBHelper.getShopName(db, shopId).get().addOnCompleteListener(taskGet -> {
+                            Dialog dialog = new Toolbox().showDialogWrongShopWarning(getContext(), taskGet.getResult().getString("name"));
+                            dialog.show();
+                        });
+                    }
                 });
             }
 
