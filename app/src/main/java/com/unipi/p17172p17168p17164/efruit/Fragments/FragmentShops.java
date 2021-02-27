@@ -24,9 +24,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.load.model.Model;
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQueryBounds;
+import com.firebase.geofire.core.GeoHash;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -42,6 +44,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.type.LatLng;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelShops;
 import com.unipi.p17172p17168p17164.efruit.R;
 import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
@@ -259,44 +262,68 @@ public class FragmentShops extends Fragment implements LocationListener {
         locationRef.update(updates)
                 .addOnCompleteListener(task -> {
                     // ... εν μπουν στην βαση τι κανω
-                    final GeoLocation center = new GeoLocation(latUser,lngUser);
-                    final double radiusInM = 50 * 1000;
-                    List<GeoQueryBounds> bounds = GeoFireUtils.getGeoHashQueryBounds(center, radiusInM);
-                    final List<Task<QuerySnapshot>> tasks = new ArrayList<>();
+
+
+                    final GeoLocation center = new GeoLocation(latUser,lngUser); //..υπολογισμός κeντρου
+                    final double radiusInM = 50 * 1000; //υπολογισμός radius με 10 Km απόστ
+                    List<GeoQueryBounds> bounds = GeoFireUtils.getGeoHashQueryBounds(center, radiusInM); //υπολογισμός bounds και αποθήκευση σε λίστα.
+                    final List<Task<QuerySnapshot>> tasks = new ArrayList<>(); //δημιουργεία λίστας
                     for (GeoQueryBounds b : bounds) {
-                        Query q = db.collection("shops")
-                                .orderBy("geohash")
-                                .startAt(b.startHash)
-                                .endAt(b.endHash);
+
+                        Query q = db.collection("shops").orderBy("coords")
+                                .startAfter("Longitude")
+                             .startAt(b.startHash)
+                              .endAt(b.endHash);
 
                         tasks.add(q.get());
+
                     }
-                    // Collect all the query results together into a single list
+                     //Collect all the query results together into a single list
                     Tasks.whenAllComplete(tasks)
                             .addOnCompleteListener(new OnCompleteListener<List<Task<?>>>() {
                                 @Override
                                 public void onComplete(@NonNull Task<List<Task<?>>> t) {
+                                    //float [] resultsLoc = new float[5];
+                                   // location.distanceBetween(latUser,lngUser,,,resultsLoc);
                                     List<DocumentSnapshot> matchingDocs = new ArrayList<>();
                                     System.out.println("111111111111111111111111111111111111111111111111111");
-                                    for (Task<QuerySnapshot> task : tasks) {
+                                    for (Task<QuerySnapshot> task : tasks)
+                                    {
+                                        System.out.println("7777777777777777777777777777777777777777777");
+
                                         QuerySnapshot snap = task.getResult();
+
                                         for (DocumentSnapshot doc : snap.getDocuments()) {
-                                           // double lat = doc.getDouble("lat"); //εν μπορω να καταλαβω τι ακριβως πιανει δαμε
-                                           // double lng = doc.getDouble("lng");
+                                            System.out.println("8888888888888888888888888888888888888");
+
+                                            double lat = doc.getDouble("location"); //εν μπορω να καταλαβω τι ακριβως πιανει δαμε
+                                             double lng = doc.getDouble("location/Longitude");
+                                            System.out.println("222222222222222222222222222222222222222222222222222222222");
+                                            System.out.println(lat);
+                                            System.out.println(lng);
                                             System.out.println("222222222222222222222222222222222222222222222222222222222");
                                             // We have to filter out a few false positives due to GeoHash
                                             // accuracy, but most will match
-                                            GeoLocation docLocation = new GeoLocation(latUser, lngUser); // εβαλα απευθείας τις μεταβλητες δαμε αλλα πιστευω εν λαθος.
-                                            double distanceInM = GeoFireUtils.getDistanceBetween(docLocation, center);
+                                            GeoLocation docLocation = new GeoLocation(lat,lng); // εβαλα απευθείας τις μεταβλητες δαμε αλλα πιστευω εν λαθος.
+                                           double distanceInM = GeoFireUtils.getDistanceBetween(docLocation, center); //υπολογισμό απόστασης από το κέντρο
                                             if (distanceInM <= radiusInM) {
                                                 matchingDocs.add(doc);
                                                 System.out.println("/////////////////////");
-                                                System.out.println(matchingDocs);
+                                                for (DocumentSnapshot i : matchingDocs){
+                                                    Log.i("Member name: ", String.valueOf(i));
+                                                }
+                                                //System.out.println(matchingDocs);
                                                 System.out.println("/////////////////////");
                                             }
+                                            System.out.println("333333333333333");
+                                            System.out.println(distanceInM);
                                         }
                                     }
+                                    System.out.println(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,");
 
+                                    for (DocumentSnapshot i : matchingDocs){
+                                       System.out.println("Member name: " + String.valueOf(i));
+                                    }
                                     // matchingDocs contains the results
                                     // ...
                                 }
