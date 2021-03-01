@@ -2,6 +2,7 @@ package com.unipi.p17172p17168p17164.efruit.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,6 +38,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -47,6 +50,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.type.LatLng;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelShops;
 import com.unipi.p17172p17168p17164.efruit.R;
+import com.unipi.p17172p17168p17164.efruit.Utils.DBHelper;
 import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
 import com.unipi.p17172p17168p17164.efruit.databinding.FragmentShopsBinding;
 import com.unipi.p17172p17168p17164.efruit.databinding.RecyclerSingleItemShopsBinding;
@@ -58,6 +62,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import static android.content.Context.LOCATION_SERVICE;
+import static android.location.Location.distanceBetween;
 
 public class FragmentShops extends Fragment implements LocationListener {
     // ~~~~~~~VARIABLES~~~~~~~
@@ -91,8 +96,9 @@ public class FragmentShops extends Fragment implements LocationListener {
         view = binding.getRoot();
 
         init();
-        getShopsList();
         getLocation();
+        getShopsList();
+
 
         return view;
     }
@@ -116,11 +122,12 @@ public class FragmentShops extends Fragment implements LocationListener {
         });
     }
 
+
+
     public void getShopsList(){
         final String TAG = "[FragmentShops]";
 
         Query queryShops = db.collection("shops");
-
 
         queryShops.addSnapshotListener((snapshots, e) -> {
             if (e != null) {
@@ -143,6 +150,69 @@ public class FragmentShops extends Fragment implements LocationListener {
             }
 
         });
+
+
+        queryShops.get().addOnCompleteListener(taskShop -> {
+            if (taskShop.isSuccessful()) {
+                for (DocumentSnapshot documentShopLocation : taskShop.getResult()) {
+                      GeoPoint locShop =   documentShopLocation.getGeoPoint("coords");
+                    Location locationB = new Location("point B");
+                    //locShop.getLatitude();
+                    //locShop.getLongitude();
+                    locationB.setLatitude(locShop.getLatitude());
+                    locationB.setLongitude(locShop.getLongitude());
+
+
+                        System.out.println("/////////////////////////////// Print 1 ////////////////////////////////:");
+                        System.out.print("Location Shop:");
+                        System.out.println(locShop);
+                        System.out.print("Set location function:");
+                        System.out.println(locationB);
+                    System.out.println("/////////////////////////////// Print 1 END ////////////////////////////////:");
+
+                    Query queryUser= db.collection("users").whereEqualTo("tokenId", firebaseUser.getUid());
+                    System.out.print("User ID ");
+                    System.out.println(firebaseUser.getUid());
+                    queryUser.get().addOnCompleteListener(taskUser -> {
+                        if (taskUser.isSuccessful()) { // δεν μπαίνειν στο if.
+                            System.out.println("00000000000000000000000000000000000");
+                            for (DocumentSnapshot documentUserLocation : taskUser.getResult()) {
+
+                                GeoPoint locUser = documentUserLocation.getGeoPoint("coords");
+                                //locUser.getLatitude();
+                                //locUser.getLongitude();
+                                Location locationA = new Location("point A");
+                                locationA.setLatitude(locUser.getLatitude());
+                                locationA.setLatitude(locUser.getLongitude());
+                                System.out.print("55555555555555555555555555");
+
+                                System.out.println(locUser);
+                                //float [] resultsLoc = new float[5];
+                                //distanceBetween(locUser.getLatitude(),locUser.getLongitude(), locShop.getLatitude(),locShop.getLongitude(),resultsLoc);
+
+                               //System.out.print(resultsLoc);
+                                System.out.print("9999999999999999999999999");
+                               float distance = locationA.distanceTo(locationB);
+                                System.out.print("[");
+                                System.out.print(distance);
+//                                for(resultsLoc it : resultsLoc) {
+//                                    System.out.print(it.toString() + ", ");
+//                                }
+
+                                System.out.print("]");
+
+
+                            }
+                        }
+
+                    });
+
+                }
+            }
+
+        });
+
+
 
         // RecyclerOptions
         FirestoreRecyclerOptions<ModelShops> recyclerOptions = new FirestoreRecyclerOptions.Builder<ModelShops>()
@@ -201,6 +271,7 @@ public class FragmentShops extends Fragment implements LocationListener {
     @SuppressLint("MissingPermission")
     @RequiresApi(api = Build.VERSION_CODES.Q)
     private void getLocation() {
+
         locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         boolean enabled = locationManager
                 .isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -222,6 +293,7 @@ public class FragmentShops extends Fragment implements LocationListener {
             criteria.setVerticalAccuracy(Criteria.ACCURACY_HIGH);
             provider = locationManager.getBestProvider(criteria, false);
             Location location = locationManager.getLastKnownLocation(provider);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
             if (location != null) {
                 onLocationChanged(location);
             }
@@ -252,82 +324,18 @@ public class FragmentShops extends Fragment implements LocationListener {
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
+        System.out.println("11111111111111111111111111111111111");
         double latUser = location.getLatitude();
         double lngUser = location.getLongitude();
         String hash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(latUser, lngUser));
         Map<String, Object>updates = new HashMap<>();
-        updates.put("location", new GeoPoint(latUser, lngUser));
+        updates.put("coords", new GeoPoint(latUser, lngUser));
         updates.put("geohash", hash);
         DocumentReference locationRef = db.collection("users").document(firebaseUser.getUid());
         locationRef.update(updates)
                 .addOnCompleteListener(task -> {
-                    // ... εν μπουν στην βαση τι κανω
 
 
-                    final GeoLocation center = new GeoLocation(latUser,lngUser); //..υπολογισμός κeντρου
-                    final double radiusInM = 50 * 1000; //υπολογισμός radius με 10 Km απόστ
-                    List<GeoQueryBounds> bounds = GeoFireUtils.getGeoHashQueryBounds(center, radiusInM); //υπολογισμός bounds και αποθήκευση σε λίστα.
-                    final List<Task<QuerySnapshot>> tasks = new ArrayList<>(); //δημιουργεία λίστας
-                    for (GeoQueryBounds b : bounds) {
-
-                        Query q = db.collection("shops").orderBy("coords")
-                                .startAfter("Longitude")
-                             .startAt(b.startHash)
-                              .endAt(b.endHash);
-
-                        tasks.add(q.get());
-
-                    }
-                     //Collect all the query results together into a single list
-                    Tasks.whenAllComplete(tasks)
-                            .addOnCompleteListener(new OnCompleteListener<List<Task<?>>>() {
-                                @Override
-                                public void onComplete(@NonNull Task<List<Task<?>>> t) {
-                                    //float [] resultsLoc = new float[5];
-                                   // location.distanceBetween(latUser,lngUser,,,resultsLoc);
-                                    List<DocumentSnapshot> matchingDocs = new ArrayList<>();
-                                    System.out.println("111111111111111111111111111111111111111111111111111");
-                                    for (Task<QuerySnapshot> task : tasks)
-                                    {
-                                        System.out.println("7777777777777777777777777777777777777777777");
-
-                                        QuerySnapshot snap = task.getResult();
-
-                                        for (DocumentSnapshot doc : snap.getDocuments()) {
-                                            System.out.println("8888888888888888888888888888888888888");
-
-                                            double lat = doc.getDouble("location"); //εν μπορω να καταλαβω τι ακριβως πιανει δαμε
-                                             double lng = doc.getDouble("location/Longitude");
-                                            System.out.println("222222222222222222222222222222222222222222222222222222222");
-                                            System.out.println(lat);
-                                            System.out.println(lng);
-                                            System.out.println("222222222222222222222222222222222222222222222222222222222");
-                                            // We have to filter out a few false positives due to GeoHash
-                                            // accuracy, but most will match
-                                            GeoLocation docLocation = new GeoLocation(lat,lng); // εβαλα απευθείας τις μεταβλητες δαμε αλλα πιστευω εν λαθος.
-                                           double distanceInM = GeoFireUtils.getDistanceBetween(docLocation, center); //υπολογισμό απόστασης από το κέντρο
-                                            if (distanceInM <= radiusInM) {
-                                                matchingDocs.add(doc);
-                                                System.out.println("/////////////////////");
-                                                for (DocumentSnapshot i : matchingDocs){
-                                                    Log.i("Member name: ", String.valueOf(i));
-                                                }
-                                                //System.out.println(matchingDocs);
-                                                System.out.println("/////////////////////");
-                                            }
-                                            System.out.println("333333333333333");
-                                            System.out.println(distanceInM);
-                                        }
-                                    }
-                                    System.out.println(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,");
-
-                                    for (DocumentSnapshot i : matchingDocs){
-                                       System.out.println("Member name: " + String.valueOf(i));
-                                    }
-                                    // matchingDocs contains the results
-                                    // ...
-                                }
-                            });
                 });
         locationManager.removeUpdates(this); //If the location changes it will not get the new coordinates.
     }
