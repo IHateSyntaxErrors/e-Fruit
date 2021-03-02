@@ -8,7 +8,7 @@
     tools:context=".Fragments.FragmentOrders">
 
     <ViewFlipper
-        android:id="@+id/viewFlipperCart"
+        android:id="@+id/viewFlipper_Orders"
         android:layout_width="match_parent"
         android:layout_height="731dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -60,7 +60,7 @@
                 android:layout_marginEnd="32dp"
                 android:fontFamily="@font/helvetica_bold"
                 android:gravity="center"
-                android:text="You don't have any orders yet."
+                android:text="@string/recycler_item_order_date_header"
                 android:textColor="@color/colorText"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"

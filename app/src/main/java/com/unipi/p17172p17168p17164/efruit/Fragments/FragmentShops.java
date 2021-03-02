@@ -104,15 +104,6 @@ public class FragmentShops extends Fragment implements LocationListener {
         recyclerShops.setHasFixedSize(true);
     }
 
-        List<GeoQueryBounds> bounds = GeoFireUtils.getGeoHashQueryBounds(center, radiusInM);
-        for (GeoQueryBounds b : bounds) {
-            queryShops = db.collection("shops")
-                           .orderBy("geohash")
-                           .startAt(b.startHash)
-                           .endAt(b.endHash);
-        }
-
-
     public void getShopsList(){
         final String TAG = "[FragmentShops]";
         final GeoLocation center = new GeoLocation(37.9893, 23.7460);
