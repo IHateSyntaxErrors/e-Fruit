@@ -143,5 +143,8 @@ public class AdminPanelActivity extends AppCompatActivity {
 
                 });
     }
+    private double convertMetersToKms(double distanceInKm) {
+        return distanceInKm / 1000.000;
+    }
 }
 
