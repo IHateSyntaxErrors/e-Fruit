@@ -7,10 +7,13 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.unipi.p17172p17168p17164.efruit.R;
 import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
 import com.unipi.p17172p17168p17164.efruit.databinding.ActivitySelectTimeBinding;
@@ -36,6 +39,8 @@ public class SelectTimeActivity extends AppCompatActivity
     private FirebaseFirestore db;
     private boolean defaultDate, defaultTime;
     private int nightModeFlags;
+    private String shopId;
+    Calendar[] days;
     List<Calendar> blockedDays = new ArrayList<>();
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -55,12 +60,16 @@ public class SelectTimeActivity extends AppCompatActivity
         updateUI();
     }
 
+    // Initialize variables
     private void init() {
         db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
         nightModeFlags =  getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+
+        shopId = getIntent().getStringExtra("SHOP_ID");
+        days = blockedDays.toArray(new Calendar[0]);
 
         defaultDate = true;
         defaultTime = true;
@@ -78,6 +87,8 @@ public class SelectTimeActivity extends AppCompatActivity
     }
 
     private void openDatePicker() throws ParseException {
+        getNonWorkingDays();
+
         Calendar now = Calendar.getInstance();
         DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
                 SelectTimeActivity.this,
@@ -92,15 +103,12 @@ public class SelectTimeActivity extends AppCompatActivity
         datePickerDialog.setMinDate(now);
         datePickerDialog.setVersion(DatePickerDialog.Version.VERSION_2);
 
-        Calendar[] days;
         // Code to disable particular date
-
         DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
         Date date = formatter.parse("03/05/2021");
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         blockedDays.add(cal);
-        days = blockedDays.toArray(new Calendar[blockedDays.size()]);
 
         datePickerDialog.setDisabledDays(days);
         datePickerDialog.show(getSupportFragmentManager(), "DatePicker");
@@ -119,6 +127,22 @@ public class SelectTimeActivity extends AppCompatActivity
             timePickerDialog.setThemeDark(true);
 
         timePickerDialog.show(getSupportFragmentManager(), "TimePicker");
+    }
+
+    private void getNonWorkingDays() {
+        Task<QuerySnapshot> queryNonWorkingDays = db.collection("shops")
+                .document(shopId)
+                .collection("working_times")
+                .whereEqualTo("is_open", false).get();
+
+        Task<QuerySnapshot> queryReservedDatesAndHours = db.collection("orders")
+                .whereEqualTo("shopId", shopId).get();
+
+        Tasks.whenAllComplete(queryNonWorkingDays, queryReservedDatesAndHours).addOnSuccessListener(list -> {
+            for (DocumentSnapshot doc : queryNonWorkingDays.getResult()) {
+
+            }
+        });
     }
 
     @Override
@@ -153,11 +177,6 @@ public class SelectTimeActivity extends AppCompatActivity
     }
 
     private void getCartList() {
-        final String TAG = "[SelectTimeActivity]";
-
-        Query queryCartProducts = db.collection("carts")
-                                    .document(firebaseUser.getUid())
-                                    .collection("products");
 
     }
 

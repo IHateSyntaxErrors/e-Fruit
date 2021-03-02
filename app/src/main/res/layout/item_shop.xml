@@ -36,33 +36,33 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:drawablePadding="5dp"
             android:fontFamily="@font/helvetica"
             android:text="Phone: 21312321"
             android:textColor="@color/colorText"
             android:textSize="12sp"
+            app:drawableLeftCompat="@drawable/ic_phone_12"
             app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textViewShops_ShopName"
-            app:layout_constraintTop_toBottomOf="@+id/textViewShops_ShopName"
-            app:drawableLeftCompat="@drawable/ic_phone_12"
-            android:drawablePadding="5dp"/>
+            app:layout_constraintTop_toBottomOf="@+id/textViewShops_ShopName" />
 
         <TextView
             android:id="@+id/textViewShops_ShopAddress"
             android:layout_width="283dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:drawablePadding="5dp"
             android:fontFamily="@font/helvetica"
             android:text="Address"
             android:textColor="@color/colorText"
             android:textSize="12sp"
+            app:drawableLeftCompat="@drawable/ic_location"
             app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/textViewShops_ShopPhone"
-            app:layout_constraintTop_toBottomOf="@+id/textViewShops_ShopPhone"
-            app:drawableLeftCompat="@drawable/ic_location"
-            android:drawablePadding="5dp"/>
+            app:layout_constraintTop_toBottomOf="@+id/textViewShops_ShopPhone" />
 
         <TextView
             android:id="@+id/textViewShops_ShopRegion"
@@ -78,6 +78,20 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textViewShops_ShopAddress"
             app:layout_constraintTop_toBottomOf="@+id/textViewShops_ShopAddress" />
+
+        <TextView
+            android:id="@+id/textViewShops_ShopDistance"
+            android:layout_width="0dp"
+            android:layout_height="19dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/helvetica"
+            android:textColor="@color/colorText"
+            android:textSize="12sp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/CardViewShops_ShopImage"
+            app:layout_constraintStart_toStartOf="@+id/CardViewShops_ShopImage"
+            app:layout_constraintTop_toBottomOf="@+id/CardViewShops_ShopImage" />
 
         <TextView
             android:id="@+id/textViewShops_ShopZip"
@@ -103,12 +117,11 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginStart="16dp"
-            android:layout_marginBottom="18dp"
             android:elevation="5dp"
             app:cardCornerRadius="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textViewShops_ShopName">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/imageViewShops_ShopImage"

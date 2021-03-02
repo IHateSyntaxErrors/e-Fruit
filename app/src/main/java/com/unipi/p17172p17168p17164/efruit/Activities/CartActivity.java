@@ -59,7 +59,6 @@ public class CartActivity extends AppCompatActivity {
 
         init();
         getCartList();
-        updateUI();
     }
 
     private void init() {
@@ -124,6 +123,7 @@ public class CartActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         if (documentSnapshotCartDetails.exists()) {
                             shopId = (String.valueOf(Objects.requireNonNull(documentSnapshotCartDetails.getData()).get("shopId")));
+                            updateUI(shopId);
                             DocumentReference docRefShopDetails = DBHelper.getShopDetails(db, shopId);
                             docRefShopDetails.get().addOnCompleteListener(task2 -> {
                                 DocumentSnapshot document = task2.getResult();
@@ -248,10 +248,11 @@ public class CartActivity extends AppCompatActivity {
         }
     }
 
-    public void updateUI() {
+    public void updateUI(String shopId) {
         binding.imageViewCartBackButton.setOnClickListener(v -> onBackPressed());
         binding.constraintLayoutCartSelectClickAwayTime.setOnClickListener(v -> {
             Intent intent = new Intent(CartActivity.this, SelectTimeActivity.class);
+            intent.putExtra("SHOP_ID", shopId);
             startActivity(intent);
         });
     }
