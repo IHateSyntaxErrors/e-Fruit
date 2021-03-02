@@ -5,6 +5,7 @@
     <string name="general_ok">Εντάξει</string>
     <string name="general_got_it">Κατάλαβα</string>
     <string name="general_cancel">Άκυρο</string>
+    <string name="general_next_step">Επόμενο</string>
     <string name="toast_speech_recognition_not_supported">Η συσκευή σας δεν υποστηρίζει αναγνώριση φωνής.</string>
     <string name="toast_speech_recognition_invalid_action">Μη έγκυρη ενέργεια! Δοκιμάστε ξανά.</string>
     <string name="search_bar_hint">Αναζήτηση</string>
@@ -74,6 +75,10 @@
     <string name="page_cart_items_header">Προϊόντα</string>
     <string name="page_cart_total_payment_header">Τελική Τιμή</string>
 
+    <!-- Select Click-Away Time Page -->
+    <string name="page_select_time_header">Επιλέξτε Ώρα Παραλαβής</string>
+    <string name="page_select_time_header2">Επιλέξτε μια διαθέσιμη ώρα για παραλαβή</string>
+
     <!-- Version -->
     <string name="app_versionCode">@string/versionName</string>
     <string name="app_versionText">Έκδοση Εφαρμογής </string>
@@ -87,6 +92,7 @@
     <string name="alert_shop_warning_txt_title">Κίνδυνος!</string>
     <string name="alert_shop_warning_txt_desc">Αυτήν τη στιγμή έχετε αντικείμενα από άλλο κατάστημα μέσα στο καλάθι σας. Πρέπει να αφαιρέσετε τα πάντα πριν επιλέξετε αντικείμενα από άλλο κατάστημα! </string>
     <string name="alert_shop_warning_txt_desc_header2">Ήσαστε στο:</string>
+    <string name="alert_date_time_warning_txt_desc">Πρέπει να επιλέξετε ημ/νια παραλαβής αλλά και ώρα!</string>
 
     <!-- Content Descriptions -->
     <string name="img_content_desc_fb_btn">Σύνδεσμος Facebook</string>
@@ -100,4 +106,7 @@
     <string name="img_content_desc_admin_panel">Κουμπί για Admin Panel</string>
     <string name="img_content_desc_cart">Κουμπί για καλάθι</string>
     <string name="img_content_desc_empty_cart">Εικόνα με άδειο καλάθι</string>
+    <string name="img_content_minus_sign">Κουμπί Αφαίρεσης</string>
+    <string name="img_content_plus_sign">Κουμπί Πρόσθεσης</string>
+    <string name="img_content_delete">Κουμπί για αφαίρεση από το καλάθι</string>
 </resources>

@@ -6,7 +6,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="backgroundColor">@color/colorBackground</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:statusBarColor" tools:targetApi="l">@color/colorActionBar</item> <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">@color/colorPrimary</item> <!-- Status bar color. -->
 <!--        <itemProduct name="android:windowAnimationStyle">@null</itemProduct> &lt;!&ndash; Animation when changing activities &ndash;&gt;-->
     </style>
 

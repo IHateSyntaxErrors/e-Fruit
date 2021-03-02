@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.provider.Settings;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
@@ -18,8 +17,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.GeoPoint;
 import com.orhanobut.hawk.Hawk;
 import com.unipi.p17172p17168p17164.efruit.R;
-import com.unipi.p17172p17168p17164.efruit.databinding.ActivityCartBinding;
-import com.unipi.p17172p17168p17164.efruit.databinding.AlertShopWarningBinding;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -58,6 +55,21 @@ public class Toolbox {
         MaterialButton btnAlertDismiss = dialog.findViewById(R.id.btn_AlertShopWarning_Dismiss);
 
         txtShopName.setText(shopName);
+        btnAlertDismiss.setOnClickListener(v -> dialog.dismiss());
+
+        return dialog;
+    }
+
+    public Dialog showDialogDateTimeWarning(Context context) {
+        final Dialog dialog = new Dialog(context);
+
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        // VIEW BINDING
+        dialog.setContentView(R.layout.alert_date_time_warning);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        MaterialButton btnAlertDismiss = dialog.findViewById(R.id.btn_AlertDateTime_Dismiss);
         btnAlertDismiss.setOnClickListener(v -> dialog.dismiss());
 
         return dialog;

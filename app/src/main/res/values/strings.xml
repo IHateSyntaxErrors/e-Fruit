@@ -6,6 +6,7 @@
     <string name="general_ok">Okay</string>
     <string name="general_got_it">Got it</string>
     <string name="general_cancel">Cancel</string>
+    <string name="general_next_step">Next</string>
     <string name="toast_speech_recognition_not_supported">Speech recognition is not supported in your device.</string>
     <string name="toast_speech_recognition_invalid_action">Invalid action. Try again!</string>
     <string name="search_bar_hint">Search</string>
@@ -73,6 +74,10 @@
     <string name="page_cart_total_payment_header">Total Payment</string>
     <string name="page_cart_total_payment_number" translatable="false">%1$.2f €</string>
 
+    <!-- Select Click-Away Time Page -->
+    <string name="page_select_time_header">Select Time</string>
+    <string name="page_select_time_header2">Select an available click-away time</string>
+
     <!-- Settings -->
     <string name="page_settings_header1_title">Settings</string>
     <string name="page_settings_title_general">General</string>
@@ -93,6 +98,7 @@
     <string name="alert_shop_warning_txt_title">Warning!</string>
     <string name="alert_shop_warning_txt_desc">You currently have items from another shop inside your cart. You need to remove everything before selecting items from another shop!</string>
     <string name="alert_shop_warning_txt_desc_header2">You are on:</string>
+    <string name="alert_date_time_warning_txt_desc">You must select a pickup date and time!</string>
 
     <!-- Shared Preferences Keys -->
     <string name="switch_night_mode" translatable="false">SWITCH_NIGHT_MODE</string>
@@ -110,4 +116,7 @@
     <string name="img_content_desc_admin_panel">Admin Panel Button</string>
     <string name="img_content_desc_cart">Shopping Cart Button</string>
     <string name="img_content_desc_empty_cart">Empty Cart Image</string>
+    <string name="img_content_minus_sign">Minus Button</string>
+    <string name="img_content_plus_sign">Plus Button</string>
+    <string name="img_content_delete">Remove From Cart Button</string>
 </resources>

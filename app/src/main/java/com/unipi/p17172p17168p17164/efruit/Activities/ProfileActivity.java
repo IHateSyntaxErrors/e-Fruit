@@ -3,8 +3,6 @@ package com.unipi.p17172p17168p17164.efruit.Activities;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,7 +33,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -160,16 +157,16 @@ public class ProfileActivity extends AppCompatActivity implements Validator.Vali
         }
     }
 
-    private void saveProfile(String tokenId) {
+    private void saveProfile(String userId) {
         String full_name = String.valueOf(txtInputProfile_FullName.getText());
         String phone = String.valueOf(txtInputProfile_Phone.getText());
 
         Map< String, Object > updatedUser = new HashMap< >();
         updatedUser.put("full_name", full_name);
         updatedUser.put("phone_number", phone);
-        updatedUser.put("tokenId", tokenId);
+        updatedUser.put("userId", userId);
 
-        db.collection("users").document(tokenId).update(updatedUser).addOnSuccessListener(s -> {
+        db.collection("users").document(userId).update(updatedUser).addOnSuccessListener(s -> {
             Dialog dialog = toolbox.showDialogPersonalInfoSaved(this);
             dialog.show();
             txtViewProfile_FullName.setText(full_name);

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground"
+        tools:context=".Activities.SelectTimeActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:id="@+id/constraintLayout_SelectTime_Top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView_SelectTime_BackButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:clickable="true"
+            android:src="@drawable/ic_menu_top_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/colorText"
+            android:contentDescription="@string/img_content_desc_back_button" />
+
+        <TextView
+            android:id="@+id/textView_SelectTime_Header"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/helvetica_bold"
+            android:text="@string/page_select_time_header"
+            android:textColor="@color/colorText"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView_SelectTime_BackButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout_SelectTime_Top"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/textView_SelectTime_HeaderItems"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="64dp"
+            android:drawablePadding="10dp"
+            android:fontFamily="@font/helvetica"
+            android:text="@string/page_select_time_header2"
+            android:textColor="@color/colorText"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/imgBtn_SelectTime_Date"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="24dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/selector_alert_neutral_btn"
+            android:clickable="true"
+            android:fontFamily="@font/helvetica_bold"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_calendar"
+            android:textAllCaps="false"
+            android:textColor="@color/colorButtonText"
+            android:textSize="15sp"
+            android:tint="@color/colorText"
+            android:visibility="visible"
+            app:backgroundTint="@null"
+            app:iconGravity="textStart"
+            app:iconTint="@color/colorButtonText"
+            app:layout_constraintStart_toStartOf="@+id/textView_SelectTime_HeaderItems"
+            app:layout_constraintTop_toBottomOf="@+id/textView_SelectTime_HeaderItems" />
+
+        <TextView
+            android:id="@+id/textView_SelectTime_Date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:drawablePadding="10dp"
+            android:fontFamily="@font/helvetica_bold"
+            android:text="None Selected"
+            android:textColor="@color/colorText"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imgBtn_SelectTime_Date"
+            app:layout_constraintStart_toEndOf="@+id/imgBtn_SelectTime_Date"
+            app:layout_constraintTop_toTopOf="@+id/imgBtn_SelectTime_Date" />
+
+        <ImageButton
+            android:id="@+id/imgBtn_SelectTime_Time"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="24dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/selector_alert_neutral_btn"
+            android:clickable="true"
+            android:fontFamily="@font/helvetica_bold"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_clock"
+            android:textAllCaps="false"
+            android:textColor="@color/colorButtonText"
+            android:textSize="15sp"
+            android:tint="@color/colorText"
+            android:visibility="visible"
+            app:backgroundTint="@null"
+            app:iconGravity="textStart"
+            app:iconTint="@color/colorButtonText"
+            app:layout_constraintStart_toStartOf="@+id/imgBtn_SelectTime_Date"
+            app:layout_constraintTop_toBottomOf="@+id/imgBtn_SelectTime_Date" />
+
+        <TextView
+            android:id="@+id/textView_SelectTime_Time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:drawablePadding="10dp"
+            android:fontFamily="@font/helvetica_bold"
+            android:text="None Selected"
+            android:textColor="@color/colorText"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imgBtn_SelectTime_Time"
+            app:layout_constraintStart_toEndOf="@+id/imgBtn_SelectTime_Time"
+            app:layout_constraintTop_toTopOf="@+id/imgBtn_SelectTime_Time" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout_SelectTime_Next"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_cart_select_time_btn"
+            android:clickable="true"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/textView_SelectTime_SelectTime"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:drawablePadding="10dp"
+                android:fontFamily="@font/helvetica_bold"
+                android:gravity="center"
+                android:text="@string/general_next_step"
+                android:textColor="@color/colorButtonText"
+                android:textSize="20sp"
+                app:drawableStartCompat="@drawable/ic_check_mark_success"
+                app:drawableTint="@color/colorButtonText"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

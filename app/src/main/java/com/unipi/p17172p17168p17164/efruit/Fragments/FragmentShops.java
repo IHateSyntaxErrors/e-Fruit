@@ -2,7 +2,6 @@ package com.unipi.p17172p17168p17164.efruit.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
@@ -15,7 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,19 +24,13 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.load.model.Model;
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQueryBounds;
-import com.firebase.geofire.core.GeoHash;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -46,23 +38,18 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.type.LatLng;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelShops;
 import com.unipi.p17172p17168p17164.efruit.R;
-import com.unipi.p17172p17168p17164.efruit.Utils.DBHelper;
 import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
 import com.unipi.p17172p17168p17164.efruit.databinding.FragmentShopsBinding;
-import com.unipi.p17172p17168p17164.efruit.databinding.RecyclerSingleItemShopsBinding;
+import com.unipi.p17172p17168p17164.efruit.databinding.ItemShopBinding;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 import static android.content.Context.LOCATION_SERVICE;
-import static android.location.Location.distanceBetween;
 
 public class FragmentShops extends Fragment implements LocationListener {
     // ~~~~~~~VARIABLES~~~~~~~
@@ -115,17 +102,21 @@ public class FragmentShops extends Fragment implements LocationListener {
         linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recyclerShops.setLayoutManager(linearLayoutManager);
         recyclerShops.setHasFixedSize(true);
-        binding.editTxtInputShopsSearchBar.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                Toolbox.hideKeyboard(v, context);
-            }
-        });
     }
 
+        List<GeoQueryBounds> bounds = GeoFireUtils.getGeoHashQueryBounds(center, radiusInM);
+        for (GeoQueryBounds b : bounds) {
+            queryShops = db.collection("shops")
+                           .orderBy("geohash")
+                           .startAt(b.startHash)
+                           .endAt(b.endHash);
+        }
 
 
     public void getShopsList(){
         final String TAG = "[FragmentShops]";
+        final GeoLocation center = new GeoLocation(37.9893, 23.7460);
+        final double radiusInM = 100 * 1000;
 
         Query queryShops = db.collection("shops");
 
@@ -135,6 +126,7 @@ public class FragmentShops extends Fragment implements LocationListener {
                 return;
             }
 
+            assert snapshots != null;
             for (DocumentChange dc : snapshots.getDocumentChanges()) {
                 switch (dc.getType()) {
                     case ADDED:
@@ -221,12 +213,12 @@ public class FragmentShops extends Fragment implements LocationListener {
         adapter = new FirestoreRecyclerAdapter<ModelShops, ShopsViewHolder>(recyclerOptions) {
             @Override
             protected void onBindViewHolder(@NonNull ShopsViewHolder holder, int position, @NonNull ModelShops model) {
-                holder.singleItemShopsBinding.CardViewShopsShopImage.setBackgroundResource(R.drawable.fruit_shop);
-                holder.singleItemShopsBinding.textViewShopsShopName.setText(model.getName());
-                holder.singleItemShopsBinding.textViewShopsShopPhone.setText(model.getPhone());
-                holder.singleItemShopsBinding.textViewShopsShopAddress.setText(model.getAddress());
-                holder.singleItemShopsBinding.textViewShopsShopRegion.setText(model.getRegion());
-                holder.singleItemShopsBinding.textViewShopsShopZip.setText(String.format(context.getString(R.string.recycler_var_shops_zip), model.getZip() + ""));
+                holder.itemShopsBinding.CardViewShopsShopImage.setBackgroundResource(R.drawable.fruit_shop);
+                holder.itemShopsBinding.textViewShopsShopName.setText(model.getName());
+                holder.itemShopsBinding.textViewShopsShopPhone.setText(model.getPhone());
+                holder.itemShopsBinding.textViewShopsShopAddress.setText(model.getAddress());
+                holder.itemShopsBinding.textViewShopsShopRegion.setText(model.getRegion());
+                holder.itemShopsBinding.textViewShopsShopZip.setText(String.format(context.getString(R.string.recycler_var_shops_zip), model.getZip() + ""));
 
                 holder.itemView.setOnClickListener(v -> {
                     FragmentProducts fragment = new FragmentProducts(model.getShopId());
@@ -241,12 +233,22 @@ public class FragmentShops extends Fragment implements LocationListener {
                     fragmentTransaction.commit();
 
                 });
+
+                /*DBHelper.getShopGeohash(db, model.getShopId())
+                .get()
+                .addOnCompleteListener(taskGetGeohash -> {
+                    if (taskGetGeohash.isSuccessful()) {
+                        for (DocumentSnapshot documentShop : taskGetGeohash.getResult()) {
+                            documentShop
+                        }
+                    }
+                });*/
             }
 
             @NonNull
             @Override
             public ShopsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                RecyclerSingleItemShopsBinding view = RecyclerSingleItemShopsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+                ItemShopBinding view = ItemShopBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
                 return new ShopsViewHolder(view);
             }
 
@@ -260,11 +262,11 @@ public class FragmentShops extends Fragment implements LocationListener {
     }
 
     public static class ShopsViewHolder extends RecyclerView.ViewHolder {
-        private final RecyclerSingleItemShopsBinding singleItemShopsBinding;
+        private final ItemShopBinding itemShopsBinding;
 
-        public ShopsViewHolder(RecyclerSingleItemShopsBinding singleItemShopsBinding) {
-            super(singleItemShopsBinding.getRoot());
-            this.singleItemShopsBinding = singleItemShopsBinding;
+        public ShopsViewHolder(ItemShopBinding itemShopBinding) {
+            super(itemShopBinding.getRoot());
+            this.itemShopsBinding = itemShopBinding;
         }
     }
 

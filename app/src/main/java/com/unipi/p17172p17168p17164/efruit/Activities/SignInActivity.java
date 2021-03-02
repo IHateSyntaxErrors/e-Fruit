@@ -1,13 +1,12 @@
 package com.unipi.p17172p17168p17164.efruit.Activities;
 
 import android.content.Intent;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -21,33 +20,31 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
-import com.google.type.LatLng;
 import com.orhanobut.hawk.Hawk;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelUsers;
 import com.unipi.p17172p17168p17164.efruit.R;
+import com.unipi.p17172p17168p17164.efruit.Utils.DBHelper;
 import com.unipi.p17172p17168p17164.efruit.Utils.PrefsUtils;
 import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
+import com.unipi.p17172p17168p17164.efruit.databinding.ActivitySignInBinding;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignInActivity extends AppCompatActivity {
+
     // ~~~~~~~VARIABLES~~~~~~~
+    private ActivitySignInBinding binding;
     private GoogleSignInClient googleSignInClient;
     private FirebaseUser firebaseUser;
     private FirebaseAuth firebaseAuth;
     FirebaseFirestore db;
 
-    @BindView(R.id.materialButtonSignUpGoogle)
     MaterialButton btnGoogleSignIn;
-    @BindView(R.id.imgFacebook)
     ImageView imgFacebook;
-    @BindView(R.id.imgInstagram)
     ImageView imgInstagram;
-    @BindView(R.id.imgTwitter)
     ImageView imgTwitter;
     private static final int RC_SIGN_IN = 101;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -55,9 +52,10 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
+        binding = ActivitySignInBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
-        ButterKnife.bind(this);
         init();
 
         Hawk.init(this).build(); // Initializing Hawk API.
@@ -75,27 +73,24 @@ public class SignInActivity extends AppCompatActivity {
 
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
 
-        btnGoogleSignIn.setOnClickListener(v -> {
-            signIn();
-        });
+        btnGoogleSignIn.setOnClickListener(v -> signIn());
 
         /* Social Media buttons -- Real pages haven't been specified, this is just an example of
         how we would do it*/
-        imgFacebook.setOnClickListener(v -> {
-            openFacebookPage();
-        });
-        imgInstagram.setOnClickListener(v -> {
-            openInstagramPage();
-        });
-        imgTwitter.setOnClickListener(v -> {
-            openTwitterPage();
-        });
+        imgFacebook.setOnClickListener(v -> openFacebookPage());
+        imgInstagram.setOnClickListener(v -> openInstagramPage());
+        imgTwitter.setOnClickListener(v -> openTwitterPage());
     }
 
     private void init() {
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+
+        btnGoogleSignIn = binding.materialButtonSignUpGoogle;
+        imgFacebook = binding.imgFacebook;
+        imgInstagram = binding.imgInstagram;
+        imgTwitter = binding.imgTwitter;
     }
 
     private void signIn() {
@@ -144,14 +139,28 @@ public class SignInActivity extends AppCompatActivity {
                             String tokenId = account.getIdToken();
                             GeoPoint userLocation = Toolbox.LatLonPoint(0, 0);
 
-                            ModelUsers modelUsers = new ModelUsers(userName, tokenId, "", userLocation, false);
-                            // Insert user data into cloud.
-                            db.collection("users").document(userId).set(modelUsers);
-
-                            // Create the intent for the new activity and redirect the user to main activity.
-                            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                            // Check if user exists in cloud.
+                            Task taskUserCheck = DBHelper.checkIfUserExists(db, userId).addOnCompleteListener(v -> {
+                                if (v.isSuccessful()) {
+                                    // if user doesn't exists
+                                    if (v.getResult().isEmpty()) {
+                                        ModelUsers modelUsers = new ModelUsers(userName, userId, tokenId, "", userLocation, false);
+                                        // Insert user data into cloud.
+                                        db.collection("users").document(userId).set(modelUsers);
+                                    }
+                                    // else if he exists, update token ID
+                                    else {
+                                        Map< String, Object > updateTokenId = new HashMap< >();
+                                        updateTokenId.put("tokenId", tokenId);
+                                        // Insert user data into cloud.
+                                        db.collection("users").document(userId).update(updateTokenId);
+                                    }
+                                    // Create the intent for the new activity and redirect the user to main activity.
+                                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            });
                         }
                         else {
                             // If sign in fails, display a message to the user.

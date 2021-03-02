@@ -6,6 +6,7 @@ import com.google.firebase.firestore.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class ModelUsers {
     String full_name;
+    String userId;
     String tokenId;
     String phone_number;
     GeoPoint location;
@@ -13,8 +14,9 @@ public class ModelUsers {
 
     public ModelUsers() {}
 
-    public ModelUsers(String full_name, String tokenId, String phone_number, GeoPoint location, boolean is_admin) {
+    public ModelUsers(String full_name, String userId, String tokenId, String phone_number, GeoPoint location, boolean is_admin) {
         this.full_name = full_name;
+        this.userId = userId;
         this.tokenId = tokenId;
         this.phone_number = phone_number;
         this.location = location;
@@ -27,6 +29,14 @@ public class ModelUsers {
 
     public void setFull_name(String full_name) {
         this.full_name = full_name;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getTokenId() {

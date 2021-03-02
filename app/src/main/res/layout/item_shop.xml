@@ -5,8 +5,7 @@
     android:id="@+id/cardViewSingleItem_Shops"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp"
+    android:layout_marginTop="20dp"
     app:cardCornerRadius="6dp"
     android:background="@drawable/shape_card_view_recycler_items"
     android:clickable="true">

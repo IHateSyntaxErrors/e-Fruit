@@ -1,11 +1,11 @@
 package com.unipi.p17172p17168p17164.efruit.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
@@ -27,12 +27,9 @@ import com.google.firebase.firestore.Query;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelCart;
 import com.unipi.p17172p17168p17164.efruit.R;
 import com.unipi.p17172p17168p17164.efruit.Utils.DBHelper;
-import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
 import com.unipi.p17172p17168p17164.efruit.databinding.ActivityCartBinding;
-import com.unipi.p17172p17168p17164.efruit.databinding.RecyclerSingleItemCartBinding;
+import com.unipi.p17172p17168p17164.efruit.databinding.ItemCartProductBinding;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 public class CartActivity extends AppCompatActivity {
@@ -40,12 +37,11 @@ public class CartActivity extends AppCompatActivity {
     // ~~~~~~~VARIABLES~~~~~~~
     private ActivityCartBinding binding;
     private FirebaseUser firebaseUser;
-    private Toolbox toolbox;
     private FirebaseFirestore db;
-    public FirestoreRecyclerAdapter adapter;
+    private FirestoreRecyclerAdapter adapter;
 
-    public RecyclerView cartList;
-    public ViewFlipper viewFlipper;
+    private RecyclerView cartList;
+    private ViewFlipper viewFlipper;
 
     public LinearLayoutManager linearLayoutManager;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -95,11 +91,10 @@ public class CartActivity extends AppCompatActivity {
         queryCartProducts.addSnapshotListener((snapshots, e) -> {
             if (e != null) {
                 Log.w(TAG, "listen:error", e);
-                return;
-            }
+                return; }
 
             assert snapshots != null;
-            for (DocumentChange dc : snapshots.getDocumentChanges()) {
+            for (DocumentChange dc : snapshots.getDocumentChanges())
                 switch (dc.getType()) {
                     case ADDED:
                         Log.d(TAG, "New Cart Item: " + dc.getDocument().getData());
@@ -109,9 +104,7 @@ public class CartActivity extends AppCompatActivity {
                         break;
                     case REMOVED:
                         Log.d(TAG, "Removed Cart Item: " + dc.getDocument().getData());
-                        break;
-                }
-            }
+                        break; }
         });
 
         // RecyclerOptions
@@ -145,13 +138,13 @@ public class CartActivity extends AppCompatActivity {
                                         if (task3.isSuccessful()) {
                                             Glide.with(getApplicationContext())
                                                     .load(String.valueOf(Objects.requireNonNull(documentProduct.getData()).get("imgUrl")))
-                                                    .into(holder.singleItemCartBinding.imageViewCartProductImage);
-                                            holder.singleItemCartBinding.textViewCartProductName.setText(String.valueOf(Objects.requireNonNull(documentProduct.getData()).get("name")));
-                                            holder.singleItemCartBinding.textViewCartProductPrice.setText(String.format(getString(R.string.recycler_var_product_price),
+                                                    .into(holder.itemCartProductBinding.imageViewCartProductImage);
+                                            holder.itemCartProductBinding.textViewCartProductName.setText(String.valueOf(Objects.requireNonNull(documentProduct.getData()).get("name")));
+                                            holder.itemCartProductBinding.textViewCartProductPrice.setText(String.format(getString(R.string.recycler_var_product_price),
                                                     Objects.requireNonNull(documentProduct.getData()).get("price")));
-                                            holder.singleItemCartBinding.textViewCartProductPricePerKg.setText(String.format(getString(R.string.recycler_var_product_price_per_kg),
+                                            holder.itemCartProductBinding.textViewCartProductPricePerKg.setText(String.format(getString(R.string.recycler_var_product_price_per_kg),
                                                     documentProduct.getData().get("price")));
-                                            holder.singleItemCartBinding.textViewCartProductQuantityNum.setText(String.valueOf(Objects.requireNonNull(documentProduct.getData()).get("quantity")));
+                                            holder.itemCartProductBinding.textViewCartProductQuantityNum.setText(String.valueOf(Objects.requireNonNull(documentProduct.getData()).get("quantity")));
 
                                             // Calculate the total price of the products
                                             Query queryCartItems = DBHelper.getTotalCartItems(db, firebaseUser.getUid());
@@ -162,6 +155,7 @@ public class CartActivity extends AppCompatActivity {
                                                         total_price += Objects.requireNonNull(documentCartItem.getDouble("price"))
                                                                 * Objects.requireNonNull(documentCartItem.getDouble("amount"));
                                                     }
+                                                    DBHelper.setCartGrandTotal(db, firebaseUser.getUid(), total_price);
                                                     binding.textViewCartTotalPaymentNumber.setText(String.format(getString(R.string.page_cart_total_payment_number), total_price));
                                                 }
                                             });
@@ -171,13 +165,13 @@ public class CartActivity extends AppCompatActivity {
                                             docRefItemAmountInCart.get().addOnCompleteListener(task4 -> {
                                                 if (task4.isSuccessful()) {
                                                     for (DocumentSnapshot documentCartItem : task4.getResult()) {
-                                                        holder.singleItemCartBinding.textViewCartSelectedAmount.setText(String.valueOf(Objects.requireNonNull(documentCartItem.getData()).get("amount")));
+                                                        holder.itemCartProductBinding.textViewCartSelectedAmount.setText(String.valueOf(Objects.requireNonNull(documentCartItem.getData()).get("amount")));
                                                     }
                                                 }
                                             });
                                             // BUTTONS
                                             // DELETE/TRASH BUTTON
-                                            holder.singleItemCartBinding.imgBtnRecyclerCartAmountDelete.setOnClickListener(v-> {
+                                            holder.itemCartProductBinding.imgBtnRecyclerCartAmountDelete.setOnClickListener(v-> {
                                                 DBHelper.getCartItemRef(db, firebaseUser.getUid(), model.getProductId())
                                                         .delete()
                                                         .addOnSuccessListener(taskDelete -> {
@@ -198,8 +192,8 @@ public class CartActivity extends AppCompatActivity {
                                                         });
                                             });
                                             // (-) MINUS BUTTON
-                                            holder.singleItemCartBinding.imgBtnRecyclerCartSelectAmountMinus.setOnClickListener(v -> {
-                                                int currentCount = Integer.parseInt((String) holder.singleItemCartBinding.textViewCartSelectedAmount.getText());
+                                            holder.itemCartProductBinding.imgBtnRecyclerCartSelectAmountMinus.setOnClickListener(v -> {
+                                                int currentCount = Integer.parseInt((String) holder.itemCartProductBinding.textViewCartSelectedAmount.getText());
                                                 int count = currentCount - 1;
 
                                                 if (count >= 1) {
@@ -209,8 +203,8 @@ public class CartActivity extends AppCompatActivity {
                                                 }
                                             });
                                             // (+) PLUS BUTTON
-                                            holder.singleItemCartBinding.imgBtnRecyclerCartSelectAmountPlus.setOnClickListener(v -> {
-                                                int currentCount = Integer.parseInt((String) holder.singleItemCartBinding.textViewCartSelectedAmount.getText());
+                                            holder.itemCartProductBinding.imgBtnRecyclerCartSelectAmountPlus.setOnClickListener(v -> {
+                                                int currentCount = Integer.parseInt((String) holder.itemCartProductBinding.textViewCartSelectedAmount.getText());
                                                 int count = currentCount + 1;
 
                                                 if (count <= Integer.parseInt(String.valueOf(documentProduct.getData().get("quantity")))) {
@@ -232,13 +226,12 @@ public class CartActivity extends AppCompatActivity {
             @NonNull
             @Override
             public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                RecyclerSingleItemCartBinding view = RecyclerSingleItemCartBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-
+                ItemCartProductBinding view = ItemCartProductBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
                 return new CartViewHolder(view);
             }
 
             @Override
-            public void onError(FirebaseFirestoreException e) {
+            public void onError(@NonNull FirebaseFirestoreException e) {
                 Log.e("Error", e.getMessage());
             }
         };
@@ -247,17 +240,19 @@ public class CartActivity extends AppCompatActivity {
     }
 
     public static class CartViewHolder extends RecyclerView.ViewHolder {
-        private final RecyclerSingleItemCartBinding singleItemCartBinding;
+        private final ItemCartProductBinding itemCartProductBinding;
 
-        public CartViewHolder(RecyclerSingleItemCartBinding singleItemCartBinding) {
-            super(singleItemCartBinding.getRoot());
-            this.singleItemCartBinding = singleItemCartBinding;
+        public CartViewHolder(ItemCartProductBinding itemCartProductBinding) {
+            super(itemCartProductBinding.getRoot());
+            this.itemCartProductBinding = itemCartProductBinding;
         }
     }
 
     public void updateUI() {
-        binding.imageViewCartBackButton.setOnClickListener(v -> {
-            onBackPressed();
+        binding.imageViewCartBackButton.setOnClickListener(v -> onBackPressed());
+        binding.constraintLayoutCartSelectClickAwayTime.setOnClickListener(v -> {
+            Intent intent = new Intent(CartActivity.this, SelectTimeActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -278,12 +273,5 @@ public class CartActivity extends AppCompatActivity {
         super.onBackPressed();
         this.overridePendingTransition(R.anim.anim_slide_in_right,
                                        R.anim.anim_slide_out_right);
-    }
-
-    private void refreshActivity() {
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(getIntent());
-        overridePendingTransition(0, 0);
     }
 }

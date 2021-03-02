@@ -1,17 +1,13 @@
 package com.unipi.p17172p17168p17164.efruit.Activities;
 
-import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +17,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -32,33 +27,23 @@ import androidx.fragment.app.FragmentTransaction;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.permissionx.guolindev.PermissionX;
-import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentHome;
-import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentProducts;
+import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentOrders;
 import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentSettings;
 import com.unipi.p17172p17168p17164.efruit.Fragments.FragmentShops;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelUsers;
 import com.unipi.p17172p17168p17164.efruit.R;
 import com.unipi.p17172p17168p17164.efruit.Utils.PermissionsUtils;
 import com.unipi.p17172p17168p17164.efruit.databinding.ActivityMainBinding;
-import com.unipi.p17172p17168p17164.efruit.databinding.ToolbarTopBinding;
 
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 @RequiresApi(api = Build.VERSION_CODES.Q)
 public class MainActivity extends AppCompatActivity
@@ -101,11 +86,11 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         binding.navView.setNavigationItemSelectedListener(this);
-        binding.navView.setCheckedItem(R.id.nav_item_home);
+        binding.navView.setCheckedItem(R.id.nav_item_products);
 
         // Add the home fragment to show it in the frame layout of main activity.
-        FragmentHome fragmentHome = new FragmentHome();
-        setFragment(fragmentHome, "FRAGMENT_HOME");
+        FragmentShops fragmentDefault = new FragmentShops();
+        setFragment(fragmentDefault, "FRAGMENT_SHOPS");
     }
 
     @Override
@@ -114,13 +99,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         Fragment fragment = null;
-        if (id == R.id.nav_item_home)
-        {
-            // Home Fragment
-            fragment = new FragmentHome();
-            setFragment(fragment, "FRAGMENT_HOME");
-        }
-        else if (id == R.id.nav_item_products)
+        if (id == R.id.nav_item_products)
         {
             // Products Fragment
             fragment = new FragmentShops();
@@ -143,7 +122,8 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.nav_item_orders)
         {
             // Orders Fragment
-//            fragment = new FragmentHome();
+            fragment = new FragmentOrders();
+            setFragment(fragment, "FRAGMENT_ORDERS");
         }
         else if (id == R.id.nav_item_settings)
         {
@@ -159,8 +139,8 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (fragment == null) {
-            fragment = new FragmentHome();
-            setFragment(fragment, "FRAGMENT_HOME");
+            fragment = new FragmentShops();
+            setFragment(fragment, "FRAGMENT_SHOPS");
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -173,7 +153,7 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as we have specified a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        // int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         /*if (id == R.id.nav_item_profile)
@@ -227,24 +207,26 @@ public class MainActivity extends AppCompatActivity
                 // get text array from voice input
                 ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
-                // Todo fix this
-                if (containsCaseInsensitive("home", result)) {
-                    // Change to home fragment
-                    FragmentHome fragmentHome = new FragmentHome();
-                    setFragment(fragmentHome, "FRAGMENT_HOME");
-                }
-                else if (containsCaseInsensitive("products", result)
+                if (containsCaseInsensitive("products", result)
                         || containsCaseInsensitive("go to products", result)
+                        || containsCaseInsensitive("go to shops", result)
+                        || containsCaseInsensitive("shops", result)
+                        || containsCaseInsensitive("show shops", result)
                         || containsCaseInsensitive("fruits", result)) {
-                    // Change to products fragment
-                   /* FragmentProducts fragmentProducts = new FragmentProducts();
-                    setFragment(fragmentProducts);*/
+                    FragmentShops fragment = new FragmentShops();
+                    setFragment(fragment, "FRAGMENT_SHOPS");
                 }
                 else if (containsCaseInsensitive("settings", result)
                         || containsCaseInsensitive("go to settings", result)) {
                     // Change to settings fragment
                     FragmentSettings fragmentSettings = new FragmentSettings();
                     setFragment(fragmentSettings, "FRAGMENT_SETTINGS");
+                }
+                else if (containsCaseInsensitive("orders", result)
+                        || containsCaseInsensitive("go to orders", result)) {
+                    // Change to settings fragment
+                    FragmentOrders fragmentSettings = new FragmentOrders();
+                    setFragment(fragmentSettings, "FRAGMENT_ORDERS");
                 }
                 else if (containsCaseInsensitive("exit", result)) {
                     finish();

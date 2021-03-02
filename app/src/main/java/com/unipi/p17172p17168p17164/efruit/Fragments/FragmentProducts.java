@@ -1,13 +1,13 @@
-    package com.unipi.p17172p17168p17164.efruit.Fragments;
+package com.unipi.p17172p17168p17164.efruit.Fragments;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,27 +19,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.UploadTask;
+import com.unipi.p17172p17168p17164.efruit.Activities.CartActivity;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelProducts;
 import com.unipi.p17172p17168p17164.efruit.R;
 import com.unipi.p17172p17168p17164.efruit.Utils.DBHelper;
 import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
 import com.unipi.p17172p17168p17164.efruit.databinding.FragmentProductsBinding;
-import com.unipi.p17172p17168p17164.efruit.databinding.RecyclerSingleItemProductsBinding;
+import com.unipi.p17172p17168p17164.efruit.databinding.ItemProductBinding;
 
 import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 public class FragmentProducts extends Fragment {
@@ -77,6 +72,7 @@ public class FragmentProducts extends Fragment {
         View view = binding.getRoot();
 
         init();
+        updateUI();
         getProductsList();
 
         return view;
@@ -91,10 +87,16 @@ public class FragmentProducts extends Fragment {
         binding.constraintLayoutProductsGoToCart.animate().translationY(binding.constraintLayoutProductsGoToCart.getHeight());
 
         productsListRecycler = binding.recyclerViewProducts;
-        searchViewProducts_SearchBar = binding.searchViewProducts;
 
         productsListRecycler.setLayoutManager(linearLayoutManager);
         productsListRecycler.setHasFixedSize(true);
+    }
+
+    private void updateUI() {
+        binding.constraintLayoutProductsGoToCart.setOnClickListener(v -> {
+            Intent intent = new Intent(context, CartActivity.class);
+            startActivity(intent);
+        });
     }
 
     public void getProductsList(){
@@ -134,11 +136,11 @@ public class FragmentProducts extends Fragment {
             protected void onBindViewHolder(@NonNull ProductsViewHolder holder, int position, @NonNull ModelProducts model) {
                 Glide.with(context)
                      .load(model.getImgUrl())
-                     .into(holder.singleItemProductsBinding.imageViewProductsProductImage);
-                holder.singleItemProductsBinding.textViewProductsProductName.setText(model.getName());
-                holder.singleItemProductsBinding.textViewProductsProductPrice.setText(String.format(context.getString(R.string.recycler_var_product_price), model.getPrice() + ""));
-                holder.singleItemProductsBinding.textViewProductsProductPricePerKg.setText(String.format(context.getString(R.string.recycler_var_product_price_per_kg), model.getPrice() + ""));
-                holder.singleItemProductsBinding.textViewProductsProductQuantityNum.setText(MessageFormat.format("{0}", model.getQuantity()));
+                     .into(holder.itemProductBinding.imageViewProductsProductImage);
+                holder.itemProductBinding.textViewProductsProductName.setText(model.getName());
+                holder.itemProductBinding.textViewProductsProductPrice.setText(String.format(context.getString(R.string.recycler_var_product_price), model.getPrice() + ""));
+                holder.itemProductBinding.textViewProductsProductPricePerKg.setText(String.format(context.getString(R.string.recycler_var_product_price_per_kg), model.getPrice() + ""));
+                holder.itemProductBinding.textViewProductsProductQuantityNum.setText(MessageFormat.format("{0}", model.getQuantity()));
 
                 isCartShop = true;
                 db.collection("carts")
@@ -159,23 +161,23 @@ public class FragmentProducts extends Fragment {
                                       binding.constraintLayoutProductsGoToCart.setVisibility(View.VISIBLE);
                                       for (DocumentSnapshot documentCartItem : task.getResult()) {
                                           // Hide the add to cart button completely
-                                          holder.singleItemProductsBinding.btnRecyclerItemAddToCart.setVisibility(View.INVISIBLE);
-                                          holder.singleItemProductsBinding.linearLayoutProductsSelectAmount.setVisibility(View.VISIBLE);
-                                          holder.singleItemProductsBinding.imgBtnRecyclerProductsAmountDelete.setVisibility(View.VISIBLE);
-                                          holder.singleItemProductsBinding.textViewProductsSelectedAmount.setText(String.valueOf(Objects.requireNonNull(documentCartItem.getData()).get("amount")));
+                                          holder.itemProductBinding.btnRecyclerItemAddToCart.setVisibility(View.INVISIBLE);
+                                          holder.itemProductBinding.linearLayoutProductsSelectAmount.setVisibility(View.VISIBLE);
+                                          holder.itemProductBinding.imgBtnRecyclerProductsAmountDelete.setVisibility(View.VISIBLE);
+                                          holder.itemProductBinding.textViewProductsSelectedAmount.setText(String.valueOf(Objects.requireNonNull(documentCartItem.getData()).get("amount")));
                                       }
                                   }
                                   else {
                                       // Show the add to cart button completely
-                                      holder.singleItemProductsBinding.btnRecyclerItemAddToCart.setVisibility(View.VISIBLE);
-                                      holder.singleItemProductsBinding.imgBtnRecyclerProductsAmountDelete.setVisibility(View.INVISIBLE);
-                                      holder.singleItemProductsBinding.linearLayoutProductsSelectAmount.setVisibility(View.INVISIBLE);
+                                      holder.itemProductBinding.btnRecyclerItemAddToCart.setVisibility(View.VISIBLE);
+                                      holder.itemProductBinding.imgBtnRecyclerProductsAmountDelete.setVisibility(View.INVISIBLE);
+                                      holder.itemProductBinding.linearLayoutProductsSelectAmount.setVisibility(View.INVISIBLE);
                                   }
                               }
                           });
 
                           // ADD TO CART BUTTON
-                          holder.singleItemProductsBinding.btnRecyclerItemAddToCart.setOnClickListener(v -> {
+                          holder.itemProductBinding.btnRecyclerItemAddToCart.setOnClickListener(v -> {
                               if (isCartShop) {
                                   Query cardItem = DBHelper.getCartItem(db, firebaseUser.getUid(), model.getProductId());
                                   cardItem.get().addOnCompleteListener(task -> {
@@ -201,8 +203,8 @@ public class FragmentProducts extends Fragment {
                   });
 
                 // (-) MINUS BUTTON
-                holder.singleItemProductsBinding.imgBtnRecyclerProductsSelectAmountMinus.setOnClickListener(v -> {
-                    int currentCount = Integer.parseInt((String) holder.singleItemProductsBinding.textViewProductsSelectedAmount.getText());
+                holder.itemProductBinding.imgBtnRecyclerProductsSelectAmountMinus.setOnClickListener(v -> {
+                    int currentCount = Integer.parseInt((String) holder.itemProductBinding.textViewProductsSelectedAmount.getText());
                     int count = currentCount - 1;
 
                     if (count >= 1)
@@ -214,8 +216,8 @@ public class FragmentProducts extends Fragment {
                         });
                 });
                 // (+) PLUS BUTTON
-                holder.singleItemProductsBinding.imgBtnRecyclerProductsSelectAmountPlus.setOnClickListener(v -> {
-                    int currentCount = Integer.parseInt((String) holder.singleItemProductsBinding.textViewProductsSelectedAmount.getText());
+                holder.itemProductBinding.imgBtnRecyclerProductsSelectAmountPlus.setOnClickListener(v -> {
+                    int currentCount = Integer.parseInt((String) holder.itemProductBinding.textViewProductsSelectedAmount.getText());
                     int count = currentCount + 1;
 
                     if (count <= model.getQuantity())
@@ -227,11 +229,11 @@ public class FragmentProducts extends Fragment {
                         });
                 });
                 // DELETE/TRASH BUTTON
-                holder.singleItemProductsBinding.imgBtnRecyclerProductsAmountDelete.setOnClickListener(v -> {
+                holder.itemProductBinding.imgBtnRecyclerProductsAmountDelete.setOnClickListener(v -> {
                     DBHelper.getCartItemRef(db, firebaseUser.getUid(), model.getProductId())
                             .delete()
                             .addOnSuccessListener(taskDelete -> {
-                                holder.singleItemProductsBinding.imgBtnRecyclerProductsAmountDelete.setVisibility(View.INVISIBLE);
+                                holder.itemProductBinding.imgBtnRecyclerProductsAmountDelete.setVisibility(View.INVISIBLE);
                                 notifyItemChanged(holder.getAdapterPosition());
                                 adapter.notifyDataSetChanged();
                             });
@@ -252,7 +254,7 @@ public class FragmentProducts extends Fragment {
             @NonNull
             @Override
             public ProductsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                RecyclerSingleItemProductsBinding view = RecyclerSingleItemProductsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+                ItemProductBinding view = ItemProductBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
                 return new ProductsViewHolder(view);
             }
 
@@ -266,11 +268,11 @@ public class FragmentProducts extends Fragment {
     }
 
     public static class ProductsViewHolder extends RecyclerView.ViewHolder {
-        private final RecyclerSingleItemProductsBinding singleItemProductsBinding;
+        private final ItemProductBinding itemProductBinding;
 
-        public ProductsViewHolder(RecyclerSingleItemProductsBinding singleItemProductsBinding) {
-            super(singleItemProductsBinding.getRoot());
-            this.singleItemProductsBinding = singleItemProductsBinding;
+        public ProductsViewHolder(ItemProductBinding itemProductBinding) {
+            super(itemProductBinding.getRoot());
+            this.itemProductBinding = itemProductBinding;
         }
     }
 

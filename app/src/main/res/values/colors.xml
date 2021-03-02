@@ -9,7 +9,7 @@
     <color name="colorMenuIcon">@color/lightGrey</color>
     <color name="colorContainer">@color/white</color>
     <color name="colorBackground">@color/lightWhite</color>
-    <color name="colorActionBar">@color/lightDarkGrey</color>
+    <color name="colorActionBar">@color/colorPrimary</color>
     <color name="colorAccent">@color/colorPrimary</color>
     <color name="colorPrimarySelected">#74016AFB</color>
 
