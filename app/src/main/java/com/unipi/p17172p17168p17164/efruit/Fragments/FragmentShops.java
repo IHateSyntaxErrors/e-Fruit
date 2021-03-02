@@ -51,6 +51,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import static android.content.Context.LOCATION_SERVICE;
+import static android.location.Location.distanceBetween;
 
 public class FragmentShops extends Fragment implements LocationListener {
     // ~~~~~~~VARIABLES~~~~~~~
@@ -88,6 +89,7 @@ public class FragmentShops extends Fragment implements LocationListener {
         getShopsList();
 
 
+
         return view;
     }
 
@@ -107,10 +109,9 @@ public class FragmentShops extends Fragment implements LocationListener {
 
     public void getShopsList(){
         final String TAG = "[FragmentShops]";
-        final GeoLocation center = new GeoLocation(37.9893, 23.7460);
-        final double radiusInM = 100 * 1000;
 
         Query queryShops = db.collection("shops");
+        DocumentReference userRef = db.collection("users").document(firebaseUser.getUid());
 
         queryShops.addSnapshotListener((snapshots, e) -> {
             if (e != null) {
@@ -132,106 +133,39 @@ public class FragmentShops extends Fragment implements LocationListener {
                         break;
                 }
             }
-
-        });
-
-        Query queryUser2= db.collection("users").whereEqualTo("userId", firebaseUser.getUid());
-        queryUser2.addSnapshotListener((snapshots, e) -> {
-            if (e != null) {
-                Log.w(TAG, "listen:error", e);
-                return;
-            }
-
-            for (DocumentChange dc : snapshots.getDocumentChanges()) {
-                switch (dc.getType()) {
-                    case ADDED:
-                        Log.d(TAG, "New Shop: " + dc.getDocument().getData());
-                        break;
-                    case MODIFIED:
-                        Log.d(TAG, "Modified Shop: " + dc.getDocument().getData());
-                        break;
-                    case REMOVED:
-                        Log.d(TAG, "Removed Product: " + dc.getDocument().getData());
-                        break;
-                }
-            }
-
         });
 
         queryShops.get().addOnCompleteListener(taskShop -> {
             if (taskShop.isSuccessful()) {
                 for (DocumentSnapshot documentShopLocation : taskShop.getResult()) {
-                      GeoPoint locShop =   documentShopLocation.getGeoPoint("coords");
-                    Location locationB = new Location("point B");
-                    //locShop.getLatitude();
-                    //locShop.getLongitude();
-                    locationB.setLatitude(locShop.getLatitude());
-                    locationB.setLongitude(locShop.getLongitude());
 
+                    GeoPoint locShop = documentShopLocation.getGeoPoint("coords");
 
-                        System.out.println("/////////////////////////////// Print 1 ////////////////////////////////:");
-                        System.out.print("Location Shop:");
-                        System.out.println(locShop);
-                        System.out.print("Set location function:");
-                        System.out.println(locationB);
-                    System.out.println("/////////////////////////////// Print 1 END ////////////////////////////////:");
+                    Location locationShops = new Location("point B");
+                    locationShops.setLatitude(locShop.getLatitude());
+                    locationShops.setLongitude(locShop.getLongitude());
 
-                    DocumentReference userRef = db.collection("users").document(firebaseUser.getUid());
                     userRef.get().addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
-                            GeoPoint locUser =  document.getGeoPoint("coords");
 
-                        //}
-                   //});
+                                GeoPoint locUser =  document.getGeoPoint("coords");
 
+                                Location locationUser = new Location("point A");
 
-//                    System.out.print("User ID ");
-//                    System.out.println(firebaseUser.getUid());
-//                    Query queryUser22= db.collection("shops");//.whereEqualTo("userId", firebaseUser.getUid());
-//                    queryUser2.get().addOnCompleteListener(taskUser -> {
-//                        if (taskUser.isSuccessful()) { // δεν μπαίνειν στο if.
-//                            System.out.println("00000000000000000000000000000000000");
-//
-//                            for (DocumentSnapshot documentShopLocation2 : taskUser.getResult()) {
-//                                System.out.print("55555555555555555555555555");
-//                                GeoPoint locUser =   documentShopLocation.getGeoPoint("coords");
+                                locationUser.setLatitude(locUser.getLatitude());
+                                locationUser.setLongitude(locUser.getLongitude());
 
-                                //locUser.getLatitude();
-                                //locUser.getLongitude();
-                                Location locationA = new Location("point A");
-                                locationA.setLatitude(locUser.getLatitude());
-                                locationA.setLatitude(locUser.getLongitude());
-
-
-                                System.out.println(locUser);
-                                //float [] resultsLoc = new float[5];
-                                //distanceBetween(locUser.getLatitude(),locUser.getLongitude(), locShop.getLatitude(),locShop.getLongitude(),resultsLoc);
-
-                                //System.out.print(resultsLoc);
-                                System.out.print("9999999999999999999999999");
-                                float distance = locationB.distanceTo(locationA);
-                                System.out.print("[");
-                                System.out.print(distance);
-//                                for(resultsLoc it : resultsLoc) {
-//                                    System.out.print(it.toString() + ", ");
-//                                }
-
-                                System.out.print("]");
-
+                                float distance = locationUser.distanceTo(locationShops);
+                                double km = convertMetersToKms(distance);
+                                System.out.println(" The distance is " + "[ " + distance+ " ]");
+                                System.out.println(km + " km");
 
                             }
-                        //}
-
                     });
-
                 }
             }
-
         });
-
-
-
 
 
 
@@ -288,6 +222,10 @@ public class FragmentShops extends Fragment implements LocationListener {
         };
         adapter.notifyDataSetChanged();
         recyclerShops.setAdapter(adapter);
+    }
+
+    private double convertMetersToKms(double distanceInKm) {
+        return distanceInKm / 1000.000;
     }
 
     public static class ShopsViewHolder extends RecyclerView.ViewHolder {
@@ -355,7 +293,6 @@ public class FragmentShops extends Fragment implements LocationListener {
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
-        System.out.println("11111111111111111111111111111111111");
         double latUser = location.getLatitude();
         double lngUser = location.getLongitude();
         String hash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(latUser, lngUser));
