@@ -22,9 +22,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.unipi.p17172p17168p17164.efruit.R;
@@ -145,6 +148,66 @@ public class AdminPanelActivity extends AppCompatActivity {
     }
     private double convertMetersToKms(double distanceInKm) {
         return distanceInKm / 1000.000;
+    }
+    public void getShopsList() {
+        final String TAG = "[FragmentShops]";
+
+        Query queryShops = db.collection("shops");
+        DocumentReference userRef = db.collection("users").document(firebaseUser.getUid());
+
+        queryShops.addSnapshotListener((snapshots, e) -> {
+            if (e != null) {
+                Log.w(TAG, "listen:error", e);
+                return;
+            }
+
+            assert snapshots != null;
+            for (DocumentChange dc : snapshots.getDocumentChanges()) {
+                switch (dc.getType()) {
+                    case ADDED:
+                        Log.d(TAG, "New Shop: " + dc.getDocument().getData());
+                        break;
+                    case MODIFIED:
+                        Log.d(TAG, "Modified Shop: " + dc.getDocument().getData());
+                        break;
+                    case REMOVED:
+                        Log.d(TAG, "Removed Product: " + dc.getDocument().getData());
+                        break;
+                }
+            }
+        });
+
+        queryShops.get().addOnCompleteListener(taskShop -> {
+            if (taskShop.isSuccessful()) {
+                for (DocumentSnapshot documentShopLocation : taskShop.getResult()) {
+
+                    GeoPoint locShop = documentShopLocation.getGeoPoint("coords");
+
+                    Location locationShops = new Location("point B");
+                    locationShops.setLatitude(locShop.getLatitude());
+                    locationShops.setLongitude(locShop.getLongitude());
+
+                    userRef.get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+
+                            GeoPoint locUser = document.getGeoPoint("coords");
+
+                            Location locationUser = new Location("point A");
+
+                            locationUser.setLatitude(locUser.getLatitude());
+                            locationUser.setLongitude(locUser.getLongitude());
+
+                            float distance = locationUser.distanceTo(locationShops);
+                            double km = convertMetersToKms(distance);
+                            System.out.println(" The distance is " + "[ " + distance + " ]");
+                            System.out.println(km + " km");
+
+                        }
+                    });
+                }
+            }
+        });
     }
 }
 
