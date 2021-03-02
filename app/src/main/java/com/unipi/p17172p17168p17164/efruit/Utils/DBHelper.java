@@ -127,6 +127,33 @@ public class DBHelper {
                  .document(productId);
     }
 
+    public static Query getProducts(FirebaseFirestore db, String shopId) {
+        Query q = db.collection("shops")
+                .document(shopId)
+                .collection("products");
+
+        // Snapshot listener for realtime database updates
+        q.addSnapshotListener((snapshots, e) -> {
+            if (e != null)
+                return;
+
+            assert snapshots != null;
+            for (DocumentChange dc : snapshots.getDocumentChanges())
+                switch (dc.getType()) {
+                    case ADDED:
+                        Log.d("TAG", "New Product Item: " + dc.getDocument().getData());
+                        break;
+                    case MODIFIED:
+                        Log.d("TAG", "Modified Product Item: " + dc.getDocument().getData());
+                        break;
+                    case REMOVED:
+                        Log.d("TAG", "Removed Product Item: " + dc.getDocument().getData());
+                        break; }
+        });
+
+        return q;
+    }
+
     public static DocumentReference getProductInfo(FirebaseFirestore db, String shopId, String productId) {
         DocumentReference documentRefProductInfo = db.collection("shops")
                                                      .document(shopId)
@@ -138,6 +165,31 @@ public class DBHelper {
         return documentRefProductInfo;
     }
 
+    public static Query getCartDetailsQuery(FirebaseFirestore db, String userId) {
+        Query q = db.collection("carts")
+                .whereEqualTo("userId", userId);
+
+        q.addSnapshotListener((snapshots, e) -> {
+            if (e != null)
+                return;
+
+            assert snapshots != null;
+            for (DocumentChange dc : snapshots.getDocumentChanges())
+                switch (dc.getType()) {
+                    case ADDED:
+                        Log.d("TAG", "New Cart Item: " + dc.getDocument().getData());
+                        break;
+                    case MODIFIED:
+                        Log.d("TAG", "Modified Cart Item: " + dc.getDocument().getData());
+                        break;
+                    case REMOVED:
+                        Log.d("TAG", "Removed Cart Item: " + dc.getDocument().getData());
+                        break; }
+        });
+
+        return q;
+    }
+
     public static DocumentReference getCartDetails(FirebaseFirestore db, String userId) {
         DocumentReference documentRefCartDetails = db.collection("carts")
                                                      .document(userId);
@@ -145,6 +197,32 @@ public class DBHelper {
         documentRefCartDetails.addSnapshotListener((snapshots, e) -> { });
 
         return documentRefCartDetails;
+    }
+
+    public static Query getOrderShopName(FirebaseFirestore db, String shopId) {
+        Query q = db.collection("shops")
+                .whereEqualTo("shopId", shopId);
+
+
+        q.addSnapshotListener((snapshots, e) -> {
+            if (e != null)
+                return;
+
+            assert snapshots != null;
+            for (DocumentChange dc : snapshots.getDocumentChanges())
+                switch (dc.getType()) {
+                    case ADDED:
+                        Log.d("TAG", "New Shop Item: " + dc.getDocument().getData());
+                        break;
+                    case MODIFIED:
+                        Log.d("TAG", "Modified Shop Item: " + dc.getDocument().getData());
+                        break;
+                    case REMOVED:
+                        Log.d("TAG", "Removed Shop Item: " + dc.getDocument().getData());
+                        break; }
+        });
+
+        return q;
     }
 
     public static DocumentReference getShopName(FirebaseFirestore db, String shopId) {
@@ -216,6 +294,32 @@ public class DBHelper {
         documentRefShopDetails.addSnapshotListener((snapshots, e) -> { });
 
         return documentRefShopDetails;
+    }
+
+    // Get all user orders
+    public static Query getUserOrders(FirebaseFirestore db, String userId) {
+        Query q = db.collection("orders")
+                    .whereEqualTo("userId", userId);
+
+        q.addSnapshotListener((snapshots, e) -> {
+            if (e != null)
+                return;
+
+            assert snapshots != null;
+            for (DocumentChange dc : snapshots.getDocumentChanges())
+                switch (dc.getType()) {
+                    case ADDED:
+                        Log.d("TAG", "New Cart Item: " + dc.getDocument().getData());
+                        break;
+                    case MODIFIED:
+                        Log.d("TAG", "Modified Cart Item: " + dc.getDocument().getData());
+                        break;
+                    case REMOVED:
+                        Log.d("TAG", "Removed Cart Item: " + dc.getDocument().getData());
+                        break; }
+        });
+
+        return q;
     }
 
     public static Task<QuerySnapshot> checkIfUserExists(FirebaseFirestore db, String userId) {

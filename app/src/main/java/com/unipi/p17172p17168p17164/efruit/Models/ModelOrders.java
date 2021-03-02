@@ -1,8 +1,8 @@
 package com.unipi.p17172p17168p17164.efruit.Models;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 @IgnoreExtraProperties
@@ -11,13 +11,15 @@ public class ModelOrders {
     double grand_total;
     boolean is_completed;
     Timestamp pickup_timestamp;
-    ArrayList<Object> products;
+    ArrayList<String> products;
     String shopId;
     String userId;
 
     private ModelOrders() {} // Empty constructor for Firebase.
 
-    public ModelOrders(Timestamp created, double grand_total, boolean is_completed, Timestamp pickup_timestamp, ArrayList<Object> products, String shopId, String userId) {
+    public ModelOrders(Timestamp created, double grand_total, boolean is_completed,
+                       Timestamp pickup_timestamp, ArrayList<String> products,
+                       String shopId, String userId) {
         this.created = created;
         this.grand_total = grand_total;
         this.is_completed = is_completed;
@@ -59,11 +61,11 @@ public class ModelOrders {
         this.pickup_timestamp = pickup_timestamp;
     }
 
-    public ArrayList<Object> getProducts() {
+    public ArrayList<String> getProducts() {
         return products;
     }
 
-    public void setProducts(ArrayList<Object> products) {
+    public void setProducts(ArrayList<String> products) {
         this.products = products;
     }
 

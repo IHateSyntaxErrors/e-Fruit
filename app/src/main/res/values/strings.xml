@@ -75,12 +75,14 @@
     <string name="page_cart_total_payment_number" translatable="false">%1$.2f €</string>
 
     <!-- Orders Page -->
-    <string name="page_orders_no_orders">You don\'t have any orders yet.</string>
+    <string name="page_orders_no_orders">You don&quot;t have any orders yet.</string>
     <string name="recycler_item_order_date_header">Date:</string>
     <string name="recycler_item_order_shop_name_header">Shop Name:</string>
     <string name="recycler_item_order_products_header">Products:</string>
     <string name="recycler_item_order_grand_total_header">Costs:</string>
     <string name="recycler_item_order_status_header">Status:</string>
+    <string name="recycler_item_order_status_completed">Completed</string>
+    <string name="recycler_item_order_status_processing">Processing</string>
 
     <!-- Select Click-Away Time Page -->
     <string name="page_select_time_header">Select Time</string>

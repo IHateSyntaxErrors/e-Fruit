@@ -82,6 +82,8 @@
     <string name="recycler_item_order_products_header">Προϊόντα:</string>
     <string name="recycler_item_order_grand_total_header">Κόστος:</string>
     <string name="recycler_item_order_status_header">Κατάσταση:</string>
+    <string name="recycler_item_order_status_completed">Ολοκληρώθηκε</string>
+    <string name="recycler_item_order_status_processing">Υπό Επεξεργασία</string>
 
     <!-- Select Click-Away Time Page -->
     <string name="page_select_time_header">Επιλέξτε Ώρα Παραλαβής</string>
