@@ -134,6 +134,28 @@ public class FragmentShops extends Fragment implements LocationListener {
 
         });
 
+        Query queryUser= db.collection("users").whereEqualTo("userId", firebaseUser.getUid());
+        queryUser.addSnapshotListener((snapshots, e) -> {
+            if (e != null) {
+                Log.w(TAG, "listen:error", e);
+                return;
+            }
+
+            for (DocumentChange dc : snapshots.getDocumentChanges()) {
+                switch (dc.getType()) {
+                    case ADDED:
+                        Log.d(TAG, "New Shop: " + dc.getDocument().getData());
+                        break;
+                    case MODIFIED:
+                        Log.d(TAG, "Modified Shop: " + dc.getDocument().getData());
+                        break;
+                    case REMOVED:
+                        Log.d(TAG, "Removed Product: " + dc.getDocument().getData());
+                        break;
+                }
+            }
+
+        });
 
         queryShops.get().addOnCompleteListener(taskShop -> {
             if (taskShop.isSuccessful()) {
@@ -153,29 +175,31 @@ public class FragmentShops extends Fragment implements LocationListener {
                         System.out.println(locationB);
                     System.out.println("/////////////////////////////// Print 1 END ////////////////////////////////:");
 
-                    Query queryUser= db.collection("users").whereEqualTo("tokenId", firebaseUser.getUid());
+
+
                     System.out.print("User ID ");
                     System.out.println(firebaseUser.getUid());
                     queryUser.get().addOnCompleteListener(taskUser -> {
                         if (taskUser.isSuccessful()) { // δεν μπαίνειν στο if.
                             System.out.println("00000000000000000000000000000000000");
-                            for (DocumentSnapshot documentUserLocation : taskUser.getResult()) {
-
-                                GeoPoint locUser = documentUserLocation.getGeoPoint("coords");
+                            for (DocumentSnapshot documentShopLocation2 : taskUser.getResult()) {
+                                System.out.print("55555555555555555555555555");
+                                //GeoPoint locShop =   documentShopLocation.getGeoPoint("coords");
+                                GeoPoint locUser = documentShopLocation2.getGeoPoint("coords");
                                 //locUser.getLatitude();
                                 //locUser.getLongitude();
                                 Location locationA = new Location("point A");
                                 locationA.setLatitude(locUser.getLatitude());
                                 locationA.setLatitude(locUser.getLongitude());
-                                System.out.print("55555555555555555555555555");
+
 
                                 System.out.println(locUser);
                                 //float [] resultsLoc = new float[5];
                                 //distanceBetween(locUser.getLatitude(),locUser.getLongitude(), locShop.getLatitude(),locShop.getLongitude(),resultsLoc);
 
-                               //System.out.print(resultsLoc);
+                                //System.out.print(resultsLoc);
                                 System.out.print("9999999999999999999999999");
-                               float distance = locationA.distanceTo(locationB);
+                                float distance = locationA.distanceTo(locationB);
                                 System.out.print("[");
                                 System.out.print(distance);
 //                                for(resultsLoc it : resultsLoc) {
@@ -194,6 +218,9 @@ public class FragmentShops extends Fragment implements LocationListener {
             }
 
         });
+
+
+
 
 
 
