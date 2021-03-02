@@ -39,6 +39,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelShops;
+import com.unipi.p17172p17168p17164.efruit.Models.ModelUsers;
 import com.unipi.p17172p17168p17164.efruit.R;
 import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
 import com.unipi.p17172p17168p17164.efruit.databinding.FragmentShopsBinding;
@@ -134,8 +135,8 @@ public class FragmentShops extends Fragment implements LocationListener {
 
         });
 
-        Query queryUser= db.collection("users").whereEqualTo("userId", firebaseUser.getUid());
-        queryUser.addSnapshotListener((snapshots, e) -> {
+        Query queryUser2= db.collection("users").whereEqualTo("userId", firebaseUser.getUid());
+        queryUser2.addSnapshotListener((snapshots, e) -> {
             if (e != null) {
                 Log.w(TAG, "listen:error", e);
                 return;
@@ -175,17 +176,27 @@ public class FragmentShops extends Fragment implements LocationListener {
                         System.out.println(locationB);
                     System.out.println("/////////////////////////////// Print 1 END ////////////////////////////////:");
 
+                    DocumentReference userRef = db.collection("users").document(firebaseUser.getUid());
+                    userRef.get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            GeoPoint locUser =  document.getGeoPoint("coords");
+
+                        //}
+                   //});
 
 
-                    System.out.print("User ID ");
-                    System.out.println(firebaseUser.getUid());
-                    queryUser.get().addOnCompleteListener(taskUser -> {
-                        if (taskUser.isSuccessful()) { // δεν μπαίνειν στο if.
-                            System.out.println("00000000000000000000000000000000000");
-                            for (DocumentSnapshot documentShopLocation2 : taskUser.getResult()) {
-                                System.out.print("55555555555555555555555555");
-                                //GeoPoint locShop =   documentShopLocation.getGeoPoint("coords");
-                                GeoPoint locUser = documentShopLocation2.getGeoPoint("coords");
+//                    System.out.print("User ID ");
+//                    System.out.println(firebaseUser.getUid());
+//                    Query queryUser22= db.collection("shops");//.whereEqualTo("userId", firebaseUser.getUid());
+//                    queryUser2.get().addOnCompleteListener(taskUser -> {
+//                        if (taskUser.isSuccessful()) { // δεν μπαίνειν στο if.
+//                            System.out.println("00000000000000000000000000000000000");
+//
+//                            for (DocumentSnapshot documentShopLocation2 : taskUser.getResult()) {
+//                                System.out.print("55555555555555555555555555");
+//                                GeoPoint locUser =   documentShopLocation.getGeoPoint("coords");
+
                                 //locUser.getLatitude();
                                 //locUser.getLongitude();
                                 Location locationA = new Location("point A");
@@ -199,7 +210,7 @@ public class FragmentShops extends Fragment implements LocationListener {
 
                                 //System.out.print(resultsLoc);
                                 System.out.print("9999999999999999999999999");
-                                float distance = locationA.distanceTo(locationB);
+                                float distance = locationB.distanceTo(locationA);
                                 System.out.print("[");
                                 System.out.print(distance);
 //                                for(resultsLoc it : resultsLoc) {
@@ -210,7 +221,7 @@ public class FragmentShops extends Fragment implements LocationListener {
 
 
                             }
-                        }
+                        //}
 
                     });
 
