@@ -49,14 +49,6 @@ public class AdminPanelActivity extends AppCompatActivity{
     // ~~~~~~~VARIABLES~~~~~~~
     private static final String CHANNEL_ID = "Customer Notification";
     private FirebaseFirestore db;
-    GeoPoint shopLoc;
-    GeoPoint locUser;
-    float distance;
-    double km;
-    DecimalFormat df;
-    Location shopsLocation;
-    Location locationUser;
-    NotificationManagerCompat notificationManager;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
@@ -78,7 +70,7 @@ public class AdminPanelActivity extends AppCompatActivity{
 
     public void notificationShops(){
 
-        df = new DecimalFormat("#.##");
+        DecimalFormat df = new DecimalFormat("#.##");
 
         Query queryOrders = db.collection("orders");
         Query userRef = db.collection("users");
@@ -108,18 +100,18 @@ public class AdminPanelActivity extends AppCompatActivity{
                                         String idShop = documentShops.getString("shopId");
                                         if (idShop.equals("shop1")){
 
-                                            shopLoc = documentShops.getGeoPoint("coords");
-                                            shopsLocation = new Location("shopsLocation");
+                                            GeoPoint shopLoc = documentShops.getGeoPoint("coords");
+                                            Location shopsLocation = new Location("shopsLocation");
                                             shopsLocation.setLatitude(shopLoc.getLatitude());
                                             shopsLocation.setLongitude(shopLoc.getLongitude());
 
-                                            locUser = documentUsers.getGeoPoint("coords");
-                                            locationUser = new Location("locationUser");
+                                            GeoPoint locUser = documentUsers.getGeoPoint("coords");
+                                            Location locationUser = new Location("locationUser");
                                             locationUser.setLatitude(locUser.getLatitude());
                                             locationUser.setLongitude(locUser.getLongitude());
 
-                                            distance = locationUser.distanceTo(shopsLocation);
-                                            km = convertMetersToKms(distance);
+                                            float distance = locationUser.distanceTo(shopsLocation);
+                                            double km = convertMetersToKms(distance);
                                             System.out.println("Η απόσταση είναι: "+df.format(km));
                                             if (km <= 1){
                                                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
@@ -130,7 +122,7 @@ public class AdminPanelActivity extends AppCompatActivity{
                                                                 + " with the following order ID: "
                                                                 + getOrderId +" is approaching the Shop 1.")
                                                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-                                                notificationManager = NotificationManagerCompat.from(this);
+                                                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
                                                 notificationManager.notify(1, builder.build());
                                             }
                                         }
@@ -142,18 +134,18 @@ public class AdminPanelActivity extends AppCompatActivity{
                                         String idShop = documentShops.getString("shopId");
                                         if (idShop.equals("shop2")){
 
-                                            shopLoc = documentShops.getGeoPoint("coords");
-                                            shopsLocation = new Location("shopsLocation");
+                                            GeoPoint shopLoc = documentShops.getGeoPoint("coords");
+                                            Location shopsLocation = new Location("shopsLocation");
                                             shopsLocation.setLatitude(shopLoc.getLatitude());
                                             shopsLocation.setLongitude(shopLoc.getLongitude());
 
-                                            locUser = documentUsers.getGeoPoint("coords");
-                                            locationUser = new Location("locationUser");
+                                            GeoPoint locUser = documentUsers.getGeoPoint("coords");
+                                            Location locationUser = new Location("locationUser");
                                             locationUser.setLatitude(locUser.getLatitude());
                                             locationUser.setLongitude(locUser.getLongitude());
 
-                                            distance = locationUser.distanceTo(shopsLocation);
-                                            km = convertMetersToKms(distance);
+                                            float distance = locationUser.distanceTo(shopsLocation);
+                                            double km = convertMetersToKms(distance);
                                             System.out.println("Η απόσταση είναι: "+df.format(km));
                                             if (km <= 1){
                                                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
@@ -164,7 +156,7 @@ public class AdminPanelActivity extends AppCompatActivity{
                                                                 + " with the following order ID: "
                                                                 + getOrderId +" is approaching the Shop 2.")
                                                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-                                                notificationManager = NotificationManagerCompat.from(this);
+                                                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
                                                 notificationManager.notify(2, builder.build());
                                             }
                                         }
@@ -176,18 +168,18 @@ public class AdminPanelActivity extends AppCompatActivity{
                                         String idShop = documentShops.getString("shopId");
                                         if (idShop.equals("shop3")){
 
-                                            shopLoc = documentShops.getGeoPoint("coords");
-                                            shopsLocation = new Location("shopsLocation");
+                                            GeoPoint shopLoc = documentShops.getGeoPoint("coords");
+                                            Location shopsLocation = new Location("shopsLocation");
                                             shopsLocation.setLatitude(shopLoc.getLatitude());
                                             shopsLocation.setLongitude(shopLoc.getLongitude());
 
-                                            locUser = documentUsers.getGeoPoint("coords");
-                                            locationUser = new Location("locationUser");
+                                            GeoPoint locUser = documentUsers.getGeoPoint("coords");
+                                            Location locationUser = new Location("locationUser");
                                             locationUser.setLatitude(locUser.getLatitude());
                                             locationUser.setLongitude(locUser.getLongitude());
 
-                                            distance = locationUser.distanceTo(shopsLocation);
-                                            km = convertMetersToKms(distance);
+                                            float distance = locationUser.distanceTo(shopsLocation);
+                                            double km = convertMetersToKms(distance);
                                             System.out.println("Η απόσταση είναι: "+df.format(km));
                                             if (km <= 1){
                                                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
@@ -198,7 +190,7 @@ public class AdminPanelActivity extends AppCompatActivity{
                                                                 + " with the following order ID: "
                                                                 + getOrderId +" is approaching the Shop 3.")
                                                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-                                                notificationManager = NotificationManagerCompat.from(this);
+                                                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
                                                 notificationManager.notify(3, builder.build());
                                             }
                                         }
