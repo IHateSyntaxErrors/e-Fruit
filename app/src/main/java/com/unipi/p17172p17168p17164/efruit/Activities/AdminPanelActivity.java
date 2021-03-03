@@ -37,6 +37,7 @@ import com.unipi.p17172p17168p17164.efruit.Utils.DBHelper;
 import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
 
 import java.lang.ref.Reference;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,26 +60,20 @@ public class AdminPanelActivity extends AppCompatActivity implements LocationLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_panel);
-       // recyclerList.setLayoutManager(linearLayoutManager);
-        //recyclerList.setHasFixedSize(true);
-
 
         db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+
         toolbox = new Toolbox();
-        Query queryOrders = db.collection("orders");
-        Task<QuerySnapshot> q1 = queryOrders.get();
-        Task<QuerySnapshot> q2 = DBHelper.getOrderShopName(db, model.getShopId()).get();
     }
 
 
     @SuppressLint("MissingPermission")
     @RequiresApi(api = Build.VERSION_CODES.Q)
     private void getLocation() {
-//        System.out.println("done4");
+
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-//        System.out.println("done1");
         boolean enabled = locationManager
                 .isProviderEnabled(LocationManager.GPS_PROVIDER);
 
@@ -107,11 +102,51 @@ public class AdminPanelActivity extends AppCompatActivity implements LocationLis
             AlertDialog alertDialog = toolbox.buildAlertMessageNoGps(context);
             alertDialog.show();
         }
-//        System.out.println("done2");
     }
+
+    public void myMethod(){
+        Query queryOrders = db.collection("orders");
+        DocumentReference userRef = db.collection("users").document(firebaseUser.getUid());
+        Query queryShops = db.collection("shops");
+        Task<QuerySnapshot> q1 = queryOrders.get();
+        //Task<QuerySnapshot> q2 = DBHelper.getOrderShopName(db, model.getShopId()).get();
+
+        queryShops.get().addOnCompleteListener(taskShop -> {
+            if (taskShop.isSuccessful()) {
+                for (DocumentSnapshot documentShopLocation : taskShop.getResult()) {
+
+                    GeoPoint locShop = documentShopLocation.getGeoPoint("coords");
+                    Location locationShops = new Location("locationShop");
+
+                    locationShops.setLatitude(locShop.getLatitude());
+                    locationShops.setLongitude(locShop.getLongitude());
+
+                    userRef.get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+
+                            DocumentSnapshot document = task.getResult();
+                            GeoPoint locUser = document.getGeoPoint("coords");
+
+                            Location locationUser = new Location("locationUser");
+
+                            locationUser.setLatitude(locUser.getLatitude());
+                            locationUser.setLongitude(locUser.getLongitude());
+
+                            float distance = locationUser.distanceTo(locationShops);
+                            double km = convertMetersToKms(distance);
+
+                            DecimalFormat df = new DecimalFormat("#.##");
+
+                        }
+                    });
+                }
+            }
+        });
+
+    }
+
     @Override
     public void onLocationChanged(@NonNull Location location) {
-//        System.out.println("done3");
         double latUser = location.getLatitude();
         double lngUser = location.getLongitude();
         String hash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(latUser, lngUser));
@@ -122,74 +157,25 @@ public class AdminPanelActivity extends AppCompatActivity implements LocationLis
         locationRef.update(updates)
                 .addOnCompleteListener(task -> {
 
+
+
+
+
+
+
+
+
+
                 });
     }
+
     private double convertMetersToKms(double distanceInKm) {
         return distanceInKm / 1000.000;
     }
-    public void getShopsList() {
-        final String TAG = "[FragmentShops]";
 
-        Query queryShops = db.collection("shops");
-        DocumentReference userRef = db.collection("users").document(firebaseUser.getUid());
-
-        queryShops.addSnapshotListener((snapshots, e) -> {
-            if (e != null) {
-                Log.w(TAG, "listen:error", e);
-                return;
-            }
-
-            assert snapshots != null;
-            for (DocumentChange dc : snapshots.getDocumentChanges()) {
-                switch (dc.getType()) {
-                    case ADDED:
-                        Log.d(TAG, "New Shop: " + dc.getDocument().getData());
-                        break;
-                    case MODIFIED:
-                        Log.d(TAG, "Modified Shop: " + dc.getDocument().getData());
-                        break;
-                    case REMOVED:
-                        Log.d(TAG, "Removed Product: " + dc.getDocument().getData());
-                        break;
-                }
-            }
-        });
-
-        queryShops.get().addOnCompleteListener(taskShop -> {
-            if (taskShop.isSuccessful()) {
-                for (DocumentSnapshot documentShopLocation : taskShop.getResult()) {
-
-                    GeoPoint locShop = documentShopLocation.getGeoPoint("coords");
-
-                    Location locationShops = new Location("point B");
-                    locationShops.setLatitude(locShop.getLatitude());
-                    locationShops.setLongitude(locShop.getLongitude());
-
-                    userRef.get().addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-
-                            GeoPoint locUser = document.getGeoPoint("coords");
-
-                            Location locationUser = new Location("point A");
-
-                            locationUser.setLatitude(locUser.getLatitude());
-                            locationUser.setLongitude(locUser.getLongitude());
-
-                            float distance = locationUser.distanceTo(locationShops);
-                            double km = convertMetersToKms(distance);
-                            System.out.println(" The distance is " + "[ " + distance + " ]");
-                            System.out.println(km + " km");
-
-                        }
-                    });
-                }
-            }
-        });
-    }
     public void onProviderDisabled(String provider) {
-
     }
+
     @RequiresApi(api = Build.VERSION_CODES.Q)
     public void onProviderEnabled(String provider) {
         getLocation();
