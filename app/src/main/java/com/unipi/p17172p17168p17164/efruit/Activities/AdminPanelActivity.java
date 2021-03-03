@@ -22,6 +22,7 @@ import com.firebase.geofire.GeoLocation;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
@@ -40,6 +41,7 @@ import java.lang.ref.Reference;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class AdminPanelActivity extends AppCompatActivity implements LocationListener{
     private FirebaseFirestore db;
@@ -106,44 +108,38 @@ public class AdminPanelActivity extends AppCompatActivity implements LocationLis
 
     public void myMethod(){
         Query queryOrders = db.collection("orders");
-        DocumentReference userRef = db.collection("users").document(firebaseUser.getUid());
+        Query userRef = db.collection("users");
         Query queryShops = db.collection("shops");
         Task<QuerySnapshot> q1 = queryOrders.get();
-        //Task<QuerySnapshot> q2 = DBHelper.getOrderShopName(db, model.getShopId()).get();
+        Task<QuerySnapshot> q2 = userRef.get();
 
-        queryShops.get().addOnCompleteListener(taskShop -> {
-            if (taskShop.isSuccessful()) {
-                for (DocumentSnapshot documentShopLocation : taskShop.getResult()) {
 
-                    GeoPoint locShop = documentShopLocation.getGeoPoint("coords");
-                    Location locationShops = new Location("locationShop");
+        Tasks.whenAllComplete(q1, q2).addOnSuccessListener(list -> {
+            for (DocumentSnapshot documentShopLocation : q1.getResult()) {
 
-                    locationShops.setLatitude(locShop.getLatitude());
-                    locationShops.setLongitude(locShop.getLongitude());
+                GeoPoint locShop = documentShopLocation.getGeoPoint("coords");
+                Location locationShops = new Location("locationShop");
 
-                    userRef.get().addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
+                locationShops.setLatitude(locShop.getLatitude());
+                locationShops.setLongitude(locShop.getLongitude());
 
-                            DocumentSnapshot document = task.getResult();
-                            GeoPoint locUser = document.getGeoPoint("coords");
+                DocumentSnapshot document = q2.getResult();
+                GeoPoint locUser = document.getGeoPoint("coords");
 
-                            Location locationUser = new Location("locationUser");
+                Location locationUser = new Location("locationUser");
 
-                            locationUser.setLatitude(locUser.getLatitude());
-                            locationUser.setLongitude(locUser.getLongitude());
+                locationUser.setLatitude(locUser.getLatitude());
+                locationUser.setLongitude(locUser.getLongitude());
 
-                            float distance = locationUser.distanceTo(locationShops);
-                            double km = convertMetersToKms(distance);
+                float distance = locationUser.distanceTo(locationShops);
+                double km = convertMetersToKms(distance);
 
-                            DecimalFormat df = new DecimalFormat("#.##");
+                DecimalFormat df = new DecimalFormat("#.##");
 
-                        }
-                    });
-                }
             }
         });
-
     }
+
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
@@ -156,16 +152,7 @@ public class AdminPanelActivity extends AppCompatActivity implements LocationLis
         DocumentReference locationRef = db.collection("users").document(firebaseUser.getUid());
         locationRef.update(updates)
                 .addOnCompleteListener(task -> {
-
-
-
-
-
-
-
-
-
-
+                    myMethod();
                 });
     }
 
