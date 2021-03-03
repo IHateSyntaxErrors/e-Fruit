@@ -46,6 +46,7 @@ import com.unipi.p17172p17168p17164.efruit.databinding.FragmentShopsBinding;
 import com.unipi.p17172p17168p17164.efruit.databinding.ItemShopBinding;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -106,6 +107,7 @@ public class FragmentShops extends Fragment implements LocationListener {
         linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recyclerShops.setLayoutManager(linearLayoutManager);
         recyclerShops.setHasFixedSize(true);
+
     }
 
     public void getShopsList(){
@@ -143,6 +145,9 @@ public class FragmentShops extends Fragment implements LocationListener {
                 .setQuery(queryShops, ModelShops.class)
                 .build();
         adapter = new FirestoreRecyclerAdapter<ModelShops, ShopsViewHolder>(recyclerOptions) {
+            ArrayList<Object> list = new ArrayList<>();
+            AtomicReference<Double> valueKM = new AtomicReference<>(); //Δήλωση atomicReference για να μπορέσω να περάσω μεταβλητές έξω από το Lambda
+            @SuppressLint("SetTextI18n")
             @Override
             protected void onBindViewHolder(@NonNull ShopsViewHolder holder, int position, @NonNull ModelShops model) {
                 holder.itemShopsBinding.CardViewShopsShopImage.setBackgroundResource(R.drawable.fruit_shop);
@@ -152,10 +157,11 @@ public class FragmentShops extends Fragment implements LocationListener {
                 holder.itemShopsBinding.textViewShopsShopRegion.setText(model.getRegion());
                 holder.itemShopsBinding.textViewShopsShopZip.setText(String.format(context.getString(R.string.recycler_var_shops_zip), model.getZip() + ""));
 
-                AtomicReference<Double> valueKM = new AtomicReference<>(); //Δήλωση atomicReference για να μπορέσω να περάσω μεταβλητές έξω από το Lambda
+               // Double[] valueArrayKM = { null };
+
                 queryShops.get().addOnCompleteListener(taskShop -> {
                     if (taskShop.isSuccessful()) {
-
+                        //holder.itemShopsBinding.textViewShopsShopDistance.setText(String.format("%s km", df.format(km)));
                         for (DocumentSnapshot documentShopLocation : taskShop.getResult()) {
 
                             GeoPoint locShop = documentShopLocation.getGeoPoint("coords");
@@ -176,22 +182,25 @@ public class FragmentShops extends Fragment implements LocationListener {
 
                                     float distance = locationUser.distanceTo(locationShops);
                                     double km = convertMetersToKms(distance);
-                                    valueKM.set(km);
-                                    DecimalFormat df = new DecimalFormat("#.##");
-                                      //df.format(km);
-                                      holder.itemShopsBinding.textViewShopsShopDistance.setText(df.format(km) + " km");
-                                    System.out.println(" The distance is " + "[ " + distance + " ]");
-                                    System.out.println(km + " km");
 
+                                    DecimalFormat df = new DecimalFormat("#.##");
+                                   // df.format(km);
+                                    //valueKM.set(km);
+                                    System.out.println("km " +km);
+                                    list.forEach(s -> {
+                                        valueKM.set(km);
+                                    });
+
+                                    System.out.println(valueKM);
+                                    System.out.println(" The distance is " + "[ " + distance + " ]");
+                                    System.out.println(df.format(km) + " km");
                                 }
                             });
-
+                            System.out.println("PRINT VALUEKM: " + valueKM);
+                            AtomicReference x = valueKM;
+                            System.out.println("PRINT X: " + x);
+                            holder.itemShopsBinding.textViewShopsShopDistance.setText(String.format("%s km", x));
                         }
-//                        DecimalFormat df = new DecimalFormat("#.##");
-//                        AtomicReference x = valueKM;
-//                        System.out.println(x);
-//                        df.format(x);
-//                        holder.itemShopsBinding.textViewShopsShopDistance.setText(df.format(x) + " km");
                     }
                 });
 
@@ -280,23 +289,6 @@ public class FragmentShops extends Fragment implements LocationListener {
             alertDialog.show();
         }
 
-        /*
-        if (!PermissionsUtils.hasPermissions(context))
-            PermissionsUtils.requestPermissions("FRAGMENT_SHOPS", this, context); // Check if permissions are allowed.
-        else {
-            locationManager = (LocationManager) Objects.requireNonNull(getContext()).getSystemService(Context.LOCATION_SERVICE);
-
-            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                Toast toast =
-                        Toast.makeText(getContext(), getString(R.string.LOCATION_DISABLED), Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-            }
-            else
-                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-                    PermissionsUtils.requestPermissions("FRAGMENT_SHOPS", this, context); // Check if permissions are allowed.
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-        }*/
     }
 
     @Override
