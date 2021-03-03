@@ -166,7 +166,7 @@ public class ProfileActivity extends AppCompatActivity implements Validator.Vali
         updatedUser.put("phone_number", phone);
         updatedUser.put("userId", userId);
 
-        db.collection("users").document(userId).update(updatedUser).addOnSuccessListener(s -> {
+        db.collection("users").document(userId).update(updatedUser).addOnCompleteListener(s -> {
             Dialog dialog = toolbox.showDialogPersonalInfoSaved(this);
             dialog.show();
             txtViewProfile_FullName.setText(full_name);

@@ -1,5 +1,6 @@
 package com.unipi.p17172p17168p17164.efruit.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -12,7 +13,9 @@ public class PaymentConfirmationActivity extends AppCompatActivity {
 
     // ~~~~~~~VARIABLES~~~~~~~
     private ActivityPaymentConfirmationBinding binding;
-    private String grandTotal;
+    private double grandTotal;
+    private String shopId;
+    private String pickup_timestamp;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     @Override
@@ -30,17 +33,23 @@ public class PaymentConfirmationActivity extends AppCompatActivity {
     }
 
     private void init() {
-        grandTotal = getIntent().getStringExtra("GRAND_TOTAL");
+        grandTotal = Double.parseDouble(getIntent().getStringExtra("GRAND_TOTAL").trim().replace("€", ""));
+        shopId = getIntent().getStringExtra("SHOP_ID");
+        pickup_timestamp = getIntent().getStringExtra("PICKUP_TIMESTAMP");
     }
 
     private void updateUI() {
         binding.imageViewPaymentSuccessBackButton.setOnClickListener(v -> onBackPressed());
         binding.btnPayBack.setOnClickListener(v -> onBackPressed());
+        binding.GifImgViewPaymentSuccessGif.animate().alpha(5);
+        binding.GifImgViewPaymentSuccessGif.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        Intent intent = new Intent(PaymentConfirmationActivity.this, MainActivity.class);
+        PaymentConfirmationActivity.this.startActivity(intent);
+        finish();
         this.overridePendingTransition(R.anim.anim_slide_in_right,
                                        R.anim.anim_slide_out_right);
     }

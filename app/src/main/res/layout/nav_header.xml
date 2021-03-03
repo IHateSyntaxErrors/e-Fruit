@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="176dp"
+    android:layout_height="190dp"
     android:background="@color/colorPrimary"
     android:gravity="bottom"
     android:orientation="vertical"
@@ -20,13 +20,14 @@
         android:id="@+id/textViewNavBar_Name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="20dp"
-        android:text=""
-        android:paddingBottom="10dp"
         android:drawablePadding="7dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="10dp"
+        android:text=""
         android:textColor="@color/colorButtonText"
-        app:drawableTint="@color/colorButtonText"
-        app:drawableStartCompat="@drawable/ic_identity_card" />
+        app:drawableStartCompat="@drawable/ic_identity_card_15dp"
+        app:drawableTint="@color/colorButtonText" />
+
     <TextView
         android:id="@+id/textViewNavBar_Phone"
         android:layout_width="wrap_content"
@@ -35,5 +36,5 @@
         android:drawablePadding="7dp"
         app:drawableTint="@color/colorButtonText"
         android:textColor="@color/colorButtonText"
-        app:drawableStartCompat="@drawable/ic_phone_20dp"/>
+        app:drawableStartCompat="@drawable/ic_phone_15dp"/>
 </LinearLayout>

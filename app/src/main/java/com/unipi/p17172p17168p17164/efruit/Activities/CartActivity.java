@@ -253,6 +253,8 @@ public class CartActivity extends AppCompatActivity {
         binding.constraintLayoutCartSelectClickAwayTime.setOnClickListener(v -> {
             Intent intent = new Intent(CartActivity.this, SelectTimeActivity.class);
             intent.putExtra("SHOP_ID", shopId);
+            intent.putExtra("GRAND_TOTAL", binding.textViewCartTotalPaymentNumber.getText());
+            intent.putExtra("GRAND_TOTAL", binding.textViewCartTotalPaymentNumber.getText());
             startActivity(intent);
         });
     }

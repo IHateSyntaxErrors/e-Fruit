@@ -9,7 +9,7 @@
     <string name="general_next_step">Next</string>
     <string name="toast_speech_recognition_not_supported">Speech recognition is not supported in your device.</string>
     <string name="toast_speech_recognition_invalid_action">Invalid action. Try again!</string>
-    <string name="search_bar_hint">Search</string>
+    <string name="validation_length">You can only enter %1$s characters.</string>
 
     <!-- Main Activity -->
     <string name="nav_drawer_open">Open</string>
@@ -96,6 +96,7 @@
     <string name="credit_card_security_code_hint">Security Code</string>
     <string name="credit_card_expire_date_hint">Expire Date</string>
     <string name="btn_pay_text">Pay</string>
+    <string name="validation_credit_card">Not a valid credit card number.</string>
 
     <!-- Payment Confirmation Activity -->
     <string name="toolbar_payment_confirmation_title">Payment Confirmation</string>

@@ -58,16 +58,17 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout_PaymentSuccess_Top"
         app:layout_constraintVertical_bias="0.0">
 
-        <pl.droidsonroids.gif.GifImageView
+        <ImageView
+            android:visibility="invisible"
             android:id="@+id/GifImgView_PaymentSuccess_Gif"
             android:layout_width="190dp"
             android:layout_height="190dp"
-            android:layout_marginTop="180dp"
+            android:layout_marginTop="176dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/gif_check_mark" />
+            app:srcCompat="@drawable/fui_ic_check_circle_black_128dp" />
 
         <TextView
             android:id="@+id/textView_PaymentSuccess_Header2"

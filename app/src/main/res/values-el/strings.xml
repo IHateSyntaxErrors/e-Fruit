@@ -9,6 +9,7 @@
     <string name="toast_speech_recognition_not_supported">Η συσκευή σας δεν υποστηρίζει αναγνώριση φωνής.</string>
     <string name="toast_speech_recognition_invalid_action">Μη έγκυρη ενέργεια! Δοκιμάστε ξανά.</string>
     <string name="general_none_selected">Δεν έχει επιλεχθεί</string>
+    <string name="validation_length">Μπορείτε να βάλετε %1$s χαρακτήρες.</string>
 
     <!-- Main Activity -->
     <string name="nav_drawer_open">Άνοιγμα</string>
@@ -97,6 +98,7 @@
     <string name="credit_card_security_code_hint">Μυστικός Κωδικός</string>
     <string name="credit_card_expire_date_hint">Ημν/νια Λήξης</string>
     <string name="btn_pay_text">Πληρωμή</string>
+    <string name="validation_credit_card">Μη έγκυρος αρ. κάρτας.</string>
 
     <!-- Payment Confirmation Activity -->
     <string name="toolbar_payment_confirmation_title">Απόδηξη Πληρωμής</string>

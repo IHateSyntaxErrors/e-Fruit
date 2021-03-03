@@ -8,13 +8,9 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.unipi.p17172p17168p17164.efruit.R;
 import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
 import com.unipi.p17172p17168p17164.efruit.databinding.ActivitySelectTimeBinding;
@@ -60,7 +56,6 @@ public class SelectTimeActivity extends AppCompatActivity
                 R.anim.anim_slide_out_left);
 
         init();
-        getCartList();
         updateUI();
     }
 
@@ -77,6 +72,7 @@ public class SelectTimeActivity extends AppCompatActivity
         defaultDate = true;
         defaultTime = true;
 
+        calendar = Calendar.getInstance();
         dateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         timeFormatter = new SimpleDateFormat("HH:mm", Locale.getDefault());
         Year = calendar.get(Calendar.YEAR) ;
@@ -86,23 +82,30 @@ public class SelectTimeActivity extends AppCompatActivity
         Minute = calendar.get(Calendar.MINUTE);
 
         // button on click listeners
-        binding.imgBtnSelectTimeDate.setOnClickListener(v -> {
-            openDatePicker();
-        });
-        binding.imgBtnSelectTimeTime.setOnClickListener(v -> openTimePicker(Day, Month, Year));
+        binding.imgBtnSelectTimeDate.setOnClickListener(v -> openDatePicker());
+        binding.imgBtnSelectTimeTime.setOnClickListener(v -> openTimePicker(Hour, Minute));
         binding.constraintLayoutSelectTimeNext.setOnClickListener(v -> pay());
     }
 
     private void openDatePicker() {
-        getNonWorkingDays();
-
         Calendar now = Calendar.getInstance();
-        datePickerDialog = DatePickerDialog.newInstance(
-                SelectTimeActivity.this,
-                now.get(Calendar.YEAR),
-                now.get(Calendar.MONTH),
-                now.get(Calendar.DAY_OF_MONTH)
-        );
+        if (defaultDate) {
+            datePickerDialog = DatePickerDialog.newInstance(
+                    SelectTimeActivity.this,
+                    now.get(Calendar.YEAR),
+                    now.get(Calendar.MONTH),
+                    now.get(Calendar.DAY_OF_MONTH)
+            );
+        }
+        else {
+            datePickerDialog = DatePickerDialog.newInstance(
+                    SelectTimeActivity.this,
+                    Year,
+                    Month,
+                    Day
+            );
+        }
+
 
         if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES)
             datePickerDialog.setThemeDark(true);
@@ -126,75 +129,51 @@ public class SelectTimeActivity extends AppCompatActivity
                 datePickerDialog.setDisabledDays(disabledDays);
             }
         }
-/*
-        Calendar[] days;
-        List<Calendar> blockedDays = new ArrayList<>();
-
-        // Code to disable particular date
-        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        Date date = formatter.parse("15/03/2021");
-        Calendar cal = Calendar.getInstance();
-
-        cal.setTime(date);
-        blockedDays.add(cal);
-        days = blockedDays.toArray(new Calendar[blockedDays.size()]);
-
-//        datePickerDialog.setSelectableDays();
-        datePickerDialog.setDisabledDays(days);*/
         datePickerDialog.show(getSupportFragmentManager(), "DatePicker");
     }
 
-    private void openTimePicker(int day, int month, int year) {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, year);
-        cal.set(Calendar.MONTH, month);
-        cal.set(Calendar.DAY_OF_MONTH, day);
-        Date dateRepresentation = cal.getTime();
-        getReservedTimes(dateRepresentation);
-
+    private void openTimePicker() {
         Calendar now = Calendar.getInstance();
         timePickerDialog = TimePickerDialog.newInstance(
                 SelectTimeActivity.this,
                 now.get(Calendar.HOUR_OF_DAY),
                 now.get(Calendar.MINUTE),
+                now.get(0),
                 false
         );
 
         if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES)
             timePickerDialog.setThemeDark(true);
 
+
+        if (now.get(Calendar.HOUR_OF_DAY) < 8)
+            timePickerDialog.setMinTime(8, 30, 0);
+        else
+            timePickerDialog.setMinTime(Calendar.HOUR_OF_DAY, Calendar.MINUTE + 30, Calendar.SECOND);
+        timePickerDialog.setMaxTime(18, 30, 0);
         timePickerDialog.show(getSupportFragmentManager(), "TimePicker");
     }
 
-    private void getNonWorkingDays() {
-        Task<QuerySnapshot> queryNonWorkingDays = db.collection("shops")
-                .document(shopId)
-                .collection("working_times")
-                .whereEqualTo("is_open", false).get();
+    private void openTimePicker(int hour, int minutes) {
+        Calendar now = Calendar.getInstance();
+        timePickerDialog = TimePickerDialog.newInstance(
+                SelectTimeActivity.this,
+                hour,
+                minutes,
+                0,
+                false
+        );
 
-        Task<QuerySnapshot> queryReservedDatesAndHours = db.collection("orders")
-                .whereEqualTo("shopId", shopId).get();
+        if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES)
+            timePickerDialog.setThemeDark(true);
 
-        Tasks.whenAllComplete(queryNonWorkingDays, queryReservedDatesAndHours).addOnSuccessListener(list -> {
-            for (DocumentSnapshot doc : queryNonWorkingDays.getResult()) {
-//                cal.setTime(Calendar.DAY_OF_WEEK, 2);
-//                blockedDays.add(cal);
-            }
-        });
-    }
 
-    private void getReservedTimes(Date pickedDate) {
-        Task<QuerySnapshot> queryReservedTimes = db.collection("orders")
-                .whereEqualTo("shopId", shopId)
-                .whereEqualTo("pickup_timestamp", pickedDate).get();
-
-        Tasks.whenAllComplete(queryReservedTimes).addOnSuccessListener(list -> {
-            for (DocumentSnapshot doc : queryReservedTimes.getResult()) {
-
-//                cal.setTime(Calendar.DAY_OF_WEEK, 2);
-//                blockedDays.add(cal);
-            }
-        });
+        if (now.get(Calendar.HOUR_OF_DAY) < 8)
+            timePickerDialog.setMinTime(8, 30, 0);
+        else
+            timePickerDialog.setMinTime(Calendar.HOUR_OF_DAY, Calendar.MINUTE + 30, Calendar.SECOND);
+        timePickerDialog.setMaxTime(18, 30, 0);
+        timePickerDialog.show(getSupportFragmentManager(), "TimePicker");
     }
 
     @Override
@@ -209,12 +188,14 @@ public class SelectTimeActivity extends AppCompatActivity
                 dayOfMonth,
                 cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()),
                 year));
-        openTimePicker(dayOfMonth, monthOfYear + 1, year);
+        openTimePicker();
     }
 
     @Override
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
+        Hour = hourOfDay; Minute = minute;
         defaultTime = false;
+
         binding.textViewSelectTimeTime.setText(String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute));
         binding.textViewSelectTimeTime.setVisibility(View.VISIBLE);
         binding.imgBtnSelectTimeTime.setVisibility(View.VISIBLE);
@@ -226,14 +207,21 @@ public class SelectTimeActivity extends AppCompatActivity
             dialog.show();
         }
         else {
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.YEAR, Year);
+            cal.set(Calendar.MONTH, Month);
+            cal.set(Calendar.DAY_OF_MONTH, Day);
+            cal.set(Calendar.HOUR_OF_DAY, Hour);
+            cal.set(Calendar.MINUTE, Minute);
+            cal.set(Calendar.SECOND, 0);
+            Date dateRepresentation = cal.getTime();
+
             Intent intent = new Intent(SelectTimeActivity.this, PayActivity.class);
             intent.putExtra("GRAND_TOTAL", grandTotal);
+            intent.putExtra("SHOP_ID", shopId);
+            intent.putExtra("PICKUP_TIMESTAMP", dateRepresentation);
             startActivity(intent);
         }
-
-    }
-
-    private void getCartList() {
 
     }
 
