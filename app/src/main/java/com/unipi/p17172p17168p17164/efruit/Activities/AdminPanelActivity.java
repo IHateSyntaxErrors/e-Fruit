@@ -45,38 +45,58 @@ import java.util.Map;
 import java.util.Objects;
 
 public class AdminPanelActivity extends AppCompatActivity{
+    // ~~~~~~~VARIABLES~~~~~~~
     private static final String CHANNEL_ID = "Customer Notification";
     private FirebaseFirestore db;
-
+    GeoPoint shopLoc;
+    GeoPoint locUser;
+    float distance;
+    double km;
+    DecimalFormat df;
+    Location shopsLocation;
+    Location locationUser;
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_panel);
-        db = FirebaseFirestore.getInstance();
-        myMethod();
+
+        init();
+        notificationShops();
     }
 
-    public void myMethod(){
-        Query queryOrders = db.collection("orders");
+    private void init() {
+        db = FirebaseFirestore.getInstance();
+    }
 
+    private double convertMetersToKms(double distanceInKm) {
+        return distanceInKm / 1000.000;
+    }
+
+    public void notificationShops(){
+
+        df = new DecimalFormat("#.##");
+
+        Query queryOrders = db.collection("orders");
         Query userRef = db.collection("users");
         Query queryShops = db.collection("shops");
+
         Task<QuerySnapshot> q1 = queryOrders.get();
         Task<QuerySnapshot> q2 = userRef.get();
         Task<QuerySnapshot> q3 = queryShops.get();
-
 
         Tasks.whenAllComplete(q1, q2, q3).addOnSuccessListener(list -> {
             for (DocumentSnapshot documentOrders: q1.getResult()) {
                 boolean orderComplete = documentOrders.getBoolean("is_completed");
                 if (orderComplete == false){
                     String userIdOrder = documentOrders.getString("userId");
-                    String getOrderId = documentOrders.getId();
+                    String getOrderId = documentOrders.getString("orderId");
                     for (DocumentSnapshot documentUsers: q2.getResult()){
                         String getUserId = documentUsers.getString("userId");
                         System.out.println(getUserId);
                         if (getUserId.equals(userIdOrder)){
+                            String userName = documentUsers.getString("full_name");
                             System.out.println("Fix");
                             String shop = documentOrders.getString("shopId");
                             switch (shop){
@@ -85,31 +105,31 @@ public class AdminPanelActivity extends AppCompatActivity{
                                     for(DocumentSnapshot documentShops:q3.getResult()){
                                         String idShop = documentShops.getString("shopId");
                                         if (idShop.equals("shop1")){
-                                            GeoPoint shopLoc = documentShops.getGeoPoint("coords");
-                                            Location shopsLocation = new Location("shopsLocation");
+
+                                            shopLoc = documentShops.getGeoPoint("coords");
+                                            shopsLocation = new Location("shopsLocation");
                                             shopsLocation.setLatitude(shopLoc.getLatitude());
                                             shopsLocation.setLongitude(shopLoc.getLongitude());
 
-                                            GeoPoint locUser = documentUsers.getGeoPoint("coords");
-                                            Location locationUser = new Location("locationUser");
+                                            locUser = documentUsers.getGeoPoint("coords");
+                                            locationUser = new Location("locationUser");
                                             locationUser.setLatitude(locUser.getLatitude());
                                             locationUser.setLongitude(locUser.getLongitude());
 
-                                            float distance = locationUser.distanceTo(shopsLocation);
-                                            double km = convertMetersToKms(distance);
-                                            DecimalFormat df = new DecimalFormat("#.##");
+                                            distance = locationUser.distanceTo(shopsLocation);
+                                            km = convertMetersToKms(distance);
                                             System.out.println("Η απόσταση είναι: "+df.format(km));
                                             if (km <= 1){
                                                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                                                         .setSmallIcon(R.drawable.ic_apple_black)
                                                         .setContentTitle("Customer Notification")
-                                                        .setContentText("The customer "+ " variable" + " with the following order ID: "
-                                                                + "variable"+" is approaching the store.")
+                                                        .setContentText("The customer "
+                                                                + userName
+                                                                + " with the following order ID: "
+                                                                + getOrderId +" is approaching the Shop 1.")
                                                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
                                             }
-
                                         }
-
                                     }
                                     break;
                                 case "shop2":
@@ -117,31 +137,31 @@ public class AdminPanelActivity extends AppCompatActivity{
                                     for(DocumentSnapshot documentShops:q3.getResult()){
                                         String idShop = documentShops.getString("shopId");
                                         if (idShop.equals("shop2")){
-                                            GeoPoint shopLoc = documentShops.getGeoPoint("coords");
-                                            Location shopsLocation = new Location("shopsLocation");
+
+                                            shopLoc = documentShops.getGeoPoint("coords");
+                                            shopsLocation = new Location("shopsLocation");
                                             shopsLocation.setLatitude(shopLoc.getLatitude());
                                             shopsLocation.setLongitude(shopLoc.getLongitude());
 
-                                            GeoPoint locUser = documentUsers.getGeoPoint("coords");
-                                            Location locationUser = new Location("locationUser");
+                                            locUser = documentUsers.getGeoPoint("coords");
+                                            locationUser = new Location("locationUser");
                                             locationUser.setLatitude(locUser.getLatitude());
                                             locationUser.setLongitude(locUser.getLongitude());
 
-                                            float distance = locationUser.distanceTo(shopsLocation);
-                                            double km = convertMetersToKms(distance);
-                                            DecimalFormat df = new DecimalFormat("#.##");
+                                            distance = locationUser.distanceTo(shopsLocation);
+                                            km = convertMetersToKms(distance);
                                             System.out.println("Η απόσταση είναι: "+df.format(km));
                                             if (km <= 1){
                                                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                                                         .setSmallIcon(R.drawable.ic_apple_black)
                                                         .setContentTitle("Customer Notification")
-                                                        .setContentText("The customer "+ " variable" + " with the following order ID: "
-                                                                + "variable"+" is approaching the store.")
+                                                        .setContentText("The customer "
+                                                                + userName
+                                                                + " with the following order ID: "
+                                                                + getOrderId +" is approaching the Shop 2.")
                                                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
                                             }
-
                                         }
-
                                     }
                                     break;
                                 case "shop3":
@@ -149,48 +169,42 @@ public class AdminPanelActivity extends AppCompatActivity{
                                     for(DocumentSnapshot documentShops:q3.getResult()){
                                         String idShop = documentShops.getString("shopId");
                                         if (idShop.equals("shop3")){
-                                            GeoPoint shopLoc = documentShops.getGeoPoint("coords");
-                                            Location shopsLocation = new Location("shopsLocation");
+
+                                            shopLoc = documentShops.getGeoPoint("coords");
+                                            shopsLocation = new Location("shopsLocation");
                                             shopsLocation.setLatitude(shopLoc.getLatitude());
                                             shopsLocation.setLongitude(shopLoc.getLongitude());
 
-                                            GeoPoint locUser = documentUsers.getGeoPoint("coords");
-                                            Location locationUser = new Location("locationUser");
+                                            locUser = documentUsers.getGeoPoint("coords");
+                                            locationUser = new Location("locationUser");
                                             locationUser.setLatitude(locUser.getLatitude());
                                             locationUser.setLongitude(locUser.getLongitude());
 
-                                            float distance = locationUser.distanceTo(shopsLocation);
-                                            double km = convertMetersToKms(distance);
-                                            DecimalFormat df = new DecimalFormat("#.##");
+                                            distance = locationUser.distanceTo(shopsLocation);
+                                            km = convertMetersToKms(distance);
                                             System.out.println("Η απόσταση είναι: "+df.format(km));
                                             if (km <= 1){
                                                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                                                         .setSmallIcon(R.drawable.ic_apple_black)
                                                         .setContentTitle("Customer Notification")
-                                                        .setContentText("The customer "+ " variable" + " with the following order ID: "
-                                                                + "variable"+" is approaching the store.")
+                                                        .setContentText("The customer "
+                                                                + userName
+                                                                + " with the following order ID: "
+                                                                + getOrderId +" is approaching the Shop 3.")
                                                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
                                             }
-
                                         }
-
                                     }
                                     break;
-
                             }
                         }
                     }
                     System.out.println(userIdOrder);
                 }else{
-                    System.out.println("didn't find");
                     return;
                 }
             }
         });
-    }
-
-    private double convertMetersToKms(double distanceInKm) {
-        return distanceInKm / 1000.000;
     }
 }
 
