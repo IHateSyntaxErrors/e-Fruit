@@ -108,6 +108,7 @@ public class AdminPanelActivity extends AppCompatActivity implements LocationLis
 
     public void myMethod(){
         Query queryOrders = db.collection("orders");
+
         Query userRef = db.collection("users");
         Query queryShops = db.collection("shops");
         Task<QuerySnapshot> q1 = queryOrders.get();
