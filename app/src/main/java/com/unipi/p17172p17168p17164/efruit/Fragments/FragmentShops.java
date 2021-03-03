@@ -38,6 +38,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
+import com.google.firestore.v1.FirestoreGrpc;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelShops;
 import com.unipi.p17172p17168p17164.efruit.Models.ModelUsers;
 import com.unipi.p17172p17168p17164.efruit.R;
@@ -112,9 +113,7 @@ public class FragmentShops extends Fragment implements LocationListener {
 
     public void getShopsList(){
         final String TAG = "[FragmentShops]";
-
         Query queryShops = db.collection("shops");
-        DocumentReference userRef = db.collection("users").document(firebaseUser.getUid());
 
         queryShops.addSnapshotListener((snapshots, e) -> {
             if (e != null) {
@@ -138,15 +137,11 @@ public class FragmentShops extends Fragment implements LocationListener {
             }
         });
 
-
-
         // RecyclerOptions
         FirestoreRecyclerOptions<ModelShops> recyclerOptions = new FirestoreRecyclerOptions.Builder<ModelShops>()
                 .setQuery(queryShops, ModelShops.class)
                 .build();
         adapter = new FirestoreRecyclerAdapter<ModelShops, ShopsViewHolder>(recyclerOptions) {
-            ArrayList<Object> list = new ArrayList<>();
-            AtomicReference<Double> valueKM = new AtomicReference<>(); //Δήλωση atomicReference για να μπορέσω να περάσω μεταβλητές έξω από το Lambda
             @SuppressLint("SetTextI18n")
             @Override
             protected void onBindViewHolder(@NonNull ShopsViewHolder holder, int position, @NonNull ModelShops model) {
@@ -157,25 +152,25 @@ public class FragmentShops extends Fragment implements LocationListener {
                 holder.itemShopsBinding.textViewShopsShopRegion.setText(model.getRegion());
                 holder.itemShopsBinding.textViewShopsShopZip.setText(String.format(context.getString(R.string.recycler_var_shops_zip), model.getZip() + ""));
 
-               // Double[] valueArrayKM = { null };
-
-                queryShops.get().addOnCompleteListener(taskShop -> {
+                Query distanceFromShops = db.collection("shops").whereEqualTo("shopId", model.getShopId());
+                DocumentReference userRef = db.collection("users").document(firebaseUser.getUid());
+                distanceFromShops.get().addOnCompleteListener(taskShop -> {
                     if (taskShop.isSuccessful()) {
-                        //holder.itemShopsBinding.textViewShopsShopDistance.setText(String.format("%s km", df.format(km)));
                         for (DocumentSnapshot documentShopLocation : taskShop.getResult()) {
 
                             GeoPoint locShop = documentShopLocation.getGeoPoint("coords");
+                            Location locationShops = new Location("locationShop");
 
-                            Location locationShops = new Location("point B");
                             locationShops.setLatitude(locShop.getLatitude());
                             locationShops.setLongitude(locShop.getLongitude());
-                            System.out.println(locationShops);
+
                             userRef.get().addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
+
                                     DocumentSnapshot document = task.getResult();
                                     GeoPoint locUser = document.getGeoPoint("coords");
 
-                                    Location locationUser = new Location("point A");
+                                    Location locationUser = new Location("locationUser");
 
                                     locationUser.setLatitude(locUser.getLatitude());
                                     locationUser.setLongitude(locUser.getLongitude());
@@ -184,28 +179,12 @@ public class FragmentShops extends Fragment implements LocationListener {
                                     double km = convertMetersToKms(distance);
 
                                     DecimalFormat df = new DecimalFormat("#.##");
-                                   // df.format(km);
-                                    //valueKM.set(km);
-                                    System.out.println("km " +km);
-                                    list.forEach(s -> {
-                                        valueKM.set(km);
-                                    });
-
-                                    System.out.println(valueKM);
-                                    System.out.println(" The distance is " + "[ " + distance + " ]");
-                                    System.out.println(df.format(km) + " km");
+                                    holder.itemShopsBinding.textViewShopsShopDistance.setText(String.format("%s km", df.format(km)));
                                 }
                             });
-                            System.out.println("PRINT VALUEKM: " + valueKM);
-                            AtomicReference x = valueKM;
-                            System.out.println("PRINT X: " + x);
-                            holder.itemShopsBinding.textViewShopsShopDistance.setText(String.format("%s km", x));
                         }
                     }
-                });
-
-
-
+              });
 
                 holder.itemView.setOnClickListener(v -> {
                     FragmentProducts fragment = new FragmentProducts(model.getShopId());
@@ -220,9 +199,6 @@ public class FragmentShops extends Fragment implements LocationListener {
                     fragmentTransaction.commit();
 
                 });
-
-
-
             }
 
             @NonNull
