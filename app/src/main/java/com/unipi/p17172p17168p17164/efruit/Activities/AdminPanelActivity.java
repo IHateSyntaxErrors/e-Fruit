@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,7 +46,8 @@ public class AdminPanelActivity extends AppCompatActivity {
     private LocationManager locationManager;
     private Context context;
     public String provider;
-    RecyclerView recyclerList;
+    private FirestoreRecyclerAdapter adapter;
+    RecyclerView recyclerViewList;
     final String TAG = "[Coords List]";
     final String TAG1 = "[users list]";
     final String TAG2 = "[shops list]";
@@ -54,9 +56,8 @@ public class AdminPanelActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_panel);
-        recyclerList.setLayoutManager(linearLayoutManager);
-        recyclerList.setHasFixedSize(true);
-
+        recyclerViewList.setLayoutManager(linearLayoutManager);
+        recyclerViewList.setHasFixedSize(true);
 
         db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -92,12 +93,14 @@ public class AdminPanelActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Log.d(TAG2, document.getId() + " => " + document.getData());
+                        getShopsList();
                     }
             }else{
                     Log.d(TAG2, "Error getting documents: ", task.getException());
                 }
             }
         });
+
     }
 
 
