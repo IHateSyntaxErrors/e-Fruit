@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,7 +38,7 @@ import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AdminPanelActivity extends AppCompatActivity {
+public class AdminPanelActivity extends AppCompatActivity implements LocationListener{
     private FirebaseFirestore db;
     public LinearLayoutManager linearLayoutManager;
     private FirebaseAuth firebaseAuth;
@@ -47,17 +48,20 @@ public class AdminPanelActivity extends AppCompatActivity {
     private Context context;
     public String provider;
     private FirestoreRecyclerAdapter adapter;
-    RecyclerView recyclerViewList;
+    RecyclerView recyclerList;
     final String TAG = "[Coords List]";
     final String TAG1 = "[users list]";
     final String TAG2 = "[shops list]";
 
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_panel);
-        recyclerViewList.setLayoutManager(linearLayoutManager);
-        recyclerViewList.setHasFixedSize(true);
+       // recyclerList.setLayoutManager(linearLayoutManager);
+        //recyclerList.setHasFixedSize(true);
+
 
         db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -78,6 +82,7 @@ public class AdminPanelActivity extends AppCompatActivity {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     Log.d(TAG, document.getId() + " => " + document.getData());
                                 }
+                                System.out.println("done");
                                 getLocation();
                             }
                         }
@@ -107,7 +112,9 @@ public class AdminPanelActivity extends AppCompatActivity {
     @SuppressLint("MissingPermission")
     @RequiresApi(api = Build.VERSION_CODES.Q)
     private void getLocation() {
-        locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
+//        System.out.println("done4");
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+//        System.out.println("done1");
         boolean enabled = locationManager
                 .isProviderEnabled(LocationManager.GPS_PROVIDER);
 
@@ -128,6 +135,7 @@ public class AdminPanelActivity extends AppCompatActivity {
             criteria.setVerticalAccuracy(Criteria.ACCURACY_HIGH);
             provider = locationManager.getBestProvider(criteria, false);
             Location location = locationManager.getLastKnownLocation(provider);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
             if (location != null) {
                 onLocationChanged(location);
             }
@@ -135,8 +143,11 @@ public class AdminPanelActivity extends AppCompatActivity {
             AlertDialog alertDialog = toolbox.buildAlertMessageNoGps(context);
             alertDialog.show();
         }
+//        System.out.println("done2");
     }
-    private void onLocationChanged(Location location) {
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+//        System.out.println("done3");
         double latUser = location.getLatitude();
         double lngUser = location.getLongitude();
         String hash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(latUser, lngUser));
@@ -211,6 +222,13 @@ public class AdminPanelActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    public void onProviderDisabled(String provider) {
+
+    }
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    public void onProviderEnabled(String provider) {
+        getLocation();
     }
 }
 
