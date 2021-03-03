@@ -115,8 +115,8 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.nav_item_profile)
         {
             // Profile Activity
-            Intent intentProfile = new Intent(MainActivity.this, ProfileActivity.class);
-            startActivity(intentProfile);
+            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+            startActivity(intent);
             return false;
         }
         else if (id == R.id.nav_item_orders)
@@ -124,6 +124,13 @@ public class MainActivity extends AppCompatActivity
             // Orders Fragment
             fragment = new FragmentOrders();
             setFragment(fragment, "FRAGMENT_ORDERS");
+        }
+        else if (id == R.id.nav_item_admin_panel)
+        {
+            // Admin Panel Activity
+            Intent intent = new Intent(MainActivity.this, AdminPanelActivity.class);
+            startActivity(intent);
+            return false;
         }
         else if (id == R.id.nav_item_settings)
         {
@@ -272,6 +279,10 @@ public class MainActivity extends AppCompatActivity
                         if (modelUsers.getIs_admin()) { // If user is admin, show the admin UI.
                             binding.toolbar.actionBarAdminPanel.setVisibility(View.VISIBLE);
                             binding.navView.getMenu().getItem(2).setVisible(true);
+                            binding.toolbar.actionBarAdminPanel.setOnClickListener(v -> {
+                                Intent intent = new Intent(MainActivity.this, AdminPanelActivity.class);
+                                startActivity(intent);
+                            });
                         }
                     }
                 }

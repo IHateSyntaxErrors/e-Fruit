@@ -41,7 +41,7 @@
             android:text="Phone: 21312321"
             android:textColor="@color/colorText"
             android:textSize="12sp"
-            app:drawableLeftCompat="@drawable/ic_phone_12"
+            app:drawableLeftCompat="@drawable/ic_phone_20dp"
             app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textViewShops_ShopName"

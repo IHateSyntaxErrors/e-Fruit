@@ -58,6 +58,7 @@ dependencies {
     // FirebaseUI for Firebase Geo
     implementation 'com.firebase:geofire-android-common:3.1.0'
     implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
 
     // -----Google-----
     implementation 'com.google.android.gms:play-services-auth:19.0.0'

@@ -84,9 +84,23 @@
     <string name="recycler_item_order_status_completed">Completed</string>
     <string name="recycler_item_order_status_processing">Processing</string>
 
-    <!-- Select Click-Away Time Page -->
+    <!-- Select Click-Away Time Activity -->
     <string name="page_select_time_header">Select Time</string>
     <string name="page_select_time_header2">Select an available click-away time</string>
+
+    <!-- Pay Activity -->
+    <string name="toolbar_payment_title">Payment</string>
+    <string name="page_pay_grand_total_header">Grand Total</string>
+    <string name="page_pay_credit_card_details">Card Details</string>
+    <string name="credit_card_number_hint">Card Number</string>
+    <string name="credit_card_security_code_hint">Security Code</string>
+    <string name="credit_card_expire_date_hint">Expire Date</string>
+    <string name="btn_pay_text">Pay</string>
+
+    <!-- Payment Confirmation Activity -->
+    <string name="toolbar_payment_confirmation_title">Payment Confirmation</string>
+    <string name="page_payment_confirmation_order_sent">Your order has been sent!</string>
+    <string name="btn_page_payment_confirmation_back">Back to home page</string>
 
     <!-- Settings -->
     <string name="page_settings_header1_title">Settings</string>
@@ -119,7 +133,7 @@
     <string name="img_content_desc_insta_btn">Instagram Link</string>
     <string name="img_content_desc_twitter_btn">Twitter Link</string>
     <string name="img_content_desc_fruits">Fruits Image</string>
-    <string name="img_content_desc_efruit_banner">eFruit Banner Image</string>
+    <string name="img_content_desc_e_fruit_banner">eFruit Banner Image</string>
     <string name="img_content_desc_fruit_basket">Fruits Basket Image</string>
     <string name="img_content_desc_back_button">Back Button</string>
     <string name="img_content_desc_mic">Microphone Button</string>
@@ -129,4 +143,6 @@
     <string name="img_content_minus_sign">Minus Button</string>
     <string name="img_content_plus_sign">Plus Button</string>
     <string name="img_content_delete">Remove From Cart Button</string>
+    <string name="page_payment_success_header">Order Confirmation</string>
+    <string name="general_none_selected">None Selected</string>
 </resources>

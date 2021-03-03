@@ -8,7 +8,7 @@
     <string name="general_next_step">Επόμενο</string>
     <string name="toast_speech_recognition_not_supported">Η συσκευή σας δεν υποστηρίζει αναγνώριση φωνής.</string>
     <string name="toast_speech_recognition_invalid_action">Μη έγκυρη ενέργεια! Δοκιμάστε ξανά.</string>
-    <string name="search_bar_hint">Αναζήτηση</string>
+    <string name="general_none_selected">Δεν έχει επιλεχθεί</string>
 
     <!-- Main Activity -->
     <string name="nav_drawer_open">Άνοιγμα</string>
@@ -89,6 +89,20 @@
     <string name="page_select_time_header">Επιλέξτε Ώρα Παραλαβής</string>
     <string name="page_select_time_header2">Επιλέξτε μια διαθέσιμη ώρα για παραλαβή</string>
 
+    <!-- Pay Activity -->
+    <string name="toolbar_payment_title">Πληρωμή</string>
+    <string name="page_pay_grand_total_header">Κόστος</string>
+    <string name="page_pay_credit_card_details">Στοιχεία Κάρτας</string>
+    <string name="credit_card_number_hint">Αρ. Κάρτας</string>
+    <string name="credit_card_security_code_hint">Μυστικός Κωδικός</string>
+    <string name="credit_card_expire_date_hint">Ημν/νια Λήξης</string>
+    <string name="btn_pay_text">Πληρωμή</string>
+
+    <!-- Payment Confirmation Activity -->
+    <string name="toolbar_payment_confirmation_title">Απόδηξη Πληρωμής</string>
+    <string name="page_payment_confirmation_order_sent">Η παραγγελία σας έχει αποσταλεί!</string>
+    <string name="btn_page_payment_confirmation_back">Πίσω στην αρχική σελίδα</string>
+
     <!-- Version -->
     <string name="app_versionCode">@string/versionName</string>
     <string name="app_versionText">Έκδοση Εφαρμογής </string>
@@ -109,7 +123,7 @@
     <string name="img_content_desc_insta_btn">Σύνδεσμος  Instagram</string>
     <string name="img_content_desc_twitter_btn">Σύνδεσμος  Twitter</string>
     <string name="img_content_desc_fruits">Εικόνα με φρούτα</string>
-    <string name="img_content_desc_efruit_banner">Λάβαρο eFruit</string>
+    <string name="img_content_desc_e_fruit_banner">Λάβαρο eFruit</string>
     <string name="img_content_desc_fruit_basket">Κούπα με φρούτα</string>
     <string name="img_content_desc_back_button">Κουμπί για να πάμε πίσω</string>
     <string name="img_content_desc_mic">Κουμπί για Μικρόφωνο</string>
@@ -119,4 +133,5 @@
     <string name="img_content_minus_sign">Κουμπί Αφαίρεσης</string>
     <string name="img_content_plus_sign">Κουμπί Πρόσθεσης</string>
     <string name="img_content_delete">Κουμπί για αφαίρεση από το καλάθι</string>
+    <string name="page_payment_success_header">Order Confirmation</string>
 </resources>

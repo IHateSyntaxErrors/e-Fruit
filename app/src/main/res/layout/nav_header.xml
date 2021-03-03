@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="176dp"
     android:background="@color/colorPrimary"
@@ -12,19 +13,27 @@
         android:id="@+id/imgViewNavBarLogo"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/efruit_logo" />
+        android:src="@drawable/e_fruit_logo"
+        android:contentDescription="@string/img_content_desc_e_fruit_banner" />
 
     <TextView
         android:id="@+id/textViewNavBar_Name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:text="User Name"
-        android:textColor="@color/colorButtonText" />
+        android:paddingTop="20dp"
+        android:text=""
+        android:paddingBottom="10dp"
+        android:drawablePadding="7dp"
+        android:textColor="@color/colorButtonText"
+        app:drawableTint="@color/colorButtonText"
+        app:drawableStartCompat="@drawable/ic_identity_card" />
     <TextView
         android:id="@+id/textViewNavBar_Phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Phone Number"
-        android:textColor="@color/colorContainer"/>
+        android:text=""
+        android:drawablePadding="7dp"
+        app:drawableTint="@color/colorButtonText"
+        android:textColor="@color/colorButtonText"
+        app:drawableStartCompat="@drawable/ic_phone_20dp"/>
 </LinearLayout>

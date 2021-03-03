@@ -1,6 +1,7 @@
 package com.unipi.p17172p17168p17164.efruit.Activities;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
@@ -20,13 +21,9 @@ import com.unipi.p17172p17168p17164.efruit.databinding.ActivitySelectTimeBinding
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class SelectTimeActivity extends AppCompatActivity
@@ -39,9 +36,16 @@ public class SelectTimeActivity extends AppCompatActivity
     private FirebaseFirestore db;
     private boolean defaultDate, defaultTime;
     private int nightModeFlags;
+
     private String shopId;
-    Calendar[] days;
-    List<Calendar> blockedDays = new ArrayList<>();
+    private String grandTotal;
+
+    SimpleDateFormat dateFormatter;
+    SimpleDateFormat timeFormatter;
+    DatePickerDialog datePickerDialog;
+    TimePickerDialog timePickerDialog;
+    int Year, Month, Day, Hour, Minute;
+    Calendar calendar ;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     @Override
@@ -65,32 +69,35 @@ public class SelectTimeActivity extends AppCompatActivity
         db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
-
         nightModeFlags =  getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
 
         shopId = getIntent().getStringExtra("SHOP_ID");
-        days = blockedDays.toArray(new Calendar[0]);
+        grandTotal = getIntent().getStringExtra("GRAND_TOTAL");
 
         defaultDate = true;
         defaultTime = true;
 
+        dateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        timeFormatter = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        Year = calendar.get(Calendar.YEAR) ;
+        Month = calendar.get(Calendar.MONTH);
+        Day = calendar.get(Calendar.DAY_OF_MONTH);
+        Hour = calendar.get(Calendar.HOUR_OF_DAY);
+        Minute = calendar.get(Calendar.MINUTE);
+
         // button on click listeners
         binding.imgBtnSelectTimeDate.setOnClickListener(v -> {
-            try {
-                openDatePicker();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            openDatePicker();
         });
-        binding.imgBtnSelectTimeTime.setOnClickListener(v -> openTimePicker());
+        binding.imgBtnSelectTimeTime.setOnClickListener(v -> openTimePicker(Day, Month, Year));
         binding.constraintLayoutSelectTimeNext.setOnClickListener(v -> pay());
     }
 
-    private void openDatePicker() throws ParseException {
+    private void openDatePicker() {
         getNonWorkingDays();
 
         Calendar now = Calendar.getInstance();
-        DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
+        datePickerDialog = DatePickerDialog.newInstance(
                 SelectTimeActivity.this,
                 now.get(Calendar.YEAR),
                 now.get(Calendar.MONTH),
@@ -100,23 +107,53 @@ public class SelectTimeActivity extends AppCompatActivity
         if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES)
             datePickerDialog.setThemeDark(true);
 
-        datePickerDialog.setMinDate(now);
+        // Setting Min Date to today date
+        Calendar min_date_c = Calendar.getInstance();
+        datePickerDialog.setMinDate(min_date_c);
+        // Setting Max Date to next 1 year
+        Calendar max_date_c = Calendar.getInstance();
+        max_date_c.set(Calendar.YEAR, Year + 1);
+        datePickerDialog.setMaxDate(max_date_c);
+
         datePickerDialog.setVersion(DatePickerDialog.Version.VERSION_2);
 
+        //Disable all SUNDAYS and SATURDAYS between Min and Max Dates
+        for (Calendar loopdate = min_date_c; min_date_c.before(max_date_c); min_date_c.add(Calendar.DATE, 1), loopdate = min_date_c) {
+            int dayOfWeek = loopdate.get(Calendar.DAY_OF_WEEK);
+            if (dayOfWeek == Calendar.SUNDAY || dayOfWeek == Calendar.SATURDAY) {
+                Calendar[] disabledDays =  new Calendar[1];
+                disabledDays[0] = loopdate;
+                datePickerDialog.setDisabledDays(disabledDays);
+            }
+        }
+/*
+        Calendar[] days;
+        List<Calendar> blockedDays = new ArrayList<>();
+
         // Code to disable particular date
-        DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
-        Date date = formatter.parse("03/05/2021");
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        Date date = formatter.parse("15/03/2021");
         Calendar cal = Calendar.getInstance();
+
         cal.setTime(date);
         blockedDays.add(cal);
+        days = blockedDays.toArray(new Calendar[blockedDays.size()]);
 
-        datePickerDialog.setDisabledDays(days);
+//        datePickerDialog.setSelectableDays();
+        datePickerDialog.setDisabledDays(days);*/
         datePickerDialog.show(getSupportFragmentManager(), "DatePicker");
     }
 
-    private void openTimePicker() {
+    private void openTimePicker(int day, int month, int year) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.DAY_OF_MONTH, day);
+        Date dateRepresentation = cal.getTime();
+        getReservedTimes(dateRepresentation);
+
         Calendar now = Calendar.getInstance();
-        TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(
+        timePickerDialog = TimePickerDialog.newInstance(
                 SelectTimeActivity.this,
                 now.get(Calendar.HOUR_OF_DAY),
                 now.get(Calendar.MINUTE),
@@ -140,13 +177,29 @@ public class SelectTimeActivity extends AppCompatActivity
 
         Tasks.whenAllComplete(queryNonWorkingDays, queryReservedDatesAndHours).addOnSuccessListener(list -> {
             for (DocumentSnapshot doc : queryNonWorkingDays.getResult()) {
+//                cal.setTime(Calendar.DAY_OF_WEEK, 2);
+//                blockedDays.add(cal);
+            }
+        });
+    }
 
+    private void getReservedTimes(Date pickedDate) {
+        Task<QuerySnapshot> queryReservedTimes = db.collection("orders")
+                .whereEqualTo("shopId", shopId)
+                .whereEqualTo("pickup_timestamp", pickedDate).get();
+
+        Tasks.whenAllComplete(queryReservedTimes).addOnSuccessListener(list -> {
+            for (DocumentSnapshot doc : queryReservedTimes.getResult()) {
+
+//                cal.setTime(Calendar.DAY_OF_WEEK, 2);
+//                blockedDays.add(cal);
             }
         });
     }
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        Day = dayOfMonth; Month = monthOfYear; Year = year;
         defaultDate = false;
 
         Calendar cal = Calendar.getInstance();
@@ -156,12 +209,15 @@ public class SelectTimeActivity extends AppCompatActivity
                 dayOfMonth,
                 cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()),
                 year));
+        openTimePicker(dayOfMonth, monthOfYear + 1, year);
     }
 
     @Override
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
         defaultTime = false;
         binding.textViewSelectTimeTime.setText(String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute));
+        binding.textViewSelectTimeTime.setVisibility(View.VISIBLE);
+        binding.imgBtnSelectTimeTime.setVisibility(View.VISIBLE);
     }
 
     private void pay() {
@@ -170,8 +226,9 @@ public class SelectTimeActivity extends AppCompatActivity
             dialog.show();
         }
         else {
-            /*Intent intent = new Intent(SelectTimeActivity.this, PayActivity.class);
-            startActivity(intent);*/
+            Intent intent = new Intent(SelectTimeActivity.this, PayActivity.class);
+            intent.putExtra("GRAND_TOTAL", grandTotal);
+            startActivity(intent);
         }
 
     }
