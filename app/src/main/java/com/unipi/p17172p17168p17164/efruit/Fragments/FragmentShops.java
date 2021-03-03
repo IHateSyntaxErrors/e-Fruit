@@ -45,10 +45,13 @@ import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
 import com.unipi.p17172p17168p17164.efruit.databinding.FragmentShopsBinding;
 import com.unipi.p17172p17168p17164.efruit.databinding.ItemShopBinding;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static android.content.Context.LOCATION_SERVICE;
 import static android.location.Location.distanceBetween;
@@ -87,8 +90,6 @@ public class FragmentShops extends Fragment implements LocationListener {
         init();
         getLocation();
         getShopsList();
-
-
 
         return view;
     }
@@ -135,38 +136,6 @@ public class FragmentShops extends Fragment implements LocationListener {
             }
         });
 
-        queryShops.get().addOnCompleteListener(taskShop -> {
-            if (taskShop.isSuccessful()) {
-                for (DocumentSnapshot documentShopLocation : taskShop.getResult()) {
-
-                    GeoPoint locShop = documentShopLocation.getGeoPoint("coords");
-
-                    Location locationShops = new Location("point B");
-                    locationShops.setLatitude(locShop.getLatitude());
-                    locationShops.setLongitude(locShop.getLongitude());
-
-                    userRef.get().addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-
-                                GeoPoint locUser =  document.getGeoPoint("coords");
-
-                                Location locationUser = new Location("point A");
-
-                                locationUser.setLatitude(locUser.getLatitude());
-                                locationUser.setLongitude(locUser.getLongitude());
-
-                                float distance = locationUser.distanceTo(locationShops);
-                                double km = convertMetersToKms(distance);
-                                System.out.println(" The distance is " + "[ " + distance+ " ]");
-                                System.out.println(km + " km");
-
-                            }
-                    });
-                }
-            }
-        });
-
 
 
         // RecyclerOptions
@@ -183,6 +152,52 @@ public class FragmentShops extends Fragment implements LocationListener {
                 holder.itemShopsBinding.textViewShopsShopRegion.setText(model.getRegion());
                 holder.itemShopsBinding.textViewShopsShopZip.setText(String.format(context.getString(R.string.recycler_var_shops_zip), model.getZip() + ""));
 
+                AtomicReference<Double> valueKM = new AtomicReference<>(); //Δήλωση atomicReference για να μπορέσω να περάσω μεταβλητές έξω από το Lambda
+                queryShops.get().addOnCompleteListener(taskShop -> {
+                    if (taskShop.isSuccessful()) {
+
+                        for (DocumentSnapshot documentShopLocation : taskShop.getResult()) {
+
+                            GeoPoint locShop = documentShopLocation.getGeoPoint("coords");
+
+                            Location locationShops = new Location("point B");
+                            locationShops.setLatitude(locShop.getLatitude());
+                            locationShops.setLongitude(locShop.getLongitude());
+                            System.out.println(locationShops);
+                            userRef.get().addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    GeoPoint locUser = document.getGeoPoint("coords");
+
+                                    Location locationUser = new Location("point A");
+
+                                    locationUser.setLatitude(locUser.getLatitude());
+                                    locationUser.setLongitude(locUser.getLongitude());
+
+                                    float distance = locationUser.distanceTo(locationShops);
+                                    double km = convertMetersToKms(distance);
+                                    valueKM.set(km);
+                                    DecimalFormat df = new DecimalFormat("#.##");
+                                      //df.format(km);
+                                      holder.itemShopsBinding.textViewShopsShopDistance.setText(df.format(km) + " km");
+                                    System.out.println(" The distance is " + "[ " + distance + " ]");
+                                    System.out.println(km + " km");
+
+                                }
+                            });
+
+                        }
+//                        DecimalFormat df = new DecimalFormat("#.##");
+//                        AtomicReference x = valueKM;
+//                        System.out.println(x);
+//                        df.format(x);
+//                        holder.itemShopsBinding.textViewShopsShopDistance.setText(df.format(x) + " km");
+                    }
+                });
+
+
+
+
                 holder.itemView.setOnClickListener(v -> {
                     FragmentProducts fragment = new FragmentProducts(model.getShopId());
                     FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
@@ -197,15 +212,8 @@ public class FragmentShops extends Fragment implements LocationListener {
 
                 });
 
-                /*DBHelper.getShopGeohash(db, model.getShopId())
-                .get()
-                .addOnCompleteListener(taskGetGeohash -> {
-                    if (taskGetGeohash.isSuccessful()) {
-                        for (DocumentSnapshot documentShop : taskGetGeohash.getResult()) {
-                            documentShop
-                        }
-                    }
-                });*/
+
+
             }
 
             @NonNull
@@ -302,7 +310,6 @@ public class FragmentShops extends Fragment implements LocationListener {
         DocumentReference locationRef = db.collection("users").document(firebaseUser.getUid());
         locationRef.update(updates)
                 .addOnCompleteListener(task -> {
-
 
                 });
         locationManager.removeUpdates(this); //If the location changes it will not get the new coordinates.
