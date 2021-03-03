@@ -280,7 +280,7 @@ public class FragmentShops extends Fragment implements LocationListener {
                 .addOnCompleteListener(task -> {
 
                 });
-        locationManager.removeUpdates(this); //If the location changes it will not get the new coordinates.
+        //locationManager.removeUpdates(this); //If the location changes it will not get the new coordinates.
     }
 
 

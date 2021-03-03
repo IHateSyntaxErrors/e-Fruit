@@ -118,24 +118,24 @@ public class AdminPanelActivity extends AppCompatActivity implements LocationLis
         Tasks.whenAllComplete(q1, q2).addOnSuccessListener(list -> {
             for (DocumentSnapshot documentShopLocation : q1.getResult()) {
 
-                GeoPoint locShop = documentShopLocation.getGeoPoint("coords");
+         //       GeoPoint locShop =  DocumentSnapshot document = q2.getResult();
+//                GeoPoint locUser = document.getGeoPoint("coords");
+//
+//                Location locationUser = new Location("locationUser");
+//
+//                locationUser.setLatitude(locUser.getLatitude());
+//                locationUser.setLongitude(locUser.getLongitude());
+//
+//                float distance = locationUser.distanceTo(locationShops);
+//                double km = convertMetersToKms(distance);
+//
+//                DecimalFormat df = new DecimalFormat("#.##");ocumentShopLocation.getGeoPoint("coords");
                 Location locationShops = new Location("locationShop");
 
                 locationShops.setLatitude(locShop.getLatitude());
                 locationShops.setLongitude(locShop.getLongitude());
 
-                DocumentSnapshot document = q2.getResult();
-                GeoPoint locUser = document.getGeoPoint("coords");
-
-                Location locationUser = new Location("locationUser");
-
-                locationUser.setLatitude(locUser.getLatitude());
-                locationUser.setLongitude(locUser.getLongitude());
-
-                float distance = locationUser.distanceTo(locationShops);
-                double km = convertMetersToKms(distance);
-
-                DecimalFormat df = new DecimalFormat("#.##");
+//
 
             }
         });
