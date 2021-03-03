@@ -33,8 +33,10 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.unipi.p17172p17168p17164.efruit.R;
+import com.unipi.p17172p17168p17164.efruit.Utils.DBHelper;
 import com.unipi.p17172p17168p17164.efruit.Utils.Toolbox;
 
+import java.lang.ref.Reference;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,9 +51,7 @@ public class AdminPanelActivity extends AppCompatActivity implements LocationLis
     public String provider;
     private FirestoreRecyclerAdapter adapter;
     RecyclerView recyclerList;
-    final String TAG = "[Coords List]";
-    final String TAG1 = "[users list]";
-    final String TAG2 = "[shops list]";
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
@@ -67,45 +67,9 @@ public class AdminPanelActivity extends AppCompatActivity implements LocationLis
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         toolbox = new Toolbox();
-        db.collection("users").whereEqualTo("tokenId", true).whereEqualTo("is_admin",false).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for (QueryDocumentSnapshot document : task.getResult()){
-                        Log.d(TAG1, document.getId() + " => " + document.getData());
-                    }
-                    db.collection("users").whereEqualTo("coords",true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @RequiresApi(api = Build.VERSION_CODES.Q)
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Log.d(TAG, document.getId() + " => " + document.getData());
-                                }
-                                System.out.println("done");
-                                getLocation();
-                            }
-                        }
-                    });
-                }else{
-                    Log.d(TAG1, "Error getting documents: ", task.getException());
-                }
-            }
-        });
-        db.collection("shops").whereEqualTo("coords",true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG2, document.getId() + " => " + document.getData());
-                        getShopsList();
-                    }
-            }else{
-                    Log.d(TAG2, "Error getting documents: ", task.getException());
-                }
-            }
-        });
-
+        Query queryOrders = db.collection("orders");
+        Task<QuerySnapshot> q1 = queryOrders.get();
+        Task<QuerySnapshot> q2 = DBHelper.getOrderShopName(db, model.getShopId()).get();
     }
 
 
