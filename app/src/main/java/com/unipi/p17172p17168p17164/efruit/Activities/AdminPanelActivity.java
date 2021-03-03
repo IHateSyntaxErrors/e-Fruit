@@ -2,6 +2,8 @@ package com.unipi.p17172p17168p17164.efruit.Activities;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
@@ -47,7 +49,7 @@ import java.util.Objects;
 
 public class AdminPanelActivity extends AppCompatActivity{
     // ~~~~~~~VARIABLES~~~~~~~
-    private static final String CHANNEL_ID = "Customer Notification";
+    private static final String CHANNEL_ID = "Notifications";
     private FirebaseFirestore db;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     @RequiresApi(api = Build.VERSION_CODES.Q)
@@ -55,13 +57,29 @@ public class AdminPanelActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_panel);
-
+        createNotificationChannel();
         init();
         notificationShops();
+
     }
 
     private void init() {
         db = FirebaseFirestore.getInstance();
+    }
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Customer Notification";
+            String description = "A customer has arrived";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     private double convertMetersToKms(double distanceInKm) {
@@ -83,7 +101,7 @@ public class AdminPanelActivity extends AppCompatActivity{
         Tasks.whenAllComplete(q1, q2, q3).addOnSuccessListener(list -> {
             for (DocumentSnapshot documentOrders: q1.getResult()) {
                 boolean orderComplete = documentOrders.getBoolean("is_completed");
-                if (orderComplete == false){
+                if (!orderComplete){
                     String userIdOrder = documentOrders.getString("userId");
                     String getOrderId = documentOrders.getString("orderId");
                     for (DocumentSnapshot documentUsers: q2.getResult()){
@@ -114,13 +132,15 @@ public class AdminPanelActivity extends AppCompatActivity{
                                             double km = convertMetersToKms(distance);
                                             System.out.println("Η απόσταση είναι: "+df.format(km));
                                             if (km <= 1){
+                                                System.out.println("last if succesful");
                                                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                                                         .setSmallIcon(R.drawable.ic_apple_black)
                                                         .setContentTitle("Customer Notification")
-                                                        .setContentText("The customer "
-                                                                + userName
-                                                                + " with the following order ID: "
-                                                                + getOrderId +" is approaching the Shop 1.")
+                                                        .setStyle(new NotificationCompat.BigTextStyle()
+                                                                .bigText("The customer "
+                                                                        + userName
+                                                                        + " with the following order ID: "
+                                                                        + getOrderId +" is approaching the Shop 1."))
                                                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
                                                 NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
                                                 notificationManager.notify(1, builder.build());
@@ -151,10 +171,11 @@ public class AdminPanelActivity extends AppCompatActivity{
                                                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                                                         .setSmallIcon(R.drawable.ic_apple_black)
                                                         .setContentTitle("Customer Notification")
-                                                        .setContentText("The customer "
-                                                                + userName
-                                                                + " with the following order ID: "
-                                                                + getOrderId +" is approaching the Shop 2.")
+                                                        .setStyle(new NotificationCompat.BigTextStyle()
+                                                                .bigText("The customer "
+                                                                        + userName
+                                                                        + " with the following order ID: "
+                                                                        + getOrderId +" is approaching the Shop 2."))
                                                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
                                                 NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
                                                 notificationManager.notify(2, builder.build());
@@ -185,10 +206,11 @@ public class AdminPanelActivity extends AppCompatActivity{
                                                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                                                         .setSmallIcon(R.drawable.ic_apple_black)
                                                         .setContentTitle("Customer Notification")
-                                                        .setContentText("The customer "
-                                                                + userName
-                                                                + " with the following order ID: "
-                                                                + getOrderId +" is approaching the Shop 3.")
+                                                        .setStyle(new NotificationCompat.BigTextStyle()
+                                                                .bigText("The customer "
+                                                                        + userName
+                                                                        + " with the following order ID: "
+                                                                        + getOrderId +" is approaching the Shop 3."))
                                                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
                                                 NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
                                                 notificationManager.notify(3, builder.build());
@@ -201,7 +223,7 @@ public class AdminPanelActivity extends AppCompatActivity{
                     }
                     System.out.println(userIdOrder);
                 }else{
-                    return;
+                    System.out.println(orderComplete);
                 }
             }
         });
