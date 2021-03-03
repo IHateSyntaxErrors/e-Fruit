@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -55,6 +56,7 @@ public class AdminPanelActivity extends AppCompatActivity{
     DecimalFormat df;
     Location shopsLocation;
     Location locationUser;
+    NotificationManagerCompat notificationManager;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
@@ -128,6 +130,8 @@ public class AdminPanelActivity extends AppCompatActivity{
                                                                 + " with the following order ID: "
                                                                 + getOrderId +" is approaching the Shop 1.")
                                                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                                                notificationManager = NotificationManagerCompat.from(this);
+                                                notificationManager.notify(1, builder.build());
                                             }
                                         }
                                     }
@@ -160,6 +164,8 @@ public class AdminPanelActivity extends AppCompatActivity{
                                                                 + " with the following order ID: "
                                                                 + getOrderId +" is approaching the Shop 2.")
                                                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                                                notificationManager = NotificationManagerCompat.from(this);
+                                                notificationManager.notify(2, builder.build());
                                             }
                                         }
                                     }
@@ -192,6 +198,8 @@ public class AdminPanelActivity extends AppCompatActivity{
                                                                 + " with the following order ID: "
                                                                 + getOrderId +" is approaching the Shop 3.")
                                                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                                                notificationManager = NotificationManagerCompat.from(this);
+                                                notificationManager.notify(3, builder.build());
                                             }
                                         }
                                     }
