@@ -106,14 +106,12 @@ public class AdminPanelActivity extends AppCompatActivity{
                     String getOrderId = documentOrders.getString("orderId");
                     for (DocumentSnapshot documentUsers: q2.getResult()){
                         String getUserId = documentUsers.getString("userId");
-                        System.out.println(getUserId);
                         if (getUserId.equals(userIdOrder)){
                             String userName = documentUsers.getString("full_name");
                             System.out.println("Fix");
                             String shop = documentOrders.getString("shopId");
                             switch (shop){
                                 case "shop1":
-                                    System.out.println("you are in shop1");
                                     for(DocumentSnapshot documentShops:q3.getResult()){
                                         String idShop = documentShops.getString("shopId");
                                         if (idShop.equals("shop1")){
@@ -132,7 +130,6 @@ public class AdminPanelActivity extends AppCompatActivity{
                                             double km = convertMetersToKms(distance);
                                             System.out.println("Η απόσταση είναι: "+df.format(km));
                                             if (km <= 1){
-                                                System.out.println("last if succesful");
                                                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                                                         .setSmallIcon(R.drawable.ic_apple_black)
                                                         .setContentTitle("Customer Notification")
@@ -149,7 +146,6 @@ public class AdminPanelActivity extends AppCompatActivity{
                                     }
                                     break;
                                 case "shop2":
-                                    System.out.println("you are in shop2");
                                     for(DocumentSnapshot documentShops:q3.getResult()){
                                         String idShop = documentShops.getString("shopId");
                                         if (idShop.equals("shop2")){
@@ -184,7 +180,6 @@ public class AdminPanelActivity extends AppCompatActivity{
                                     }
                                     break;
                                 case "shop3":
-                                    System.out.println("you are in shop3");
                                     for(DocumentSnapshot documentShops:q3.getResult()){
                                         String idShop = documentShops.getString("shopId");
                                         if (idShop.equals("shop3")){
@@ -221,9 +216,6 @@ public class AdminPanelActivity extends AppCompatActivity{
                             }
                         }
                     }
-                    System.out.println(userIdOrder);
-                }else{
-                    System.out.println(orderComplete);
                 }
             }
         });
