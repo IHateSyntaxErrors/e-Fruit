@@ -13,9 +13,6 @@ public class PaymentConfirmationActivity extends AppCompatActivity {
 
     // ~~~~~~~VARIABLES~~~~~~~
     private ActivityPaymentConfirmationBinding binding;
-    private double grandTotal;
-    private String shopId;
-    private String pickup_timestamp;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     @Override
@@ -32,11 +29,7 @@ public class PaymentConfirmationActivity extends AppCompatActivity {
         updateUI();
     }
 
-    private void init() {
-        grandTotal = Double.parseDouble(getIntent().getStringExtra("GRAND_TOTAL").trim().replace("€", ""));
-        shopId = getIntent().getStringExtra("SHOP_ID");
-        pickup_timestamp = getIntent().getStringExtra("PICKUP_TIMESTAMP");
-    }
+    private void init() {}
 
     private void updateUI() {
         binding.imageViewPaymentSuccessBackButton.setOnClickListener(v -> onBackPressed());

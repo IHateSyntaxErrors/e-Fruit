@@ -21,6 +21,7 @@ import com.unipi.p17172p17168p17164.efruit.R;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class Toolbox {
     public static void hideKeyboard(View view, Context context) {
@@ -73,6 +74,16 @@ public class Toolbox {
         btnAlertDismiss.setOnClickListener(v -> dialog.dismiss());
 
         return dialog;
+    }
+
+    public static Date getDate(String date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
+        try {
+            return formatter.parse(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static GeoPoint LatLonPoint(double latitude, double longitude) {

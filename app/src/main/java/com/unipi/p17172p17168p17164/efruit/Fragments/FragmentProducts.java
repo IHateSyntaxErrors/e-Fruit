@@ -204,7 +204,7 @@ public class FragmentProducts extends Fragment {
                     // ADD TO CART BUTTON
                     holder.itemProductBinding.btnRecyclerItemAddToCart.setOnClickListener(v -> {
                         if (isCartShop)
-                            DBHelper.setCartItem(db, firebaseUser.getUid(), shopId, model.getProductId(), model.getPrice(), 1)
+                            DBHelper.setCartItem(db, firebaseUser.getUid(), shopId, model.getName(), model.getProductId(), model.getPrice(), 1)
                                     .addOnCompleteListener(taskAdd -> {
                                         if (taskAdd.isSuccessful()) {
                                             notifyItemChanged(holder.getAdapterPosition());

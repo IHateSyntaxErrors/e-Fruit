@@ -146,12 +146,17 @@ public class SelectTimeActivity extends AppCompatActivity
             timePickerDialog.setThemeDark(true);
 
 
-        if (now.get(Calendar.HOUR_OF_DAY) < 8)
+        if (now.get(Calendar.HOUR_OF_DAY) < 8
+                && (Day == now.get(Calendar.DAY_OF_MONTH))
+                && (Month == now.get(Calendar.MONTH))
+                && (Year == now.get(Calendar.YEAR)))
             timePickerDialog.setMinTime(8, 30, 0);
         else
             timePickerDialog.setMinTime(Calendar.HOUR_OF_DAY, Calendar.MINUTE + 30, Calendar.SECOND);
         timePickerDialog.setMaxTime(18, 30, 0);
         timePickerDialog.show(getSupportFragmentManager(), "TimePicker");
+        binding.imgBtnSelectTimeTime.setVisibility(View.VISIBLE);
+        binding.textViewSelectTimeTime.setVisibility(View.VISIBLE);
     }
 
     private void openTimePicker(int hour, int minutes) {
@@ -219,7 +224,7 @@ public class SelectTimeActivity extends AppCompatActivity
             Intent intent = new Intent(SelectTimeActivity.this, PayActivity.class);
             intent.putExtra("GRAND_TOTAL", grandTotal);
             intent.putExtra("SHOP_ID", shopId);
-            intent.putExtra("PICKUP_TIMESTAMP", dateRepresentation);
+            intent.putExtra("PICKUP_TIMESTAMP", dateRepresentation.getTime());
             startActivity(intent);
         }
 
