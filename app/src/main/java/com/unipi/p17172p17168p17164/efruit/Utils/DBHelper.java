@@ -8,6 +8,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -94,10 +95,18 @@ public class DBHelper {
         });
     }
 
-    public static Task<Void> deleteCart(FirebaseFirestore db, String userId) {
-        return db.collection("carts")
+    public static void deleteCart(FirebaseFirestore db, String userId) {
+        getCartDetails(db, userId).delete();
+
+        db.collection("carts")
                 .document(userId)
-                .delete();
+                .collection("products")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful())
+                        for (QueryDocumentSnapshot document : task.getResult())
+                            document.getReference().delete();
+                });
     }
 
 

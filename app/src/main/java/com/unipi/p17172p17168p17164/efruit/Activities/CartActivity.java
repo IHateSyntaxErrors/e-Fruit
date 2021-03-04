@@ -69,6 +69,7 @@ public class CartActivity extends AppCompatActivity {
         cartList = binding.recyclerViewCart;
         viewFlipper = binding.viewFlipperCart;
 
+        binding.imageViewCartBackButton.setOnClickListener(v -> onBackPressed());
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         cartList.setLayoutManager(linearLayoutManager);
         cartList.setHasFixedSize(true);
@@ -249,7 +250,6 @@ public class CartActivity extends AppCompatActivity {
     }
 
     public void updateUI(String shopId) {
-        binding.imageViewCartBackButton.setOnClickListener(v -> onBackPressed());
         binding.constraintLayoutCartSelectClickAwayTime.setOnClickListener(v -> {
             Intent intent = new Intent(CartActivity.this, SelectTimeActivity.class);
             intent.putExtra("SHOP_ID", shopId);

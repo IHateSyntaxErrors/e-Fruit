@@ -203,127 +203,20 @@ public class FragmentProducts extends Fragment {
                     }
                     // ADD TO CART BUTTON
                     holder.itemProductBinding.btnRecyclerItemAddToCart.setOnClickListener(v -> {
-                        if (isCartShop)
-                            DBHelper.setCartItem(db, firebaseUser.getUid(), shopId, model.getName(), model.getProductId(), model.getPrice(), 1)
-                                    .addOnCompleteListener(taskAdd -> {
-                                        if (taskAdd.isSuccessful()) {
-                                            notifyItemChanged(holder.getAdapterPosition());
-                                            adapter.notifyDataSetChanged();
-                                        }
-                                    });
-                        else
-                            toolbox.showDialogWrongShopWarning(getContext(), queryShopDetails.getResult().getDocuments().get(position).getString("name")).show();
+                        if (model.getQuantity() > 0) {
+                            if (isCartShop)
+                                DBHelper.setCartItem(db, firebaseUser.getUid(), shopId, model.getName(), model.getProductId(), model.getPrice(), 1)
+                                        .addOnCompleteListener(taskAdd -> {
+                                            if (taskAdd.isSuccessful()) {
+                                                notifyItemChanged(holder.getAdapterPosition());
+                                                adapter.notifyDataSetChanged();
+                                            }
+                                        });
+                            else
+                                toolbox.showDialogWrongShopWarning(getContext(), queryShopDetails.getResult().getDocuments().get(position).getString("name")).show();
+                        }
                     });
                 });
-
-                /*db.collection("carts")
-                  .whereEqualTo("userId", firebaseUser.getUid())
-                  .get()
-                  .addOnCompleteListener(taskCheck -> {
-                      if (taskCheck.isSuccessful()) {
-                          for (DocumentSnapshot documentCartItem : taskCheck.getResult())
-                              isCartShop = shopId.equals(documentCartItem.getString("shopId"));
-
-                          // BUTTONS
-                          // We need to check if each item is added in cart so we change the add to cart button to the selection operators.
-                          Query queryCartItem = DBHelper.getCartItem(db, firebaseUser.getUid(), model.getProductId());
-
-                          queryCartItem.get().addOnCompleteListener(task -> {
-                              if (task.isSuccessful()) {
-                                  if (!task.getResult().isEmpty() && isCartShop) { // Checking if the query returned nothing
-                                      binding.constraintLayoutProductsGoToCart.setVisibility(View.VISIBLE);
-                                      binding.recyclerViewProducts.setPadding(0, 0, 0, 50);
-                                      for (DocumentSnapshot documentCartItem : task.getResult()) {
-                                          // Hide the add to cart button completely
-                                          holder.itemProductBinding.btnRecyclerItemAddToCart.setVisibility(View.INVISIBLE);
-                                          holder.itemProductBinding.linearLayoutProductsSelectAmount.setVisibility(View.VISIBLE);
-                                          holder.itemProductBinding.imgBtnRecyclerProductsAmountDelete.setVisibility(View.VISIBLE);
-                                          holder.itemProductBinding.textViewProductsSelectedAmount.setText(String.valueOf(Objects.requireNonNull(documentCartItem.getData()).get("amount")));
-                                      }
-                                  }
-                                  else {
-                                      // Show the add to cart button completely
-                                      holder.itemProductBinding.btnRecyclerItemAddToCart.setVisibility(View.VISIBLE);
-                                      holder.itemProductBinding.imgBtnRecyclerProductsAmountDelete.setVisibility(View.INVISIBLE);
-                                      holder.itemProductBinding.linearLayoutProductsSelectAmount.setVisibility(View.INVISIBLE);
-                                  }
-                              }
-                          });
-
-                          // ADD TO CART BUTTON
-                          holder.itemProductBinding.btnRecyclerItemAddToCart.setOnClickListener(v -> {
-                              if (isCartShop) {
-                                  Query cardItem = DBHelper.getCartItem(db, firebaseUser.getUid(), model.getProductId());
-                                  cardItem.get().addOnCompleteListener(task -> {
-                                      if (task.isSuccessful()) {
-                                          DBHelper.setCartItem(db, firebaseUser.getUid(), shopId, model.getProductId(), model.getPrice(), 1)
-                                                  .addOnCompleteListener(taskAdd -> {
-                                                      if (taskAdd.isSuccessful()) {
-                                                          notifyItemChanged(holder.getAdapterPosition());
-                                                          adapter.notifyDataSetChanged();
-                                                      }
-                                                  });
-                                      }
-                                  });
-                              }
-                              else {
-                                  DBHelper.getShopName(db, shopId).get().addOnCompleteListener(taskGet -> {
-                                      Dialog dialog = new Toolbox().showDialogWrongShopWarning(getContext(), taskGet.getResult().getString("name"));
-                                      dialog.show();
-                                  });
-                              }
-                          });
-                      }
-                  });
-
-                // (-) MINUS BUTTON
-                holder.itemProductBinding.imgBtnRecyclerProductsSelectAmountMinus.setOnClickListener(v -> {
-                    int currentCount = Integer.parseInt((String) holder.itemProductBinding.textViewProductsSelectedAmount.getText());
-                    int count = currentCount - 1;
-
-                    if (count >= 1)
-                        DBHelper.setSelectedItemAmount(db, firebaseUser.getUid(), model.getProductId(), count).addOnCompleteListener(taskUpdatePlus -> {
-                            if (taskUpdatePlus.isSuccessful()) {
-                                notifyItemChanged(holder.getAdapterPosition());
-                                adapter.notifyDataSetChanged();
-                            }
-                        });
-                });
-                // (+) PLUS BUTTON
-                holder.itemProductBinding.imgBtnRecyclerProductsSelectAmountPlus.setOnClickListener(v -> {
-                    int currentCount = Integer.parseInt((String) holder.itemProductBinding.textViewProductsSelectedAmount.getText());
-                    int count = currentCount + 1;
-
-                    if (count <= model.getQuantity())
-                        DBHelper.setSelectedItemAmount(db, firebaseUser.getUid(), model.getProductId(), count).addOnCompleteListener(taskUpdatePlus -> {
-                            if (taskUpdatePlus.isSuccessful()) {
-                                notifyItemChanged(holder.getAdapterPosition());
-                                adapter.notifyDataSetChanged();
-                            }
-                        });
-                });
-                // DELETE/TRASH BUTTON
-                holder.itemProductBinding.imgBtnRecyclerProductsAmountDelete.setOnClickListener(v -> {
-                    DBHelper.getCartItemRef(db, firebaseUser.getUid(), model.getProductId())
-                            .delete()
-                            .addOnSuccessListener(taskDelete -> {
-                                holder.itemProductBinding.imgBtnRecyclerProductsAmountDelete.setVisibility(View.INVISIBLE);
-                                notifyItemChanged(holder.getAdapterPosition());
-                                adapter.notifyDataSetChanged();
-                            });
-                    // After deletion we need to check again if the products collection
-                    // is empty so we completely remove the created cart document.
-                    DBHelper.getTotalCartItems(db, firebaseUser.getUid())
-                            .get()
-                            .addOnCompleteListener(taskCheck -> {
-                                // If the cart is empty of products, switch to the empty cart view.
-                                if (Objects.requireNonNull(taskCheck.getResult()).isEmpty()) {
-                                    DBHelper.getCartDetails(db, firebaseUser.getUid()).delete();
-                                    binding.constraintLayoutProductsGoToCart.setVisibility(View.INVISIBLE);
-                                    binding.recyclerViewProducts.setPadding(0, 0, 0, 0);
-                                }
-                            });
-                });*/
             }
 
             @NonNull
